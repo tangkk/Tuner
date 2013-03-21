@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+    </dependencies>
+    <scenes>
+        <!--Tuner View Controller-->
+        <scene sceneID="5">
+            <objects>
+                <viewController id="2" customClass="TunerViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3xe-Vj-o4p">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="125" id="24b-nq-oT4"/>
+                                    <constraint firstAttribute="height" constant="125" id="xOm-v1-bgh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="E4">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="B1:" destination="2" eventType="touchUpInside" id="Evr-2J-oVf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Bc-7J-duC">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="125" id="j2b-LZ-rD3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="B3">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="B2:" destination="2" eventType="touchUpInside" id="Y7n-J3-ZDw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KoR-vA-faE">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="125" id="6cW-Hz-aEt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="G3">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="B3:" destination="2" eventType="touchUpInside" id="CSo-xT-hYf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PP8-bp-gjd">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="D3">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="B4:" destination="2" eventType="touchUpInside" id="HNP-Cg-3Uq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ItR-Hf-dlf">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="125" id="OvU-Yg-eQ9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="A2">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="B5:" destination="2" eventType="touchUpInside" id="BFF-qP-kZr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCc-iM-tuS">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="E2">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="B6:" destination="2" eventType="touchUpInside" id="3an-SY-AEU"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ItR-Hf-dlf" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="5dW-dl-4qx"/>
+                            <constraint firstAttribute="bottom" secondItem="bCc-iM-tuS" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="8Wf-KR-xzm"/>
+                            <constraint firstItem="ItR-Hf-dlf" firstAttribute="trailing" secondItem="KoR-vA-faE" secondAttribute="trailing" type="default" id="Bo0-E5-zoa"/>
+                            <constraint firstItem="0Bc-7J-duC" firstAttribute="bottom" secondItem="3xe-Vj-o4p" secondAttribute="bottom" type="default" id="CCe-bs-YQS"/>
+                            <constraint firstAttribute="trailing" secondItem="bCc-iM-tuS" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Ccl-s7-OHM"/>
+                            <constraint firstItem="PP8-bp-gjd" firstAttribute="leading" secondItem="0Bc-7J-duC" secondAttribute="leading" type="default" id="FOL-et-WUh"/>
+                            <constraint firstItem="0Bc-7J-duC" firstAttribute="top" secondItem="3xe-Vj-o4p" secondAttribute="top" type="default" id="JvY-4x-AMG"/>
+                            <constraint firstItem="PP8-bp-gjd" firstAttribute="top" secondItem="KoR-vA-faE" secondAttribute="top" type="default" id="OQG-nh-KJI"/>
+                            <constraint firstAttribute="trailing" secondItem="0Bc-7J-duC" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Qrt-af-56i"/>
+                            <constraint firstItem="KoR-vA-faE" firstAttribute="top" secondItem="3" secondAttribute="top" constant="167" id="RPT-TW-Qup"/>
+                            <constraint firstAttribute="trailing" secondItem="PP8-bp-gjd" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="UMz-xI-88O"/>
+                            <constraint firstItem="KoR-vA-faE" firstAttribute="trailing" secondItem="3xe-Vj-o4p" secondAttribute="trailing" type="default" id="UwR-4G-ccE"/>
+                            <constraint firstItem="ItR-Hf-dlf" firstAttribute="top" secondItem="bCc-iM-tuS" secondAttribute="top" type="default" id="ZiQ-qX-69y"/>
+                            <constraint firstItem="bCc-iM-tuS" firstAttribute="leading" secondItem="PP8-bp-gjd" secondAttribute="leading" type="default" id="ftQ-Sd-tyv"/>
+                            <constraint firstItem="KoR-vA-faE" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="iGQ-Xy-cgD"/>
+                            <constraint firstAttribute="bottom" secondItem="ItR-Hf-dlf" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="iHz-wv-Sra"/>
+                            <constraint firstItem="PP8-bp-gjd" firstAttribute="bottom" secondItem="KoR-vA-faE" secondAttribute="bottom" type="default" id="pWG-V4-ATX"/>
+                            <constraint firstItem="0Bc-7J-duC" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="yfh-qc-9xR"/>
+                            <constraint firstItem="3xe-Vj-o4p" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="yg6-nO-Zv3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="B1" destination="3xe-Vj-o4p" id="Ndh-sZ-WZQ"/>
+                        <outlet property="B2" destination="0Bc-7J-duC" id="4rN-Uj-xKi"/>
+                        <outlet property="B3" destination="KoR-vA-faE" id="fwZ-66-IIh"/>
+                        <outlet property="B4" destination="PP8-bp-gjd" id="6TD-Fh-6TF"/>
+                        <outlet property="B5" destination="ItR-Hf-dlf" id="3Ws-OL-Pr7"/>
+                        <outlet property="B6" destination="bCc-iM-tuS" id="AWM-25-RU3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <classes>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="TunerViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TunerViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="B1:"/>
+                <relationship kind="action" name="B2:"/>
+                <relationship kind="action" name="B3:"/>
+                <relationship kind="action" name="B4:"/>
+                <relationship kind="action" name="B5:"/>
+                <relationship kind="action" name="B6:"/>
+                <relationship kind="outlet" name="B1" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="B2" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="B3" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="B4" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="B5" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="B6" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+    </classes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>
