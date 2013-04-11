@@ -14,6 +14,7 @@
 
 #import "VirtualInstrument.h"
 #import "MIDInote.h"
+#import "NoteNumDict.h"
 #import <AssertMacros.h>
 
 @interface VirtualInstrument()
@@ -21,6 +22,7 @@
 @property (readwrite) AUGraph   processingGraph;
 @property (readwrite) AudioUnit samplerUnit;
 @property (readwrite) AudioUnit ioUnit;
+@property (readonly) NoteNumDict *Dict;
 
 @property (copy) NSString *currentPlayingNoteName;
 
@@ -34,23 +36,6 @@
 @end
 
 @implementation VirtualInstrument
-
-// A static dictionary for translating MIDI note name to note number
-//static NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-
-static NSDictionary *dic = nil;
-+(void)initialize {
-    if (!dic) {
-        dic = @{
-                @"E4":@64,
-                @"B3":@59,
-                @"G3":@55,
-                @"D3":@50,
-                @"A2":@45,
-                @"E2":@40
-        };
-    }
-}
 
 -(id)init {
     self = [super init];
@@ -74,6 +59,8 @@ static NSDictionary *dic = nil;
     // Load a default musical instrument
     [self setInstrument:@"Vibraphone"];
     
+    _Dict = [[NoteNumDict alloc] init];
+    
     return self;
 }
 
@@ -81,7 +68,7 @@ static NSDictionary *dic = nil;
     NSString *noteName = MIDINote.note;
     self.currentPlayingNoteName = noteName;
     
-    NSNumber *noteNumber = [dic objectForKey:noteName];
+    NSNumber *noteNumber = [_Dict.Dict objectForKey:noteName];
     if (noteNumber) {
         UInt32 noteNum = [noteNumber unsignedLongValue];
         UInt32 onVelocity = MIDINote.velocity;
@@ -95,7 +82,7 @@ static NSDictionary *dic = nil;
 }
 
 - (void)stopMIDI:(NSString *)noteName {
-    NSNumber *noteNumber = [dic objectForKey:noteName];
+    NSNumber *noteNumber = [_Dict.Dict objectForKey:noteName];
     if(noteNumber) {
         UInt32 noteNum = [noteNumber unsignedLongValue];
         UInt32 offVelocity = 0;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		901191861715481300B0A804 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901191851715481300B0A804 /* CoreMIDI.framework */; };
 		902A5D4116F8156000E120DB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902A5D3E16F8156000E120DB /* AudioToolbox.framework */; };
 		902A5D4316F8156000E120DB /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902A5D4016F8156000E120DB /* CoreAudio.framework */; };
 		902A5D4516F815BA00E120DB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902A5D4416F815BA00E120DB /* AVFoundation.framework */; };
@@ -26,9 +27,15 @@
 		905B897416F70D3C00FF6E1B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 905B897116F70D3C00FF6E1B /* Sounds */; };
 		905B897516F70D3C00FF6E1B /* Trombone.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 905B897216F70D3C00FF6E1B /* Trombone.aupreset */; };
 		905B897616F70D3C00FF6E1B /* Vibraphone.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */; };
+		90EAB2341715513100597BFC /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EAB2331715513100597BFC /* Communicator.m */; };
+		90EAB2371715638600597BFC /* NoteNumDict.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EAB2361715638600597BFC /* NoteNumDict.m */; };
+		90FF31201716331200C30FE2 /* PGMidi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 90FF311B1716331200C30FE2 /* PGMidi.mm */; };
+		90FF31211716331200C30FE2 /* PGMidiAllSources.mm in Sources */ = {isa = PBXBuildFile; fileRef = 90FF311D1716331200C30FE2 /* PGMidiAllSources.mm */; };
+		90FF31221716331200C30FE2 /* PGMidiFind.mm in Sources */ = {isa = PBXBuildFile; fileRef = 90FF311F1716331200C30FE2 /* PGMidiFind.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		901191851715481300B0A804 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		902A5D3E16F8156000E120DB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		902A5D4016F8156000E120DB /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		902A5D4416F815BA00E120DB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -55,6 +62,18 @@
 		905B897116F70D3C00FF6E1B /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sounds; path = Tuner/Sounds; sourceTree = "<group>"; };
 		905B897216F70D3C00FF6E1B /* Trombone.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Trombone.aupreset; path = Tuner/Trombone.aupreset; sourceTree = "<group>"; };
 		905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Vibraphone.aupreset; path = Tuner/Vibraphone.aupreset; sourceTree = "<group>"; };
+		90EAB2321715513100597BFC /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
+		90EAB2331715513100597BFC /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
+		90EAB2351715638600597BFC /* NoteNumDict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteNumDict.h; sourceTree = "<group>"; };
+		90EAB2361715638600597BFC /* NoteNumDict.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteNumDict.m; sourceTree = "<group>"; };
+		90FF31181716331200C30FE2 /* iOSVersionDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSVersionDetection.h; sourceTree = "<group>"; };
+		90FF31191716331200C30FE2 /* PGArc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGArc.h; sourceTree = "<group>"; };
+		90FF311A1716331200C30FE2 /* PGMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidi.h; sourceTree = "<group>"; };
+		90FF311B1716331200C30FE2 /* PGMidi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidi.mm; sourceTree = "<group>"; };
+		90FF311C1716331200C30FE2 /* PGMidiAllSources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiAllSources.h; sourceTree = "<group>"; };
+		90FF311D1716331200C30FE2 /* PGMidiAllSources.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiAllSources.mm; sourceTree = "<group>"; };
+		90FF311E1716331200C30FE2 /* PGMidiFind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiFind.h; sourceTree = "<group>"; };
+		90FF311F1716331200C30FE2 /* PGMidiFind.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiFind.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				901191861715481300B0A804 /* CoreMIDI.framework in Frameworks */,
 				902A5D4516F815BA00E120DB /* AVFoundation.framework in Frameworks */,
 				902A5D4116F8156000E120DB /* AudioToolbox.framework in Frameworks */,
 				902A5D4316F8156000E120DB /* CoreAudio.framework in Frameworks */,
@@ -97,6 +117,7 @@
 		9032E77E16EEC13200A84A9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				901191851715481300B0A804 /* CoreMIDI.framework */,
 				902A5D4416F815BA00E120DB /* AVFoundation.framework */,
 				902A5D3E16F8156000E120DB /* AudioToolbox.framework */,
 				902A5D4016F8156000E120DB /* CoreAudio.framework */,
@@ -110,10 +131,15 @@
 		9032E78516EEC13200A84A9F /* Tuner */ = {
 			isa = PBXGroup;
 			children = (
+				90FF31171716331200C30FE2 /* PGMidi */,
 				904074EA16EECFD200C48DD4 /* MIDINote.h */,
 				904074EB16EECFD200C48DD4 /* MIDINote.m */,
+				90EAB2351715638600597BFC /* NoteNumDict.h */,
+				90EAB2361715638600597BFC /* NoteNumDict.m */,
 				905B896E16F6A97900FF6E1B /* VirtualInstrument.h */,
 				905B896F16F6A97900FF6E1B /* VirtualInstrument.m */,
+				90EAB2321715513100597BFC /* Communicator.h */,
+				90EAB2331715513100597BFC /* Communicator.m */,
 				9032E78E16EEC13200A84A9F /* TunerAppDelegate.h */,
 				9032E78F16EEC13200A84A9F /* TunerAppDelegate.m */,
 				9032E79A16EEC13200A84A9F /* TunerViewController.h */,
@@ -136,6 +162,21 @@
 				9032E79516EEC13200A84A9F /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		90FF31171716331200C30FE2 /* PGMidi */ = {
+			isa = PBXGroup;
+			children = (
+				90FF31181716331200C30FE2 /* iOSVersionDetection.h */,
+				90FF31191716331200C30FE2 /* PGArc.h */,
+				90FF311A1716331200C30FE2 /* PGMidi.h */,
+				90FF311B1716331200C30FE2 /* PGMidi.mm */,
+				90FF311C1716331200C30FE2 /* PGMidiAllSources.h */,
+				90FF311D1716331200C30FE2 /* PGMidiAllSources.mm */,
+				90FF311E1716331200C30FE2 /* PGMidiFind.h */,
+				90FF311F1716331200C30FE2 /* PGMidiFind.mm */,
+			);
+			path = PGMidi;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,6 +254,11 @@
 				9032E79C16EEC13200A84A9F /* TunerViewController.m in Sources */,
 				904074EC16EECFD200C48DD4 /* MIDINote.m in Sources */,
 				905B897016F6A97900FF6E1B /* VirtualInstrument.m in Sources */,
+				90EAB2341715513100597BFC /* Communicator.m in Sources */,
+				90EAB2371715638600597BFC /* NoteNumDict.m in Sources */,
+				90FF31201716331200C30FE2 /* PGMidi.mm in Sources */,
+				90FF31211716331200C30FE2 /* PGMidiAllSources.mm in Sources */,
+				90FF31221716331200C30FE2 /* PGMidiFind.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,7 +309,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -287,7 +333,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -297,6 +343,7 @@
 		9032E7A016EEC13200A84A9F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tuner/Tuner-Prefix.pch";
 				INFOPLIST_FILE = "Tuner/Tuner-Info.plist";
@@ -310,6 +357,7 @@
 		9032E7A116EEC13200A84A9F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tuner/Tuner-Prefix.pch";
 				INFOPLIST_FILE = "Tuner/Tuner-Info.plist";
