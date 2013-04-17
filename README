@@ -1,3 +1,5 @@
 Tuner
 
-This is a guitar tuner app based on iOS. It basically plays some MIDI notes via AUSampler and AudioSession. It reuses a lot of sample code from Apple's "LoadPresetDemo". It also make use of PGMidi (https://github.com/petegoodliffe/PGMidi) to send and receive MIDI data via coreMIDI networkSession.
+This is a guitar tuner app based on iOS. It basically plays some MIDI notes via AUSampler and AudioSession. It reuses a lot of sample code from Apple's "LoadPresetDemo". Along with the Bonjour service, it can also make use of PGMidi (https://github.com/petegoodliffe/PGMidi) to send and receive MIDI data via coreMIDI networkSession and play them.
+
+tangkk
