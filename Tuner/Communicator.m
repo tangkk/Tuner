@@ -17,7 +17,7 @@
 #import "PGMidi/iOSVersionDetection.h"
 #import <CoreMIDI/CoreMIDI.h>
 
-@interface Communicator() <PGMidiDelegate, PGMidiSourceDelegate>
+@interface Communicator() <PGMidiDelegate, PGMidiSourceDelegate, NSNetServiceBrowserDelegate>
 
 @property(readonly)NoteNumDict *Dict;
 - (void) sendMidiDataInBackground:(NSNumber *)NoteNum;
@@ -31,6 +31,7 @@
     if (self) {
         _Dict = [[NoteNumDict alloc] init];
         _midi = nil;
+        [self configureNetworkSessionAndServiceBrowser];
         return self;
     }
     return nil;
@@ -103,9 +104,8 @@ NSString *StringFromPacket(const MIDIPacket *packet)
     const MIDIPacket *packet = &packetList->packet[0];
     for (int i = 0; i < packetList->numPackets; ++i)
     {
-//        [self performSelectorOnMainThread:@selector(addString:)
-//                               withObject:StringFromPacket(packet)
-//                            waitUntilDone:NO];
+        NSLog(@"MIDI received:");
+        NSLog(StringFromPacket(packet));
         packet = MIDIPacketNext(packet);
     }
 }
@@ -119,5 +119,50 @@ NSString *StringFromPacket(const MIDIPacket *packet)
     [NSThread sleepForTimeInterval:0.5]; // changed from 0.1 so the note lasts a little longer
     [_midi sendBytes:noteOff size:sizeof(noteOff)];
 }
+
+- (void) configureNetworkSessionAndServiceBrowser {
+    // configure network session
+    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
+    session.enabled = YES;
+    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
+    // configure service browser
+    self.services = [[NSMutableArray alloc] init];
+    self.serviceBrowser = [[NSNetServiceBrowser alloc] init];
+    [self.serviceBrowser setDelegate:self];
+    // starting scanning for services (won't stop until stop() is called)
+    [self.serviceBrowser searchForServicesOfType:MIDINetworkBonjourServiceType inDomain:@"local."];
+}
+
+- (void) netServiceBrowser:(NSNetServiceBrowser*)serviceBrowser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing {
+    // add connection here!
+    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
+    MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
+    MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
+    // note: check to exclude itself - WARNING: will have problem if network names happen to be the same
+    if (![service.name isEqualToString:session.networkName] && [session addConnection:connection]) {
+        //[self addString:[NSString stringWithFormat:@"Connected to device: %@", [service name]]];
+        [self.services addObject:service];
+    }
+}
+
+- (void) netServiceBrowser:(NSNetServiceBrowser*)serviceBrowser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing {
+    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
+    MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
+    MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
+    if ([session removeConnection:connection]) {
+        //[self addString:[NSString stringWithFormat:@"Removed device: %@", [service name]]];
+    }
+    [self.services removeObject:service];
+}
+
+- (void) listConnectedDevices {
+    NSSet *connections = [MIDINetworkSession defaultSession].connections;
+    //[self addString:[NSString stringWithFormat:@"List of all %u connected devices:", [connections count]]];
+    for (MIDINetworkConnection *conn in connections) {
+        //[self addString: [NSString stringWithFormat:@"\"%@\" ", conn.host.netServiceName]];
+    }
+    //[self addString:@"\n"];
+}
+
 
 @end
