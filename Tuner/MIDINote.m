@@ -15,7 +15,7 @@
 
 @implementation MIDINote
 
--(id)initWithNote:(NSString *)note duration:(UInt8)duration channel:(UInt8)channel
+-(id)initWithNote:(UInt8)note duration:(UInt8)duration channel:(UInt8)channel
         velocity:(UInt8)velocity{
     self = [super init];
     if (self) {

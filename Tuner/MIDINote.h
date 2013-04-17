@@ -27,13 +27,13 @@ enum {
 
 @interface MIDINote : NSObject
 
-@property (copy) NSString *note; //The name of the note
+@property (assign) UInt8 note;
 @property (assign) UInt8 duration;
 @property (assign) UInt8 channel;
 @property (assign) UInt8 velocity;
 
 
--(id)initWithNote:(NSString *)note duration:(UInt8)duration channel:(UInt8)channel
+-(id)initWithNote:(UInt8)note duration:(UInt8)duration channel:(UInt8)channel
          velocity:(UInt8)velocity;
 
 @end

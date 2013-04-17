@@ -10,7 +10,6 @@
 #import "ModeSelection.h"
 
 #import "MIDINote.h"
-#import "NoteNumDict.h"
 #import "VirtualInstrument.h"
 
 // Import the PGMidi functionality
@@ -21,10 +20,9 @@
 
 @interface Communicator() <PGMidiDelegate, PGMidiSourceDelegate, NSNetServiceBrowserDelegate>
 
-@property(readonly)NoteNumDict *Dict;
 @property (readwrite) VirtualInstrument *VI;
 
-- (void) sendMidiDataInBackground:(NSNumber *)NoteNum;
+- (void) sendMidiDataInBackground:(MIDINote *)midinote;
 
 @end
 
@@ -33,7 +31,6 @@
 -(id)init {
     self = [super init];
     if (self) {
-        _Dict = [[NoteNumDict alloc] init];
         _midi = nil;
         _VI = [[VirtualInstrument alloc] init];
         [self configureNetworkSessionAndServiceBrowser];
@@ -43,7 +40,6 @@
 }
 
 - (void) dealloc {
-    _Dict = nil;
     _midi = nil;
     _VI = nil;
 }
@@ -52,9 +48,7 @@
 
 - (void) sendMidiData:(MIDINote *)midinote
 {
-    NSString *noteName = midinote.note;
-    NSNumber *NoteNum = [_Dict.Dict objectForKey:noteName];
-    [self performSelectorInBackground:@selector(sendMidiDataInBackground:) withObject:NoteNum];
+    [self performSelectorInBackground:@selector(sendMidiDataInBackground:) withObject:midinote];
 }
 
 - (void) playMidiData:(MIDINote*)midinote
@@ -128,13 +122,14 @@ NSString *StringFromPacket(const MIDIPacket *packet)
     }
 }
 
-- (void) sendMidiDataInBackground:(id)NoteNum {
-    const UInt8 note      = [NoteNum unsignedShortValue];
-    const UInt8 noteOn[]  = { 0x90, note, 127 };
+- (void) sendMidiDataInBackground:(id)midinote {
+    MIDINote *midiNote = midinote;
+    const UInt8 note      = [midiNote note];
+    const UInt8 noteOn[]  = { 0x90, note, [midiNote velocity] };
     const UInt8 noteOff[] = { 0x80, note, 0   };
         
     [_midi sendBytes:noteOn size:sizeof(noteOn)];
-    [NSThread sleepForTimeInterval:0.5]; // changed from 0.1 so the note lasts a little longer
+    [NSThread sleepForTimeInterval:1]; // changed from 0.1 so the note lasts a little longer
     [_midi sendBytes:noteOff size:sizeof(noteOff)];
 }
 

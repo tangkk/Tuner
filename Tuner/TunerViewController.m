@@ -14,17 +14,20 @@
 #import "PGMidi/iOSVersionDetection.h"
 
 #import "MIDINote.h"
+#import "NoteNumDict.h"
 #import "Communicator.h"
 
 @interface TunerViewController ()
 
 @property (readwrite) Communicator *CMU;
+@property (readonly) NoteNumDict *Dict;
 
 @end
 
 @implementation TunerViewController
 
 MIDINote *M1, *M2, *M3, *M4, *M5, *M6;
+NSNumber *N1, *N2, *N3, *N4, *N5, *N6;
 
 - (void)viewDidLoad
 {
@@ -32,13 +35,21 @@ MIDINote *M1, *M2, *M3, *M4, *M5, *M6;
 	// Do any additional setup after loading the view, typically from a nib.
 
     _CMU = [[Communicator alloc] init];
+    _Dict = [[NoteNumDict alloc] init];
     
-    M1 = [[MIDINote alloc] initWithNote:self.B1.titleLabel.text duration:1 channel:kChannel_0 velocity:100];
-    M2 = [[MIDINote alloc] initWithNote:self.B2.titleLabel.text duration:1 channel:kChannel_0 velocity:100];
-    M3 = [[MIDINote alloc] initWithNote:self.B3.titleLabel.text duration:1 channel:kChannel_0 velocity:100];
-    M4 = [[MIDINote alloc] initWithNote:self.B4.titleLabel.text duration:1 channel:kChannel_0 velocity:100];
-    M5 = [[MIDINote alloc] initWithNote:self.B5.titleLabel.text duration:1 channel:kChannel_0 velocity:100];
-    M6 = [[MIDINote alloc] initWithNote:self.B6.titleLabel.text duration:1 channel:kChannel_0 velocity:100];
+    N1 = [_Dict.Dict objectForKey:self.B1.titleLabel.text];
+    N2 = [_Dict.Dict objectForKey:self.B2.titleLabel.text];
+    N3 = [_Dict.Dict objectForKey:self.B3.titleLabel.text];
+    N4 = [_Dict.Dict objectForKey:self.B4.titleLabel.text];
+    N5 = [_Dict.Dict objectForKey:self.B5.titleLabel.text];
+    N6 = [_Dict.Dict objectForKey:self.B6.titleLabel.text];
+    
+    M1 = [[MIDINote alloc] initWithNote:[N1 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
+    M2 = [[MIDINote alloc] initWithNote:[N2 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
+    M3 = [[MIDINote alloc] initWithNote:[N3 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
+    M4 = [[MIDINote alloc] initWithNote:[N4 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
+    M5 = [[MIDINote alloc] initWithNote:[N5 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
+    M6 = [[MIDINote alloc] initWithNote:[N6 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
     
     // If iOS has the feature, initialize coreMIDI with a networkSession
     // note that this PGMidi object is hidden from outside

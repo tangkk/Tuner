@@ -14,7 +14,6 @@
 
 #import "VirtualInstrument.h"
 #import "MIDInote.h"
-#import "NoteNumDict.h"
 #import <AssertMacros.h>
 
 @interface VirtualInstrument()
@@ -22,9 +21,8 @@
 @property (readwrite) AUGraph   processingGraph;
 @property (readwrite) AudioUnit samplerUnit;
 @property (readwrite) AudioUnit ioUnit;
-@property (readonly) NoteNumDict *Dict;
 
-@property (copy) NSString *currentPlayingNoteName;
+@property (readwrite) UInt8 currentPlayingNote;
 
 - (OSStatus)    loadSynthFromPresetURL:(NSURL *) presetURL;
 - (void)        registerForUIApplicationNotifications;
@@ -59,18 +57,13 @@
     // Load a default musical instrument
     [self setInstrument:@"Vibraphone"];
     
-    _Dict = [[NoteNumDict alloc] init];
-    
     return self;
 }
 
 - (void)playMIDI:(MIDINote *)MIDINote {
-    NSString *noteName = MIDINote.note;
-    self.currentPlayingNoteName = noteName;
-    
-    NSNumber *noteNumber = [_Dict.Dict objectForKey:noteName];
-    if (noteNumber) {
-        UInt32 noteNum = [noteNumber unsignedLongValue];
+    self.currentPlayingNote = MIDINote.note;
+    if (MIDINote) {
+        UInt32 noteNum = MIDINote.note;
         UInt32 onVelocity = MIDINote.velocity;
         UInt32 noteCommand = 	kMIDINoteOn << 4 | 0;
         
@@ -81,10 +74,9 @@
     }
 }
 
-- (void)stopMIDI:(NSString *)noteName {
-    NSNumber *noteNumber = [_Dict.Dict objectForKey:noteName];
-    if(noteNumber) {
-        UInt32 noteNum = [noteNumber unsignedLongValue];
+- (void)stopMIDI:(UInt8) note {
+    if(note) {
+        UInt32 noteNum = note;
         UInt32 offVelocity = 0;
         UInt32 noteCommand = kMIDINoteOff << 4 | 0;
         
@@ -350,7 +342,7 @@
 - (void) beginInterruption {
     
     // Stop any notes that are currently playing.
-    [self stopMIDI:self.currentPlayingNoteName];
+    [self stopMIDI:self.currentPlayingNote];
     
     // Interruptions do not put an AUGraph object into a "stopped" state, so
     //    do that here.
@@ -411,7 +403,7 @@
 
 - (void) handleResigningActive: (id) notification {
     
-    [self stopMIDI:self.currentPlayingNoteName];
+    [self stopMIDI:self.currentPlayingNote];
     [self stopAudioProcessingGraph];
 }
 

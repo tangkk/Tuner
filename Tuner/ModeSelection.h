@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 tangkk. All rights reserved.
 //
 
-#define MODE3
+#define MODE1
 
 #ifdef MODE1
     #define TEST

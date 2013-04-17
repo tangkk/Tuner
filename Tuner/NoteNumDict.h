@@ -11,5 +11,6 @@
 @interface NoteNumDict : NSObject
 
 @property(nonatomic, readonly) NSDictionary *Dict;
+@property(nonatomic, readonly) NSDictionary *antiDict;
 
 @end
