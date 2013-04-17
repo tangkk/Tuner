@@ -7,18 +7,17 @@
 //
 
 #import "TunerViewController.h"
+#import "ModeSelection.h"
 
 #import "PGMidi/PGMidi.h"
 #import "PGMidi/PGArc.h"
 #import "PGMidi/iOSVersionDetection.h"
 
 #import "MIDINote.h"
-#import "VirtualInstrument.h"
 #import "Communicator.h"
 
 @interface TunerViewController ()
 
-@property (readwrite) VirtualInstrument *VI;
 @property (readwrite) Communicator *CMU;
 
 @end
@@ -31,8 +30,7 @@ MIDINote *M1, *M2, *M3, *M4, *M5, *M6;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    
-    _VI = [[VirtualInstrument alloc] init];
+
     _CMU = [[Communicator alloc] init];
     
     M1 = [[MIDINote alloc] initWithNote:self.B1.titleLabel.text duration:1 channel:kChannel_0 velocity:100];
@@ -62,7 +60,6 @@ MIDINote *M1, *M2, *M3, *M4, *M5, *M6;
 - (void)viewDidUnload {
     
     // Nil all the objects
-    _VI = nil;
     _CMU = nil;
     
     M1 = nil;
@@ -82,45 +79,69 @@ MIDINote *M1, *M2, *M3, *M4, *M5, *M6;
 }
 
 - (IBAction)B1:(id)sender {
-    if (_VI) {
-        [_VI playMIDI:M1];
-    }
+#ifdef TEST
+    [_CMU playMidiData:M1];
     [_CMU sendMidiData:M1];
+#endif
+    
+#ifdef SLAVE
+    [_CMU sendMidiData:M1];
+#endif
 }
 
 - (IBAction)B2:(id)sender {
-    if (_VI) {
-        [_VI playMIDI:M2];
-    }
+#ifdef TEST
+    [_CMU playMidiData:M2];
     [_CMU sendMidiData:M2];
+#endif
+    
+#ifdef SLAVE
+    [_CMU sendMidiData:M2];
+#endif
 }
 
 - (IBAction)B3:(id)sender {
-    if (_VI) {
-        [_VI playMIDI:M3];
-    }
+#ifdef TEST
+    [_CMU playMidiData:M3];
     [_CMU sendMidiData:M3];
+#endif
+    
+#ifdef SLAVE
+    [_CMU sendMidiData:M3];
+#endif
 }
 
 - (IBAction)B4:(id)sender {
-    if (_VI) {
-        [_VI playMIDI:M4];
-    }
+#ifdef TEST
+    [_CMU playMidiData:M4];
     [_CMU sendMidiData:M4];
+#endif
+    
+#ifdef SLAVE
+    [_CMU sendMidiData:M4];
+#endif
 }
 
 - (IBAction)B5:(id)sender {
-    if (_VI) {
-        [_VI playMIDI:M5];
-    }
+#ifdef TEST
+    [_CMU playMidiData:M5];
     [_CMU sendMidiData:M5];
+#endif
+    
+#ifdef SLAVE
+    [_CMU sendMidiData:M5];
+#endif
 }
 
 - (IBAction)B6:(id)sender {
-    if (_VI) {
-        [_VI playMIDI:M6];
-    }
+#ifdef TEST
+    [_CMU playMidiData:M6];
     [_CMU sendMidiData:M6];
+#endif
+    
+#ifdef SLAVE
+    [_CMU sendMidiData:M6];
+#endif
 }
 
 @end

@@ -24,5 +24,6 @@
 @property (strong, nonatomic) NSNetServiceBrowser *serviceBrowser;
 
 - (void) sendMidiData:(MIDINote*)midinote;
+- (void) playMidiData:(MIDINote*)midinote;
 
 @end

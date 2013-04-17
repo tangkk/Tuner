@@ -7,9 +7,11 @@
 //
 
 #import "Communicator.h"
+#import "ModeSelection.h"
 
 #import "MIDINote.h"
 #import "NoteNumDict.h"
+#import "VirtualInstrument.h"
 
 // Import the PGMidi functionality
 #import "PGMidi/PGMidi.h"
@@ -20,6 +22,8 @@
 @interface Communicator() <PGMidiDelegate, PGMidiSourceDelegate, NSNetServiceBrowserDelegate>
 
 @property(readonly)NoteNumDict *Dict;
+@property (readwrite) VirtualInstrument *VI;
+
 - (void) sendMidiDataInBackground:(NSNumber *)NoteNum;
 
 @end
@@ -31,10 +35,17 @@
     if (self) {
         _Dict = [[NoteNumDict alloc] init];
         _midi = nil;
+        _VI = [[VirtualInstrument alloc] init];
         [self configureNetworkSessionAndServiceBrowser];
         return self;
     }
     return nil;
+}
+
+- (void) dealloc {
+    _Dict = nil;
+    _midi = nil;
+    _VI = nil;
 }
 
 #pragma mark IBActions
@@ -44,6 +55,13 @@
     NSString *noteName = midinote.note;
     NSNumber *NoteNum = [_Dict.Dict objectForKey:noteName];
     [self performSelectorInBackground:@selector(sendMidiDataInBackground:) withObject:NoteNum];
+}
+
+- (void) playMidiData:(MIDINote*)midinote
+{
+    if (_VI) {
+        [_VI playMIDI:midinote];
+    }
 }
 
 #pragma mark Shenanigans

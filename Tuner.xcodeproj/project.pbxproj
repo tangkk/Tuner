@@ -37,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		901191851715481300B0A804 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		9023ADAB171E814300D4B90C /* ModeSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModeSelection.h; sourceTree = "<group>"; };
 		902A5D3E16F8156000E120DB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		902A5D4016F8156000E120DB /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		902A5D4416F815BA00E120DB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -134,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				90FF31171716331200C30FE2 /* PGMidi */,
+				9023ADAB171E814300D4B90C /* ModeSelection.h */,
 				904074EA16EECFD200C48DD4 /* MIDINote.h */,
 				904074EB16EECFD200C48DD4 /* MIDINote.m */,
 				90EAB2351715638600597BFC /* NoteNumDict.h */,
