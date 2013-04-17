@@ -110,14 +110,35 @@ NSString *StringFromPacket(const MIDIPacket *packet)
 {
 }
 
+- (void) handlemidiReceived:(const MIDIPacket *)packet {
+    UInt8 noteType;
+    UInt8 noteNum;
+    UInt8 Velocity;
+    noteType = (packet->length > 0) ? packet->data[0] : 0;
+    noteNum = (packet->length > 1) ? packet->data[1] : 0;
+    Velocity = (packet->length >2) ? packet->data[2] : 0;
+    MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity];
+    [self playMidiData:Note];
+}
+
 // This is require by PGMidiSourceDelegate protocol. It is for MIDI packet receiving.
 - (void) midiSource:(PGMidiSource*)midi midiReceived:(const MIDIPacketList *)packetList
 {
     const MIDIPacket *packet = &packetList->packet[0];
     for (int i = 0; i < packetList->numPackets; ++i)
     {
+#ifdef TEST
         NSLog(@"MIDI received:");
         NSLog(StringFromPacket(packet));
+        
+        // handle the packet.
+        [self handlemidiReceived:packet];
+#endif
+#ifdef MASTER
+        // handle the packet.
+        [self handlemidiReceived:packet];
+#endif
+        
         packet = MIDIPacketNext(packet);
     }
 }
