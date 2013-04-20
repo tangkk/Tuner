@@ -77,6 +77,14 @@
                                        SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_1"]];
         _M2 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
                                        SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"]];
+        _M3 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_1"]];
+        _M4 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_2"]];
+        _M5 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"]];
+        _M6 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_2"]];
     }
     [_CMU setPlaybackDelegate:self];
     [self configureNetworkSessionAndServiceBrowser];
@@ -156,7 +164,7 @@
 #endif
     
 #ifdef MASTER
-    
+    [_CMU sendMidiData:_M3];
 #endif
 }
 
@@ -169,7 +177,7 @@
 #endif
     
 #ifdef MASTER
-    
+    [_CMU sendMidiData:_M4];
 #endif
 }
 
@@ -182,7 +190,7 @@
 #endif
     
 #ifdef MASTER
-    
+    [_CMU sendMidiData:_M5];
 #endif
 }
 
@@ -192,6 +200,10 @@
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M6];
     }
+#endif
+    
+#ifdef MASTER
+    [_CMU sendMidiData:_M6];
 #endif
 }
 
