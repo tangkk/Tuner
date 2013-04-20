@@ -16,13 +16,14 @@
 @implementation MIDINote
 
 -(id)initWithNote:(UInt8)note duration:(UInt8)duration channel:(UInt8)channel
-        velocity:(UInt8)velocity{
+        velocity:(UInt8)velocity SysEx:(NSArray *)SysEx{
     self = [super init];
     if (self) {
         _note = note;
         _duration = duration;
         _channel = channel;
         _velocity = velocity;
+        _SysEx = SysEx;
         return self;
     }
     return nil;

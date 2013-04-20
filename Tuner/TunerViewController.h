@@ -7,13 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ModeSelection.h"
+#import "Communicator.h"
 
 @class MIDINote;
 
 @interface TunerViewController : UIViewController  <
 #ifdef MASTER
+MIDIPlaybackHandle,
 NSNetServiceBrowserDelegate
 #endif
+#ifdef SLAVE
+MIDIAssignmentHandle
+#endif
+>
+
 @property (weak, nonatomic) IBOutlet UIButton *B1;
 @property (weak, nonatomic) IBOutlet UIButton *B2;
 @property (weak, nonatomic) IBOutlet UIButton *B3;
@@ -27,6 +35,16 @@ NSNetServiceBrowserDelegate
 - (IBAction)B4:(id)sender;
 - (IBAction)B5:(id)sender;
 - (IBAction)B6:(id)sender;
+
+// These MIDI notes can be normal MIDI note_on note_off or sysEx message
+@property (readwrite) MIDINote *M1;
+@property (readwrite) MIDINote *M2;
+@property (readwrite) MIDINote *M3;
+@property (readwrite) MIDINote *M4;
+@property (readwrite) MIDINote *M5;
+@property (readwrite) MIDINote *M6;
+@property (readwrite) MIDINote *M7;
+@property (readwrite) MIDINote *M8;
 
 #ifdef MASTER
 @property (strong, nonatomic) NSMutableArray *services;

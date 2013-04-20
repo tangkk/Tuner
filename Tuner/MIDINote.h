@@ -17,6 +17,9 @@
 enum {
     kMIDINoteOn = 0x9,
     kMIDINoteOff = 0x8,
+    kMIDINoteSysEx = 0xF0,
+    kMIDINoteSysExEnd = 0xF7,
+    kMIDINoteEdu = 0x7D
 };
 
 // MIDI Messages' channel number
@@ -31,9 +34,10 @@ enum {
 @property (assign) UInt8 duration;
 @property (assign) UInt8 channel;
 @property (assign) UInt8 velocity;
+@property (assign) NSArray *SysEx;
 
 
 -(id)initWithNote:(UInt8)note duration:(UInt8)duration channel:(UInt8)channel
-         velocity:(UInt8)velocity;
+         velocity:(UInt8)velocity SysEx:(NSArray *)SysEx;
 
 @end

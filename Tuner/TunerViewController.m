@@ -16,18 +16,26 @@
 #import "MIDINote.h"
 #import "NoteNumDict.h"
 #import "Communicator.h"
+#import "AssignmentTable.h"
+#import "VirtualInstrument.h"
 
 @interface TunerViewController ()
-
 @property (readwrite) Communicator *CMU;
 @property (readonly) NoteNumDict *Dict;
+
+#ifdef MASTER
+    // Since the _Key field can be set, readwrite thus.
+    @property (readwrite) AssignmentTable *AST;
+    @property (readonly) VirtualInstrument *VI;
+#endif
+
+#ifdef SLAVE
+    @property (assign) BOOL SlaveEnable;
+#endif
 
 @end
 
 @implementation TunerViewController
-
-MIDINote *M1, *M2, *M3, *M4, *M5, *M6;
-NSNumber *N1, *N2, *N3, *N4, *N5, *N6;
 
 - (void)viewDidLoad
 {
@@ -37,19 +45,6 @@ NSNumber *N1, *N2, *N3, *N4, *N5, *N6;
     _CMU = [[Communicator alloc] init];
     _Dict = [[NoteNumDict alloc] init];
     
-    N1 = [_Dict.Dict objectForKey:self.B1.titleLabel.text];
-    N2 = [_Dict.Dict objectForKey:self.B2.titleLabel.text];
-    N3 = [_Dict.Dict objectForKey:self.B3.titleLabel.text];
-    N4 = [_Dict.Dict objectForKey:self.B4.titleLabel.text];
-    N5 = [_Dict.Dict objectForKey:self.B5.titleLabel.text];
-    N6 = [_Dict.Dict objectForKey:self.B6.titleLabel.text];
-    
-    M1 = [[MIDINote alloc] initWithNote:[N1 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
-    M2 = [[MIDINote alloc] initWithNote:[N2 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
-    M3 = [[MIDINote alloc] initWithNote:[N3 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
-    M4 = [[MIDINote alloc] initWithNote:[N4 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
-    M5 = [[MIDINote alloc] initWithNote:[N5 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
-    M6 = [[MIDINote alloc] initWithNote:[N6 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100];
     
     // If iOS has the feature, initialize coreMIDI with a networkSession
     // note that this PGMidi object is hidden from outside
@@ -59,7 +54,33 @@ NSNumber *N1, *N2, *N3, *N4, *N5, *N6;
      _CMU.midi = [[PGMidi alloc] init];
      _CMU.midi.networkEnabled = YES;
      )
+    
+#ifdef SLAVE
+    _M1 = nil;
+    _M2 = nil;
+    _M3 = nil;
+    _M4 = nil;
+    _M5 = nil;
+    _M6 = nil;
+    _M7 = nil;
+    _M8 = nil;
+    _SlaveEnable = false;
+    [_CMU setAssignmentDelegate:self];
+#endif
+    
+#ifdef MASTER
+    _VI = [[VirtualInstrument alloc] init];
+    _AST = [[AssignmentTable alloc] init];
+    if (_AST) {
+        // Here the MIDI Note object contains a series of SysEx notes derived from the Assignment Table
+        _M1 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_1"]];
+        _M2 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"]];
+    }
+    [_CMU setPlaybackDelegate:self];
     [self configureNetworkSessionAndServiceBrowser];
+#endif
 
 }
 
@@ -74,12 +95,22 @@ NSNumber *N1, *N2, *N3, *N4, *N5, *N6;
     // Nil all the objects
     _CMU = nil;
     
-    M1 = nil;
-    M2 = nil;
-    M3 = nil;
-    M4 = nil;
-    M5 = nil;
-    M6 = nil;
+#ifdef SLAVE
+    _M1 = nil;
+    _M2 = nil;
+    _M3 = nil;
+    _M4 = nil;
+    _M5 = nil;
+    _M6 = nil;
+    _M7 = nil;
+    _M8 = nil;
+    _SlaveEnable = false;
+#endif
+    
+#ifdef MASTER
+    _AST = nil;
+    _VI = nil;
+#endif
     
     [self setB1:nil];
     [self setB2:nil];
@@ -91,67 +122,98 @@ NSNumber *N1, *N2, *N3, *N4, *N5, *N6;
 }
 
 - (IBAction)B1:(id)sender {
-#ifdef TEST
-    [_CMU playMidiData:M1];
-    [_CMU sendMidiData:M1];
-#endif
     
 #ifdef SLAVE
-    [_CMU sendMidiData:M1];
+    if (_SlaveEnable) {
+        [_CMU sendMidiData:_M1];
+    }
+#endif
+    
+#ifdef MASTER
+    [_CMU sendMidiData:_M1];
 #endif
 }
 
 - (IBAction)B2:(id)sender {
-#ifdef TEST
-    [_CMU playMidiData:M2];
-    [_CMU sendMidiData:M2];
-#endif
     
 #ifdef SLAVE
-    [_CMU sendMidiData:M2];
+    if (_SlaveEnable) {
+        [_CMU sendMidiData:_M2];
+    }
+#endif
+    
+#ifdef MASTER
+    [_CMU sendMidiData:_M2];
 #endif
 }
 
 - (IBAction)B3:(id)sender {
-#ifdef TEST
-    [_CMU playMidiData:M3];
-    [_CMU sendMidiData:M3];
+
+#ifdef SLAVE
+    if (_SlaveEnable) {
+        [_CMU sendMidiData:_M3];
+    }
 #endif
     
-#ifdef SLAVE
-    [_CMU sendMidiData:M3];
+#ifdef MASTER
+    
 #endif
 }
 
 - (IBAction)B4:(id)sender {
-#ifdef TEST
-    [_CMU playMidiData:M4];
-    [_CMU sendMidiData:M4];
+
+#ifdef SLAVE
+    if (_SlaveEnable) {
+        [_CMU sendMidiData:_M4];
+    }
 #endif
     
-#ifdef SLAVE
-    [_CMU sendMidiData:M4];
+#ifdef MASTER
+    
 #endif
 }
 
 - (IBAction)B5:(id)sender {
-#ifdef TEST
-    [_CMU playMidiData:M5];
-    [_CMU sendMidiData:M5];
+
+#ifdef SLAVE
+    if (_SlaveEnable) {
+        [_CMU sendMidiData:_M5];
+    }
 #endif
     
-#ifdef SLAVE
-    [_CMU sendMidiData:M5];
+#ifdef MASTER
+    
 #endif
 }
 
 - (IBAction)B6:(id)sender {
-#ifdef TEST
-    [_CMU playMidiData:M6];
-    [_CMU sendMidiData:M6];
+
+#ifdef SLAVE
+    if (_SlaveEnable) {
+        [_CMU sendMidiData:_M6];
+    }
 #endif
+}
+
 #ifdef MASTER
+- (void) MIDIPlayback: (const MIDIPacket *)packet {
+    // If not in slave mode, meaning that either in master mode of testing mode, the packet is MIDI performance
+    // Plays the MIDI note then.
+    NSLog(@"handle midiReceived in Master Mode");
+    UInt8 noteType;
+    UInt8 noteNum;
+    UInt8 Velocity;
+    noteType = (packet->length > 0) ? packet->data[0] : 0;
+    noteNum = (packet->length > 1) ? packet->data[1] : 0;
+    Velocity = (packet->length >2) ? packet->data[2] : 0;
+    MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity SysEx:0];
     
+    // Play the note with Virtual Instrument
+    if (_VI) {
+        [_VI playMIDI:Note];
+    }
+}
+
 - (void) configureNetworkSessionAndServiceBrowser {
     // configure network session
     MIDINetworkSession *session = [MIDINetworkSession defaultSession];
@@ -198,8 +260,62 @@ NSNumber *N1, *N2, *N3, *N4, *N5, *N6;
 #endif
 
 #ifdef SLAVE
-    [_CMU sendMidiData:M6];
+- (void) MIDIAssignment: (const MIDIPacket *)packet {
+    // If in slave mode, handle sysEx messages which is the assignment of notes from the master to players
+    // The packet should contain 11 datas, where data 2-9 is note assignments, data 1 is 0x7D which is the
+    // manufacturer ID for educational use, data 0 is 0xF0, data 10 is 0xF7
+    NSLog(@"handle midiReceived in Slave Mode");
+    NSMutableArray *NewAssignment = [NSMutableArray arrayWithCapacity:8];
+    if (packet->length == 11) {
+        if (packet->data[0] == 0xF0 && packet->data[10]==0xF7 && packet->data[1]==0x7D) {
+            NSLog(@"deals with assignment");
+            // deals with the assignment here
+            for (int i = 2; i < 10; i++) {
+                UInt8 AssignNum = packet->data[i];
+                NSNumber *AssignNSNum = [NSNumber numberWithUnsignedChar:AssignNum];
+                NSArray *noteNameArr = [_Dict.Dict allKeysForObject:AssignNSNum];
+                NSString *noteName = [noteNameArr objectAtIndex:0];
+                if (noteName) {
+                    NSLog(@"The noteName %@", noteName);
+                    [NewAssignment addObject:noteName];
+                }
+            }
+        }
+    }
+    
+    // The new assignment will change the text label of the buttons
+#ifdef TEST
+    NSLog(@"NewAssignment objectAtIndex:0: %@", [NewAssignment objectAtIndex:0]);
+    NSLog(@"NewAssignment objectAtIndex:1: %@", [NewAssignment objectAtIndex:1]);
+    NSLog(@"NewAssignment objectAtIndex:2: %@", [NewAssignment objectAtIndex:2]);
+    NSLog(@"NewAssignment objectAtIndex:3: %@", [NewAssignment objectAtIndex:3]);
 #endif
+    
+    // FIXME: The Button's label would only update by tapping once. Don't know why.
+    [_B1 setTitle:[NewAssignment objectAtIndex:0] forState:UIControlStateNormal];
+    [_B2 setTitle:[NewAssignment objectAtIndex:1] forState:UIControlStateNormal];
+    [_B3 setTitle:[NewAssignment objectAtIndex:2] forState:UIControlStateNormal];
+    [_B4 setTitle:[NewAssignment objectAtIndex:3] forState:UIControlStateNormal];
+    [_B5 setTitle:[NewAssignment objectAtIndex:4] forState:UIControlStateNormal];
+    [_B6 setTitle:[NewAssignment objectAtIndex:5] forState:UIControlStateNormal];
+    
+    NSNumber  *N1 = [_Dict.Dict objectForKey:self.B1.titleLabel.text];
+    NSNumber  *N2 = [_Dict.Dict objectForKey:self.B2.titleLabel.text];
+    NSNumber  *N3 = [_Dict.Dict objectForKey:self.B3.titleLabel.text];
+    NSNumber  *N4 = [_Dict.Dict objectForKey:self.B4.titleLabel.text];
+    NSNumber  *N5 = [_Dict.Dict objectForKey:self.B5.titleLabel.text];
+    NSNumber  *N6 = [_Dict.Dict objectForKey:self.B6.titleLabel.text];
+
+   _M1 = [[MIDINote alloc] initWithNote:[N1 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
+   _M2 = [[MIDINote alloc] initWithNote:[N2 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
+   _M3 = [[MIDINote alloc] initWithNote:[N3 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
+   _M4 = [[MIDINote alloc] initWithNote:[N4 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
+   _M5 = [[MIDINote alloc] initWithNote:[N5 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
+   _M6 = [[MIDINote alloc] initWithNote:[N6 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
+    
+    _SlaveEnable = true;
 }
+#endif
+
 
 @end

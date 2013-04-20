@@ -6,16 +6,13 @@
 //  Copyright (c) 2013 tangkk. All rights reserved.
 //
 
-#define MODE1
+#define TEST
+#define MODE2
 
 #ifdef MODE1
-    #define TEST
-#endif
-
-#ifdef MODE2
     #define MASTER
 #endif
 
-#ifdef MODE3
+#ifdef MODE2
     #define SLAVE
 #endif

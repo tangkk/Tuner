@@ -524,8 +524,8 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
     const ItemCount numberOfDestinations = MIDIGetNumberOfDestinations();
     const ItemCount numberOfSources      = MIDIGetNumberOfSources();
     
-    NSLog(@"numberOfDestinations....: %lu", numberOfDestinations);
-    NSLog(@"numberOfSources....: %lu", numberOfSources);
+    //NSLog(@"numberOfDestinations....: %lu", numberOfDestinations);
+    //NSLog(@"numberOfSources....: %lu", numberOfSources);
 
     NSMutableArray *removedSources       = [NSMutableArray arrayWithArray:sources];
     NSMutableArray *removedDestinations  = [NSMutableArray arrayWithArray:destinations];

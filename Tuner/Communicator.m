@@ -10,7 +10,7 @@
 #import "ModeSelection.h"
 
 #import "MIDINote.h"
-#import "VirtualInstrument.h"
+#import "NoteNumDict.h"
 
 // Import the PGMidi functionality
 #import "PGMidi/PGMidi.h"
@@ -20,7 +20,7 @@
 
 @interface Communicator() <PGMidiDelegate, PGMidiSourceDelegate>
 
-@property (readwrite) VirtualInstrument *VI;
+@property (readonly) NoteNumDict *Dict;
 
 - (void) sendMidiDataInBackground:(MIDINote *)midinote;
 
@@ -32,7 +32,8 @@
     self = [super init];
     if (self) {
         _midi = nil;
-        _VI = [[VirtualInstrument alloc] init];
+        _Dict = [[NoteNumDict alloc] init];
+        
         return self;
     }
     return nil;
@@ -40,7 +41,7 @@
 
 - (void) dealloc {
     _midi = nil;
-    _VI = nil;
+    _Dict = nil;
 }
 
 #pragma mark IBActions
@@ -48,13 +49,6 @@
 - (void) sendMidiData:(MIDINote *)midinote
 {
     [self performSelectorInBackground:@selector(sendMidiDataInBackground:) withObject:midinote];
-}
-
-- (void) playMidiData:(MIDINote*)midinote
-{
-    if (_VI) {
-        [_VI playMIDI:midinote];
-    }
 }
 
 #pragma mark Shenanigans
@@ -83,11 +77,19 @@ NSString *StringFromPacket(const MIDIPacket *packet)
     // some bytes for diagnostics.
     // See comments in PGMidiSourceDelegate for an example of how to
     // interpret the MIDIPacket structure.
-    return [NSString stringWithFormat:@"  %u bytes: [%02x,%02x,%02x]",
+    return [NSString stringWithFormat:@"  %u bytes: [%02x,%02x,%02x, %02x,%02x,%02x, %02x,%02x,%02x, %02x, %02x]",
             packet->length,
             (packet->length > 0) ? packet->data[0] : 0,
             (packet->length > 1) ? packet->data[1] : 0,
-            (packet->length > 2) ? packet->data[2] : 0
+            (packet->length > 2) ? packet->data[2] : 0,
+            (packet->length > 3) ? packet->data[3] : 0,
+            (packet->length > 4) ? packet->data[4] : 0,
+            (packet->length > 5) ? packet->data[5] : 0,
+            (packet->length > 6) ? packet->data[6] : 0,
+            (packet->length > 7) ? packet->data[7] : 0,
+            (packet->length > 8) ? packet->data[8] : 0,
+            (packet->length > 9) ? packet->data[9] : 0,
+            (packet->length > 10) ? packet->data[10] : 0
             ];
 }
 
@@ -110,14 +112,16 @@ NSString *StringFromPacket(const MIDIPacket *packet)
 }
 
 - (void) handlemidiReceived:(const MIDIPacket *)packet {
-    UInt8 noteType;
-    UInt8 noteNum;
-    UInt8 Velocity;
-    noteType = (packet->length > 0) ? packet->data[0] : 0;
-    noteNum = (packet->length > 1) ? packet->data[1] : 0;
-    Velocity = (packet->length >2) ? packet->data[2] : 0;
-    MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity];
-    [self playMidiData:Note];
+    NSLog(@"handlemidiReceived:");
+#ifdef MASTER
+    NSLog(@"_PlaybackDelegate:");
+    [[self PlaybackDelegate] MIDIPlayback:packet];
+#endif
+    
+#ifdef SLAVE
+    NSLog(@"_AssignmentDelegate:");
+    [[self AssignmentDelegate] MIDIAssignment:packet];
+#endif
 }
 
 // This is require by PGMidiSourceDelegate protocol. It is for MIDI packet receiving.
@@ -129,14 +133,10 @@ NSString *StringFromPacket(const MIDIPacket *packet)
 #ifdef TEST
         NSLog(@"MIDI received:");
         NSLog(StringFromPacket(packet));
+#endif
         
-        // handle the packet.
         [self handlemidiReceived:packet];
-#endif
-#ifdef MASTER
-        // handle the packet.
-        [self handlemidiReceived:packet];
-#endif
+
         
         packet = MIDIPacketNext(packet);
     }
@@ -144,6 +144,8 @@ NSString *StringFromPacket(const MIDIPacket *packet)
 
 - (void) sendMidiDataInBackground:(id)midinote {
     MIDINote *midiNote = midinote;
+#ifdef SLAVE
+    // Send normal MIDI notes
     const UInt8 note      = [midiNote note];
     const UInt8 noteOn[]  = { 0x90, note, [midiNote velocity] };
     const UInt8 noteOff[] = { 0x80, note, 0   };
@@ -151,8 +153,25 @@ NSString *StringFromPacket(const MIDIPacket *packet)
     [_midi sendBytes:noteOn size:sizeof(noteOn)];
     [NSThread sleepForTimeInterval:1]; // changed from 0.1 so the note lasts a little longer
     [_midi sendBytes:noteOff size:sizeof(noteOff)];
+#endif
+    
+#ifdef MASTER
+    // Send SysEx Messages. Basically this is the music assignment procedure.
+    UInt8 noteSysEx[11] = {0xF0, 0x7D};
+    NSArray *SysEx = midiNote.SysEx;
+    NSEnumerator *enumerator = [SysEx objectEnumerator];
+    id object;
+    
+    UInt8 i = 2; // Start to assign the noteSysEx array at index 2.
+    while ((object = [enumerator nextObject])) {
+        NSString *noteName = object;
+        NSNumber *noteNum = [_Dict.Dict objectForKey:noteName];
+        noteSysEx[i] = [noteNum unsignedCharValue];
+        i++;
     }
-    //[self addString:@"\n"];
+    noteSysEx[10] = 0xF7;
+    [_midi sendBytes:noteSysEx size:sizeof(noteSysEx)];
+#endif
 }
 
 
