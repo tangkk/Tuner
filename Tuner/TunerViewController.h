@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TunerViewController : UIViewController
+@class MIDINote;
 
+@interface TunerViewController : UIViewController  <
+#ifdef MASTER
+NSNetServiceBrowserDelegate
+#endif
 @property (weak, nonatomic) IBOutlet UIButton *B1;
 @property (weak, nonatomic) IBOutlet UIButton *B2;
 @property (weak, nonatomic) IBOutlet UIButton *B3;
@@ -23,5 +27,10 @@
 - (IBAction)B4:(id)sender;
 - (IBAction)B5:(id)sender;
 - (IBAction)B6:(id)sender;
+
+#ifdef MASTER
+@property (strong, nonatomic) NSMutableArray *services;
+@property (strong, nonatomic) NSNetServiceBrowser *serviceBrowser;
+#endif
 
 @end

@@ -20,8 +20,6 @@
 @property (nonatomic,strong) PGMidi *midi;
 #endif
 
-@property (strong, nonatomic) NSMutableArray *services;
-@property (strong, nonatomic) NSNetServiceBrowser *serviceBrowser;
 
 - (void) sendMidiData:(MIDINote*)midinote;
 - (void) playMidiData:(MIDINote*)midinote;
