@@ -32,7 +32,8 @@
     self = [super init];
     if (self) {
         _midi = nil;
-        _Dict = [[NoteNumDict alloc] init];
+        if (_Dict == nil)
+            _Dict = [[NoteNumDict alloc] init];
         
         return self;
     }

@@ -41,9 +41,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-
-    _CMU = [[Communicator alloc] init];
-    _Dict = [[NoteNumDict alloc] init];
+    if (_CMU == nil)
+        _CMU = [[Communicator alloc] init];
+    if (_Dict == nil)
+        _Dict = [[NoteNumDict alloc] init];
     
     
     // If iOS has the feature, initialize coreMIDI with a networkSession
@@ -51,8 +52,10 @@
     IF_IOS_HAS_COREMIDI
     (
      // We only create a MidiInput object on iOS versions that support CoreMIDI
-     _CMU.midi = [[PGMidi alloc] init];
-     _CMU.midi.networkEnabled = YES;
+        if (_CMU.midi == nil) {
+            _CMU.midi = [[PGMidi alloc] init];
+            _CMU.midi.networkEnabled = YES;
+        }
      )
     
 #ifdef SLAVE
@@ -69,8 +72,10 @@
 #endif
     
 #ifdef MASTER
-    _VI = [[VirtualInstrument alloc] init];
-    _AST = [[AssignmentTable alloc] init];
+    if (_VI == nil)
+        _VI = [[VirtualInstrument alloc] init];
+    if (_AST == nil)
+        _AST = [[AssignmentTable alloc] init];
     if (_AST) {
         // Here the MIDI Note object contains a series of SysEx notes derived from the Assignment Table
         _M1 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0

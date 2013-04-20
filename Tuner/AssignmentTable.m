@@ -35,11 +35,19 @@ NSArray *Aeolian_2;
     
     // In the form of MIDI SysEx Message
     Ionian_1 = [[NSArray alloc] initWithObjects:@"C4", @"D4", @"E4", @"F4", @"G4", @"A4", @"B4", @"C5", nil];
-    Ionian_2 = [[NSArray alloc] initWithObjects:@"C4", @"D4", @"F4", @"A4", "@C5", @"E5", @"G5", @"B5", nil];
+    Ionian_2 = [[NSArray alloc] initWithObjects:@"C4", @"D4", @"F4", @"A4", @"C5", @"E5", @"G5", @"B5", nil];
     Pentatonic_1 = [[NSArray alloc] initWithObjects:@"C4", @"D4", @"E4", @"G4", @"A4", @"C5", @"E5", @"G5", nil];
     Pentatonic_2 = [[NSArray alloc] initWithObjects:@"A5", @"G5", @"E5", @"D5", @"C4", @"D4", @"E4", @"G4", nil];
     Dorian_1 = [[NSArray alloc] initWithObjects:@"C4", @"D#4", @"F4", @"G4", @"A4", @"A#4", @"C5", @"D5", nil];
     Dorian_2 = [[NSArray alloc] initWithObjects:@"C4", @"D#4",@"G4", @"A#4", @"C5", @"E5", @"A#5", @"C6", nil];
+    Phrygian_1 = 0;
+    Phrygian_2 = 0;
+    Lydian_1 = 0;
+    Lydian_2 = 0;
+    Mixolydian_1 = 0;
+    Mixolydian_2 = 0;
+    Aeolian_1 = 0;
+    Aeolian_2 = 0;
     
     _Root = Root_C; // Key C by default
     
