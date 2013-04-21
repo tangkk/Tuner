@@ -25,7 +25,7 @@
 
 #ifdef MASTER
     // Since the _Key field can be set, readwrite thus.
-    @property (readwrite) AssignmentTable *AST;
+    @property (readonly) AssignmentTable *AST;
     @property (readonly) VirtualInstrument *VI;
 #endif
 
@@ -59,14 +59,14 @@
      )
     
 #ifdef SLAVE
-    _M1 = nil;
-    _M2 = nil;
-    _M3 = nil;
-    _M4 = nil;
-    _M5 = nil;
-    _M6 = nil;
-    _M7 = nil;
-    _M8 = nil;
+    _M1 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
+    _M2 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
+    _M3 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
+    _M4 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
+    _M5 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
+    _M6 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
+    _M7 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
+    _M8 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
     _SlaveEnable = false;
     [_CMU setAssignmentDelegate:self];
 #endif
@@ -79,17 +79,17 @@
     if (_AST) {
         // Here the MIDI Note object contains a series of SysEx notes derived from the Assignment Table
         _M1 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_1"]];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_1"] Root:Root_C];
         _M2 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"]];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"] Root:Root_D];
         _M3 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_1"]];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_1"] Root:Root_E];
         _M4 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_2"]];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_2"] Root:Root_F];
         _M5 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"]];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"] Root:Root_G];
         _M6 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_2"]];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_2"] Root:Root_A];
     }
     [_CMU setPlaybackDelegate:self];
     [self configureNetworkSessionAndServiceBrowser];
@@ -214,7 +214,7 @@
 
 #ifdef MASTER
 - (void) MIDIPlayback: (const MIDIPacket *)packet {
-    // If not in slave mode, meaning that either in master mode of testing mode, the packet is MIDI performance
+    // If not in slave mode, the packet is MIDI performance
     // Plays the MIDI note then.
     NSLog(@"handle midiReceived in Master Mode");
     UInt8 noteType;
@@ -223,7 +223,7 @@
     noteType = (packet->length > 0) ? packet->data[0] : 0;
     noteNum = (packet->length > 1) ? packet->data[1] : 0;
     Velocity = (packet->length >2) ? packet->data[2] : 0;
-    MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity SysEx:0];
+    MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity SysEx:0 Root:Root_C];
     
     // Play the note with Virtual Instrument
     if (_VI) {
@@ -322,13 +322,13 @@
     NSNumber  *N4 = [_Dict.Dict objectForKey:self.B4.titleLabel.text];
     NSNumber  *N5 = [_Dict.Dict objectForKey:self.B5.titleLabel.text];
     NSNumber  *N6 = [_Dict.Dict objectForKey:self.B6.titleLabel.text];
-
-   _M1 = [[MIDINote alloc] initWithNote:[N1 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
-   _M2 = [[MIDINote alloc] initWithNote:[N2 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
-   _M3 = [[MIDINote alloc] initWithNote:[N3 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
-   _M4 = [[MIDINote alloc] initWithNote:[N4 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
-   _M5 = [[MIDINote alloc] initWithNote:[N5 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
-   _M6 = [[MIDINote alloc] initWithNote:[N6 unsignedShortValue] duration:1 channel:kChannel_0 velocity:100 SysEx:0];
+    
+    [_M1 setNote:[N1 unsignedShortValue]];
+    [_M2 setNote:[N2 unsignedShortValue]];
+    [_M3 setNote:[N3 unsignedShortValue]];
+    [_M4 setNote:[N4 unsignedShortValue]];
+    [_M5 setNote:[N5 unsignedShortValue]];
+    [_M6 setNote:[N6 unsignedShortValue]];
     
     _SlaveEnable = true;
 }

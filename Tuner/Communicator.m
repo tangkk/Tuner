@@ -168,6 +168,16 @@ NSString *StringFromPacket(const MIDIPacket *packet)
         NSString *noteName = object;
         NSNumber *noteNum = [_Dict.Dict objectForKey:noteName];
         noteSysEx[i] = [noteNum unsignedCharValue];
+        
+        // Deal with the Root/Key, using C as pivot
+        UInt8 Root = midiNote.Root;
+        if (Root <= 5) {
+            noteSysEx[i] += Root;
+        } else {
+            noteSysEx[i] += Root;
+            noteSysEx[i] -= 12;
+        }
+        
         i++;
     }
     noteSysEx[10] = 0xF7;

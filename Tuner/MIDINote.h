@@ -13,6 +13,20 @@
 
 #import <Foundation/Foundation.h>
 
+// Define the mapping of musical root and number, with double letter means "#"
+#define Root_C 0
+#define Root_CC 1
+#define Root_D 2
+#define Root_DD 3
+#define Root_E 4
+#define Root_F 5
+#define Root_FF 6
+#define Root_G 7
+#define Root_GG 8
+#define Root_A 9
+#define Root_AA 10
+#define Root_B 11
+
 // MIDI Messages' status number
 enum {
     kMIDINoteOn = 0x9,
@@ -35,9 +49,10 @@ enum {
 @property (assign) UInt8 channel;
 @property (assign) UInt8 velocity;
 @property (assign) NSArray *SysEx;
+@property (assign) UInt8 Root;
 
 
 -(id)initWithNote:(UInt8)note duration:(UInt8)duration channel:(UInt8)channel
-         velocity:(UInt8)velocity SysEx:(NSArray *)SysEx;
+         velocity:(UInt8)velocity SysEx:(NSArray *)SysEx Root:(UInt8) Root;
 
 @end
