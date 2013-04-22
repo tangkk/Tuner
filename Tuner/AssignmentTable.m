@@ -34,11 +34,11 @@ NSArray *Pentatonic_2;
     }
     
     // In the form of MIDI SysEx Message
-    Ionian_1 = [[NSArray alloc] initWithObjects:@"C4", @"D4", @"E4", @"F4", @"G4", @"A4", @"B4", @"C5", nil];
+    Ionian_1 = [[NSArray alloc] initWithObjects:@"C3", @"D3", @"E3", @"F3", @"G3", @"A3", @"B3", @"C4", nil];
     Ionian_2 = [[NSArray alloc] initWithObjects:@"C4", @"D4", @"F4", @"A4", @"C5", @"E5", @"G5", @"B5", nil];
-    Dorian_1 = [[NSArray alloc] initWithObjects:@"C4", @"D#4", @"F4", @"G4", @"A4", @"A#4", @"C5", @"D5", nil];
+    Dorian_1 = [[NSArray alloc] initWithObjects:@"C3", @"D#3", @"F3", @"G3", @"A3", @"A#3", @"C3", @"D4", nil];
     Dorian_2 = [[NSArray alloc] initWithObjects:@"C4", @"D#4",@"G4", @"A#4", @"C5", @"E5", @"A#5", @"C6", nil];
-    Phrygian_1 = [[NSArray alloc] initWithObjects:@"C4", @"C#4", @"D#4", @"F4", @"G4", @"G#4", @"A#4", @"C5", nil];
+    Phrygian_1 = [[NSArray alloc] initWithObjects:@"C3", @"C#3", @"D#3", @"F3", @"G3", @"G#3", @"A#3", @"C4", nil];
     Phrygian_2 = [[NSArray alloc] initWithObjects:@"C4", @"C#4", @"F4", @"G4", @"G#4", @"C5", @"C#5", @"F5", nil];
     Lydian_1 = 0;
     Lydian_2 = 0;

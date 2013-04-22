@@ -27,6 +27,7 @@
 		905B897416F70D3C00FF6E1B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 905B897116F70D3C00FF6E1B /* Sounds */; };
 		905B897516F70D3C00FF6E1B /* Trombone.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 905B897216F70D3C00FF6E1B /* Trombone.aupreset */; };
 		905B897616F70D3C00FF6E1B /* Vibraphone.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */; };
+		907857F71724F0D300CE6FF6 /* Guitar.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 907857F61724F0D300CE6FF6 /* Guitar.aupreset */; };
 		90D1311F1720FDC900AFCE49 /* AssignmentTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D1311E1720FDC900AFCE49 /* AssignmentTable.m */; };
 		90EAB2341715513100597BFC /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EAB2331715513100597BFC /* Communicator.m */; };
 		90EAB2371715638600597BFC /* NoteNumDict.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EAB2361715638600597BFC /* NoteNumDict.m */; };
@@ -65,6 +66,7 @@
 		905B897116F70D3C00FF6E1B /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sounds; path = Tuner/Sounds; sourceTree = "<group>"; };
 		905B897216F70D3C00FF6E1B /* Trombone.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Trombone.aupreset; path = Tuner/Trombone.aupreset; sourceTree = "<group>"; };
 		905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Vibraphone.aupreset; path = Tuner/Vibraphone.aupreset; sourceTree = "<group>"; };
+		907857F61724F0D300CE6FF6 /* Guitar.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Guitar.aupreset; path = Tuner/Guitar.aupreset; sourceTree = "<group>"; };
 		90D1311D1720FDC900AFCE49 /* AssignmentTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssignmentTable.h; sourceTree = "<group>"; };
 		90D1311E1720FDC900AFCE49 /* AssignmentTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssignmentTable.m; sourceTree = "<group>"; };
 		90EAB2321715513100597BFC /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			children = (
 				905B897116F70D3C00FF6E1B /* Sounds */,
 				905B897216F70D3C00FF6E1B /* Trombone.aupreset */,
+				907857F61724F0D300CE6FF6 /* Guitar.aupreset */,
 				905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */,
 				9032E78516EEC13200A84A9F /* Tuner */,
 				9032E77E16EEC13200A84A9F /* Frameworks */,
@@ -250,6 +253,7 @@
 				905B897516F70D3C00FF6E1B /* Trombone.aupreset in Resources */,
 				905B897616F70D3C00FF6E1B /* Vibraphone.aupreset in Resources */,
 				90FF312417164D1B00C30FE2 /* README in Resources */,
+				907857F71724F0D300CE6FF6 /* Guitar.aupreset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

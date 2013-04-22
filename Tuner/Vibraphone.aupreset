@@ -192,7 +192,7 @@
 								<key>stage</key>
 								<integer>0</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -200,7 +200,7 @@
 								<key>stage</key>
 								<integer>1</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -208,7 +208,7 @@
 								<key>stage</key>
 								<integer>2</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -216,11 +216,11 @@
 								<key>stage</key>
 								<integer>3</integer>
 								<key>time</key>
-								<real>12.000000953674316</real>
+								<real>12.00000095367432</real>
 							</dict>
 							<dict>
 								<key>level</key>
-								<real>0.0</real>
+								<real>0</real>
 								<key>stage</key>
 								<integer>4</integer>
 							</dict>
@@ -230,7 +230,7 @@
 								<key>stage</key>
 								<integer>5</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -254,7 +254,7 @@
 					<key>enabled</key>
 					<false/>
 					<key>resonance</key>
-					<real>0.0</real>
+					<real>0</real>
 				</dict>
 				<key>ID</key>
 				<integer>0</integer>
@@ -464,7 +464,7 @@
 								<key>stage</key>
 								<integer>0</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -472,7 +472,7 @@
 								<key>stage</key>
 								<integer>1</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -480,7 +480,7 @@
 								<key>stage</key>
 								<integer>2</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -488,11 +488,11 @@
 								<key>stage</key>
 								<integer>3</integer>
 								<key>time</key>
-								<real>0.40000000596046448</real>
+								<real>0.4000000059604645</real>
 							</dict>
 							<dict>
 								<key>level</key>
-								<real>0.0</real>
+								<real>0</real>
 								<key>stage</key>
 								<integer>4</integer>
 							</dict>
@@ -502,7 +502,7 @@
 								<key>stage</key>
 								<integer>5</integer>
 								<key>time</key>
-								<real>0.10000000149011612</real>
+								<real>0.1000000014901161</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -526,7 +526,7 @@
 					<key>enabled</key>
 					<false/>
 					<key>resonance</key>
-					<real>0.0</real>
+					<real>0</real>
 				</dict>
 				<key>ID</key>
 				<integer>1</integer>
@@ -581,9 +581,7 @@
 	<key>coarse tune</key>
 	<integer>0</integer>
 	<key>data</key>
-	<data>
-	AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=
-	</data>
+	<data>AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=</data>
 	<key>element-name</key>
 	<dict>
 		<key>3</key>
@@ -595,9 +593,9 @@
 	<key>file-references</key>
 	<dict/>
 	<key>fine tune</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>gain</key>
-	<real>-8.0</real>
+	<real>-8</real>
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
@@ -605,7 +603,7 @@
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>subtype</key>
 	<integer>1935764848</integer>
 	<key>type</key>

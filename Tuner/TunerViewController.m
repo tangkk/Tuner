@@ -59,21 +59,25 @@
      )
     
 #ifdef SLAVE
-    _M1 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
-    _M2 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
-    _M3 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
-    _M4 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
-    _M5 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
-    _M6 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
-    _M7 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
-    _M8 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:100 SysEx:0 Root:Root_C];
+    _M1 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
+    _M2 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
+    _M3 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
+    _M4 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
+    _M5 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
+    _M6 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
+    _M7 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
+    _M8 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
     _SlaveEnable = false;
     [_CMU setAssignmentDelegate:self];
 #endif
     
 #ifdef MASTER
-    if (_VI == nil)
+    if (_VI == nil) {
         _VI = [[VirtualInstrument alloc] init];
+        
+        // FIXME: Should let master's UI to set instrument
+        [_VI setInstrument:@"Guitar"];
+    }
     if (_AST == nil)
         _AST = [[AssignmentTable alloc] init];
     if (_AST) {
@@ -227,6 +231,7 @@
     
     // Play the note with Virtual Instrument
     if (_VI) {
+        NSLog(@"PlayMIDI:Note");
         [_VI playMIDI:Note];
     }
 }

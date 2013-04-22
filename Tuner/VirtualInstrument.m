@@ -55,7 +55,7 @@
     [self registerForUIApplicationNotifications];
     
     // Load a default musical instrument
-    [self setInstrument:@"Vibraphone"];
+    //[self setInstrument:@"Guitar"];
     
     return self;
 }
