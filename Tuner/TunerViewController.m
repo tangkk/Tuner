@@ -76,7 +76,7 @@
         _VI = [[VirtualInstrument alloc] init];
         
         // FIXME: Should let master's UI to set instrument
-        [_VI setInstrument:@"Guitar"];
+        [_VI setInstrument:@"Piano"];
     }
     if (_AST == nil)
         _AST = [[AssignmentTable alloc] init];
@@ -85,15 +85,15 @@
         _M1 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
                                        SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_1"] Root:Root_C];
         _M2 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"] Root:Root_D];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"] Root:Root_C];
         _M3 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_1"] Root:Root_E];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_1"] Root:Root_C];
         _M4 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_2"] Root:Root_F];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_2"] Root:Root_C];
         _M5 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"] Root:Root_G];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"] Root:Root_C];
         _M6 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_2"] Root:Root_A];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_2"] Root:Root_C];
     }
     [_CMU setPlaybackDelegate:self];
     [self configureNetworkSessionAndServiceBrowser];
