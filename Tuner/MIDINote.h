@@ -27,10 +27,13 @@
 #define Root_AA 10
 #define Root_B 11
 
+#define LOOP_1 60
+#define LOOP_2 61
+
 // MIDI Messages' status number
 enum {
-    kMIDINoteOn = 0x9,
-    kMIDINoteOff = 0x8,
+    kMIDINoteOn = 0x90,
+    kMIDINoteOff = 0x80,
     kMIDINoteSysEx = 0xF0,
     kMIDINoteSysExEnd = 0xF7,
     kMIDINoteEdu = 0x7D

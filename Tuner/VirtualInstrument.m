@@ -65,7 +65,7 @@
     if (MIDINote) {
         UInt32 noteNum = MIDINote.note;
         UInt32 onVelocity = MIDINote.velocity;
-        UInt32 noteCommand = 	kMIDINoteOn << 4 | 0;
+        UInt32 noteCommand = 	MIDINote.Root;
         
         OSStatus result = noErr;
         result = MusicDeviceMIDIEvent (self.samplerUnit, noteCommand, noteNum, onVelocity, 0);

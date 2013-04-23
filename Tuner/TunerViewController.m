@@ -59,14 +59,14 @@
      )
     
 #ifdef SLAVE
-    _M1 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
-    _M2 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
-    _M3 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
-    _M4 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
-    _M5 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
-    _M6 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
-    _M7 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
-    _M8 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:Root_C];
+    _M1 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+    _M2 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+    _M3 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+    _M4 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+    _M5 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+    _M6 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+    _M7 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+    _M8 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
     _SlaveEnable = false;
     [_CMU setAssignmentDelegate:self];
 #endif
@@ -94,6 +94,10 @@
                                        SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"] Root:Root_C];
         _M6 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
                                        SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_2"] Root:Root_C];
+        
+        //Loop nodes
+        _L1 = [[MIDINote alloc] initWithNote:LOOP_1 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+        _L2 = [[MIDINote alloc] initWithNote:LOOP_2 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
     }
     [_CMU setPlaybackDelegate:self];
     [self configureNetworkSessionAndServiceBrowser];
@@ -227,7 +231,7 @@
     noteType = (packet->length > 0) ? packet->data[0] : 0;
     noteNum = (packet->length > 1) ? packet->data[1] : 0;
     Velocity = (packet->length >2) ? packet->data[2] : 0;
-    MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity SysEx:0 Root:Root_C];
+    MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity SysEx:0 Root:noteType];
     
     // Play the note with Virtual Instrument
     if (_VI) {
