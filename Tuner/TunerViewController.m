@@ -115,8 +115,7 @@
     
     // Nil all the objects
     _CMU = nil;
-    
-#ifdef SLAVE
+    _Dict = nil;
     _M1 = nil;
     _M2 = nil;
     _M3 = nil;
@@ -125,6 +124,8 @@
     _M6 = nil;
     _M7 = nil;
     _M8 = nil;
+    
+#ifdef SLAVE
     _SlaveEnable = false;
 #endif
     
