@@ -38,6 +38,12 @@
 
 @implementation TunerViewController
 
+#ifdef MASTER
+- (void)viewWillAppear:(BOOL)animated {
+    [self configureNetworkSessionAndServiceBrowser];
+}
+#endif
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -102,7 +108,7 @@
         _L2 = [[MIDINote alloc] initWithNote:LOOP_2 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
     }
     [_CMU setPlaybackDelegate:self];
-    [self configureNetworkSessionAndServiceBrowser];
+    //[self configureNetworkSessionAndServiceBrowser];
 #endif
 
 }
