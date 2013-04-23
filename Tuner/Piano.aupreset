@@ -414,7 +414,7 @@
 			</dict>
 		</array>
 		<key>name</key>
-		<string>Guitar</string>
+		<string>Piano</string>
 		<key>output</key>
 		<integer>0</integer>
 	</dict>
@@ -452,7 +452,7 @@
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
-	<string>Guitar</string>
+	<string>Piano</string>
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>
