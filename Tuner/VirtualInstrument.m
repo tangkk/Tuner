@@ -19,12 +19,14 @@
 @interface VirtualInstrument()
 @property (readwrite) Float64   graphSampleRate;
 @property (readwrite) AUGraph   processingGraph;
-@property (readwrite) AudioUnit samplerUnit;
+@property (readwrite) AudioUnit samplerUnit_1;
+@property (readwrite) AudioUnit samplerUnit_2;
 @property (readwrite) AudioUnit ioUnit;
+@property (readwrite) AudioUnit mixerUnit;
 
 @property (readwrite) UInt8 currentPlayingNote;
 
-- (OSStatus)    loadSynthFromPresetURL:(NSURL *) presetURL;
+- (OSStatus)    loadSynthFromPresetURL:(NSURL *) presetURL withInstrumentID:(UInt8)InstrID;
 - (void)        registerForUIApplicationNotifications;
 - (BOOL)        createAUGraph;
 - (void)        configureAndStartAudioProcessingGraph: (AUGraph) graph;
@@ -47,8 +49,8 @@
     BOOL audioSessionActivated = [self setupAudioSession];
     NSAssert (audioSessionActivated == YES, @"Unable to set up audio session.");
     
-    // Create the audio processing graph; place references to the graph and to the Sampler unit
-    // into the processingGraph and samplerUnit instance variables.
+    // Create the audio processing graph; place references to the graph and to the Sampler units
+    // into the processingGraph and samplerUnits instance variables.
     [self createAUGraph];
     [self configureAndStartAudioProcessingGraph: self.processingGraph];
     
@@ -60,7 +62,7 @@
     return self;
 }
 
-- (void)playMIDI:(MIDINote *)MIDINote {
+- (void)playMIDI:(MIDINote *)MIDINote withInstrumentID:(UInt8)InstrID{
     self.currentPlayingNote = MIDINote.note;
     if (MIDINote) {
         UInt32 noteNum = MIDINote.note;
@@ -68,7 +70,19 @@
         UInt32 noteCommand = 	MIDINote.Root;
         
         OSStatus result = noErr;
-        result = MusicDeviceMIDIEvent (self.samplerUnit, noteCommand, noteNum, onVelocity, 0);
+        
+        switch (InstrID) {
+            case GROOVE:
+                result = MusicDeviceMIDIEvent (self.samplerUnit_1, noteCommand, noteNum, onVelocity, 0);
+                break;
+                
+            case PINAO:
+                result = MusicDeviceMIDIEvent (self.samplerUnit_2, noteCommand, noteNum, onVelocity, 0);
+                
+            default:
+                break;
+        }
+        
         
         NSCAssert (result == noErr, @"Unable to play. Error code: %d '%.4s'\n", (int) result, (const char *)&result);
     }
@@ -81,14 +95,15 @@
         UInt32 noteCommand = kMIDINoteOff << 4 | 0;
         
         OSStatus result = noErr;
-        result = MusicDeviceMIDIEvent(self.samplerUnit, noteCommand, noteNum, offVelocity, 0);
+        result = MusicDeviceMIDIEvent(self.samplerUnit_1, noteCommand, noteNum, offVelocity, 0);
+        result = MusicDeviceMIDIEvent(self.samplerUnit_2, noteCommand, noteNum, offVelocity, 0);
         
         NSCAssert(result == noErr, @"Unable to stop. Error code: %d '%.4s'\n", (int) result, (const char *)&result);
     }
 }
 
 // Load AUPreset to setup the current instrument
-- (void)setInstrument:(NSString *)InstrumentName {
+- (void)setInstrument:(NSString *)InstrumentName withInstrumentID:(UInt8)InstrID{
     NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:InstrumentName ofType:@"aupreset"]];
 	if (presetURL) {
 		NSLog(@"Attempting to load preset '%@'\n", [presetURL description]);
@@ -98,7 +113,7 @@
 		NSLog(@"COULD NOT GET PRESET PATH!");
 	}
     
-	[self loadSynthFromPresetURL: presetURL];
+	[self loadSynthFromPresetURL: presetURL withInstrumentID:InstrID];
 }
 
 #pragma mark -
@@ -108,7 +123,7 @@
 - (BOOL) createAUGraph {
     
 	OSStatus result = noErr;
-	AUNode samplerNode, ioNode;
+	AUNode samplerNode_1, samplerNode_2, mixerNode, ioNode;
     
     // Specify the common portion of an audio unit's identify, used for both audio units
     // in the graph.
@@ -116,6 +131,14 @@
 	cd.componentManufacturer     = kAudioUnitManufacturer_Apple;
 	cd.componentFlags            = 0;
 	cd.componentFlagsMask        = 0;
+    
+    // Multichannel mixer unit
+    AudioComponentDescription MixerUnitDescription;
+    MixerUnitDescription.componentType          = kAudioUnitType_Mixer;
+    MixerUnitDescription.componentSubType       = kAudioUnitSubType_MultiChannelMixer;
+    MixerUnitDescription.componentManufacturer  = kAudioUnitManufacturer_Apple;
+    MixerUnitDescription.componentFlags         = 0;
+    MixerUnitDescription.componentFlagsMask     = 0;
     
     // Instantiate an audio processing graph
 	result = NewAUGraph (&_processingGraph);
@@ -126,7 +149,11 @@
 	cd.componentSubType = kAudioUnitSubType_Sampler;
 	
     // Add the Sampler unit node to the graph
-	result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode);
+	result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_1);
+    NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    // Add the Sampler unit node to the graph
+	result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_2);
     NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
 	// Specify the Output unit, to be used as the second and final node of the graph
@@ -137,21 +164,52 @@
 	result = AUGraphAddNode (self.processingGraph, &cd, &ioNode);
     NSCAssert (result == noErr, @"Unable to add the Output unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
+    result = AUGraphAddNode (self.processingGraph, &MixerUnitDescription, &mixerNode);
+    
+    NSCAssert (result == noErr, @"AUGraphNewNode failed for Mixer unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
     // Open the graph
 	result = AUGraphOpen (self.processingGraph);
     NSCAssert (result == noErr, @"Unable to open the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
+    result = AUGraphConnectNodeInput (self.processingGraph, mixerNode, 0, ioNode, 0);
+    NSCAssert (result == noErr, @"AUGraphConnectNodeInput. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
     // Connect the Sampler unit to the output unit
-	result = AUGraphConnectNodeInput (self.processingGraph, samplerNode, 0, ioNode, 0);
+	result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_1, 0, mixerNode, 0);
+    NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    // Connect the Sampler unit to the output unit
+	result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_2, 0, mixerNode, 1);
     NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
 	// Obtain a reference to the Sampler unit from its node
-	result = AUGraphNodeInfo (self.processingGraph, samplerNode, 0, &_samplerUnit);
+	result = AUGraphNodeInfo (self.processingGraph, samplerNode_1, 0, &_samplerUnit_1);
+    NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphNodeInfo (self.processingGraph, samplerNode_2, 0, &_samplerUnit_2);
     NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
 	// Obtain a reference to the I/O unit from its node
 	result = AUGraphNodeInfo (self.processingGraph, ioNode, 0, &_ioUnit);
     NSCAssert (result == noErr, @"Unable to obtain a reference to the I/O unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AUGraphNodeInfo (self.processingGraph, mixerNode, NULL, &_mixerUnit);
+    
+    NSCAssert (result == noErr, @"AUGraphNodeInfo. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    UInt32 busCount   = 2;    // bus count for mixer unit input
+    
+    NSLog (@"Setting mixer unit input bus count to: %u", (unsigned int)busCount);
+    result = AudioUnitSetProperty (
+                                   _mixerUnit,
+                                   kAudioUnitProperty_ElementCount,
+                                   kAudioUnitScope_Input,
+                                   0,
+                                   &busCount,
+                                   sizeof (busCount)
+                                   );
+    NSCAssert (result == noErr, @"AudioUnitSetProperty (set mixer unit bus count). Error code: %d '%.4s'", (int) result, (const char *)&result);
     
     return YES;
 }
@@ -192,9 +250,31 @@
     
     NSCAssert (result == noErr, @"Unable to retrieve the maximum frames per slice property from the I/O unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
+    result = AudioUnitSetProperty (
+                                   self.mixerUnit,
+                                   kAudioUnitProperty_MaximumFramesPerSlice,
+                                   kAudioUnitScope_Global,
+                                   0,
+                                   &framesPerSlice,
+                                   framesPerSlicePropertySize
+                                   );
+    
+    NSCAssert (result == noErr, @"AudioUnitSetProperty (set mixer unit input stream format). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AudioUnitSetProperty (
+                                   self.mixerUnit,
+                                   kAudioUnitProperty_SampleRate,
+                                   kAudioUnitScope_Output,
+                                   0,
+                                   &_graphSampleRate,
+                                   sampleRatePropertySize
+                                   );
+    
+    NSCAssert (result == noErr, @"AudioUnitSetProperty (set mixer unit output stream format). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
     // Set the Sampler unit's output sample rate.
     result =    AudioUnitSetProperty (
-                                      self.samplerUnit,
+                                      self.samplerUnit_1,
                                       kAudioUnitProperty_SampleRate,
                                       kAudioUnitScope_Output,
                                       0,
@@ -206,7 +286,31 @@
     
     // Set the Sampler unit's maximum frames-per-slice.
     result =    AudioUnitSetProperty (
-                                      self.samplerUnit,
+                                      self.samplerUnit_1,
+                                      kAudioUnitProperty_MaximumFramesPerSlice,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &framesPerSlice,
+                                      framesPerSlicePropertySize
+                                      );
+    
+    NSAssert( result == noErr, @"AudioUnitSetProperty (set Sampler unit maximum frames per slice). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    // Set the Sampler unit's output sample rate.
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_2,
+                                      kAudioUnitProperty_SampleRate,
+                                      kAudioUnitScope_Output,
+                                      0,
+                                      &_graphSampleRate,
+                                      sampleRatePropertySize
+                                      );
+    
+    NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    // Set the Sampler unit's maximum frames-per-slice.
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_2,
                                       kAudioUnitProperty_MaximumFramesPerSlice,
                                       kAudioUnitScope_Global,
                                       0,
@@ -283,7 +387,7 @@
 }
 
 // Load a synthesizer preset file and apply it to the Sampler unit
-- (OSStatus) loadSynthFromPresetURL: (NSURL *) presetURL {
+- (OSStatus) loadSynthFromPresetURL: (NSURL *) presetURL withInstrumentID:(UInt8)InstrID {
     
 	CFDataRef propertyResourceData = 0;
 	Boolean status;
@@ -315,16 +419,36 @@
                                                        );
     
     // Set the class info property for the Sampler unit using the property list as the value.
+    // Here is the direct link between AUPreset and samplerUnits.
+    // Make use of this point to implement multiple musical instruments.
 	if (presetPropertyList != 0) {
+		switch (InstrID) {
+            case GROOVE:
+                result = AudioUnitSetProperty(
+                                              self.samplerUnit_1,
+                                              kAudioUnitProperty_ClassInfo,
+                                              kAudioUnitScope_Global,
+                                              0,
+                                              &presetPropertyList,
+                                              sizeof(CFPropertyListRef)
+                                              );
+                break;
+                
+            case PINAO:
+                result = AudioUnitSetProperty(
+                                              self.samplerUnit_2,
+                                              kAudioUnitProperty_ClassInfo,
+                                              kAudioUnitScope_Global,
+                                              0,
+                                              &presetPropertyList,
+                                              sizeof(CFPropertyListRef)
+                                              );
+                break;
+                
+            default:
+                break;
+        }
 		
-		result = AudioUnitSetProperty(
-                                      self.samplerUnit,
-                                      kAudioUnitProperty_ClassInfo,
-                                      kAudioUnitScope_Global,
-                                      0,
-                                      &presetPropertyList,
-                                      sizeof(CFPropertyListRef)
-                                      );
         
 		CFRelease(presetPropertyList);
 	}

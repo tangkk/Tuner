@@ -30,6 +30,11 @@
 #define LOOP_1 60
 #define LOOP_2 61
 
+// Instrument names
+#define GROOVE 1
+#define PINAO 2
+#define GUITAR 3
+
 // MIDI Messages' status number
 enum {
     kMIDINoteOn = 0x90,

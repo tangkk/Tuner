@@ -77,7 +77,8 @@
         _VI = [[VirtualInstrument alloc] init];
         
         // FIXME: Should let master's UI to set instrument
-        [_VI setInstrument:@"Loop"];
+        [_VI setInstrument:@"Loop" withInstrumentID:GROOVE]; //This is the groove instrument
+        [_VI setInstrument:@"Piano" withInstrumentID:PINAO];
     }
     if (_AST == nil)
         _AST = [[AssignmentTable alloc] init];
@@ -209,7 +210,7 @@
     
 #ifdef MASTER
     //[_CMU sendMidiData:_M5];
-    [_VI playMIDI:_L1];
+    [_VI playMIDI:_L1 withInstrumentID:GROOVE];
 #endif
 }
 
@@ -223,7 +224,7 @@
     
 #ifdef MASTER
     //[_CMU sendMidiData:_M6];
-    [_VI playMIDI:_L2];
+    [_VI playMIDI:_L2 withInstrumentID:GROOVE];
 #endif
 }
 
@@ -243,7 +244,7 @@
     // Play the note with Virtual Instrument
     if (_VI) {
         NSLog(@"PlayMIDI:Note");
-        [_VI playMIDI:Note];
+        [_VI playMIDI:Note withInstrumentID:PINAO];
     }
 }
 
