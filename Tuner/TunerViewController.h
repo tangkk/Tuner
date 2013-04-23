@@ -49,6 +49,10 @@ MIDIAssignmentHandle
 #ifdef MASTER
 @property (strong, nonatomic) NSMutableArray *services;
 @property (strong, nonatomic) NSNetServiceBrowser *serviceBrowser;
+
+// Loop Note
+@property (readwrite) MIDINote *L1;
+@property (readwrite) MIDINote *L2;
 #endif
 
 @end

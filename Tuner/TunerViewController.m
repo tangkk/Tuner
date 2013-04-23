@@ -27,6 +27,7 @@
     // Since the _Key field can be set, readwrite thus.
     @property (readonly) AssignmentTable *AST;
     @property (readonly) VirtualInstrument *VI;
+    @property (readonly) MIDINote *LOFF;
 #endif
 
 #ifdef SLAVE
@@ -76,7 +77,7 @@
         _VI = [[VirtualInstrument alloc] init];
         
         // FIXME: Should let master's UI to set instrument
-        [_VI setInstrument:@"Piano"];
+        [_VI setInstrument:@"Loop"];
     }
     if (_AST == nil)
         _AST = [[AssignmentTable alloc] init];
@@ -132,6 +133,9 @@
 #ifdef MASTER
     _AST = nil;
     _VI = nil;
+    _L1 = nil;
+    _L2 = nil;
+    _LOFF = nil;
 #endif
     
     [self setB1:nil];
@@ -204,7 +208,8 @@
 #endif
     
 #ifdef MASTER
-    [_CMU sendMidiData:_M5];
+    //[_CMU sendMidiData:_M5];
+    [_VI playMIDI:_L1];
 #endif
 }
 
@@ -217,7 +222,8 @@
 #endif
     
 #ifdef MASTER
-    [_CMU sendMidiData:_M6];
+    //[_CMU sendMidiData:_M6];
+    [_VI playMIDI:_L2];
 #endif
 }
 

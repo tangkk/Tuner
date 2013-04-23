@@ -22,6 +22,7 @@
 		9032E79616EEC13200A84A9F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9032E79516EEC13200A84A9F /* Default-568h@2x.png */; };
 		9032E79916EEC13200A84A9F /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9032E79716EEC13200A84A9F /* MainStoryboard.storyboard */; };
 		9032E79C16EEC13200A84A9F /* TunerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9032E79B16EEC13200A84A9F /* TunerViewController.m */; };
+		903F3FED17261564004B8E80 /* Loop.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 903F3FEC17261564004B8E80 /* Loop.aupreset */; };
 		904074EC16EECFD200C48DD4 /* MIDINote.m in Sources */ = {isa = PBXBuildFile; fileRef = 904074EB16EECFD200C48DD4 /* MIDINote.m */; };
 		9056FEE6172511BB00006C72 /* Piano.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 9056FEE5172511BA00006C72 /* Piano.aupreset */; };
 		905B897016F6A97900FF6E1B /* VirtualInstrument.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B896F16F6A97900FF6E1B /* VirtualInstrument.m */; };
@@ -60,6 +61,7 @@
 		9032E79816EEC13200A84A9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		9032E79A16EEC13200A84A9F /* TunerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TunerViewController.h; sourceTree = "<group>"; };
 		9032E79B16EEC13200A84A9F /* TunerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TunerViewController.m; sourceTree = "<group>"; };
+		903F3FEC17261564004B8E80 /* Loop.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Loop.aupreset; path = Tuner/Loop.aupreset; sourceTree = "<group>"; };
 		904074EA16EECFD200C48DD4 /* MIDINote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDINote.h; sourceTree = "<group>"; };
 		904074EB16EECFD200C48DD4 /* MIDINote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIDINote.m; sourceTree = "<group>"; };
 		9056FEE5172511BA00006C72 /* Piano.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Piano.aupreset; path = Tuner/Piano.aupreset; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			children = (
 				90EBF1E517253025006E3D89 /* Sounds */,
 				905B897216F70D3C00FF6E1B /* Trombone.aupreset */,
+				903F3FEC17261564004B8E80 /* Loop.aupreset */,
 				907857F61724F0D300CE6FF6 /* Guitar.aupreset */,
 				9056FEE5172511BA00006C72 /* Piano.aupreset */,
 				905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */,
@@ -258,6 +261,7 @@
 				907857F71724F0D300CE6FF6 /* Guitar.aupreset in Resources */,
 				9056FEE6172511BB00006C72 /* Piano.aupreset in Resources */,
 				90EBF1E617253025006E3D89 /* Sounds in Resources */,
+				903F3FED17261564004B8E80 /* Loop.aupreset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
