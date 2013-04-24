@@ -282,19 +282,19 @@
 						<key>enabled</key>
 						<true/>
 						<key>loop enabled</key>
-						<true/>
+						<false/>
 						<key>loop start</key>
 						<integer>152591</integer>
 						<key>max key</key>
-						<integer>0</integer>
+						<integer>42</integer>
 						<key>min key</key>
-						<integer>0</integer>
+						<integer>36</integer>
 						<key>name</key>
-						<string>Ballad3</string>
+						<string>2E</string>
 						<key>output</key>
 						<integer>0</integer>
 						<key>root key</key>
-						<integer>0</integer>
+						<integer>40</integer>
 						<key>waveform</key>
 						<integer>1</integer>
 					</dict>
@@ -304,19 +304,19 @@
 						<key>enabled</key>
 						<true/>
 						<key>loop enabled</key>
-						<true/>
+						<false/>
 						<key>loop start</key>
 						<integer>118328</integer>
 						<key>max key</key>
-						<integer>1</integer>
+						<integer>46</integer>
 						<key>min key</key>
-						<integer>1</integer>
+						<integer>43</integer>
 						<key>name</key>
-						<string>Ballad4</string>
+						<string>2A</string>
 						<key>output</key>
 						<integer>0</integer>
 						<key>root key</key>
-						<integer>1</integer>
+						<integer>45</integer>
 						<key>waveform</key>
 						<integer>2</integer>
 					</dict>
@@ -326,19 +326,19 @@
 						<key>enabled</key>
 						<true/>
 						<key>loop enabled</key>
-						<true/>
+						<false/>
 						<key>loop start</key>
 						<integer>118328</integer>
 						<key>max key</key>
-						<integer>2</integer>
+						<integer>53</integer>
 						<key>min key</key>
-						<integer>2</integer>
+						<integer>47</integer>
 						<key>name</key>
-						<string>drum44</string>
+						<string>3C</string>
 						<key>output</key>
 						<integer>0</integer>
 						<key>root key</key>
-						<integer>2</integer>
+						<integer>48</integer>
 						<key>waveform</key>
 						<integer>3</integer>
 					</dict>
@@ -348,19 +348,19 @@
 						<key>enabled</key>
 						<true/>
 						<key>loop enabled</key>
-						<true/>
+						<false/>
 						<key>loop start</key>
 						<integer>118328</integer>
 						<key>max key</key>
-						<integer>3</integer>
+						<integer>58</integer>
 						<key>min key</key>
-						<integer>3</integer>
+						<integer>54</integer>
 						<key>name</key>
-						<string>drum68</string>
+						<string>3A</string>
 						<key>output</key>
 						<integer>0</integer>
 						<key>root key</key>
-						<integer>3</integer>
+						<integer>57</integer>
 						<key>waveform</key>
 						<integer>4</integer>
 					</dict>
@@ -370,19 +370,19 @@
 						<key>enabled</key>
 						<true/>
 						<key>loop enabled</key>
-						<true/>
+						<false/>
 						<key>loop start</key>
 						<integer>215956</integer>
 						<key>max key</key>
-						<integer>4</integer>
+						<integer>64</integer>
 						<key>min key</key>
-						<integer>4</integer>
+						<integer>59</integer>
 						<key>name</key>
-						<string>drumshuffle</string>
+						<string>4C</string>
 						<key>output</key>
 						<integer>0</integer>
 						<key>root key</key>
-						<integer>4</integer>
+						<integer>60</integer>
 						<key>waveform</key>
 						<integer>5</integer>
 					</dict>
@@ -392,19 +392,19 @@
 						<key>enabled</key>
 						<true/>
 						<key>loop enabled</key>
-						<true/>
+						<false/>
 						<key>loop start</key>
 						<integer>167533</integer>
 						<key>max key</key>
-						<integer>5</integer>
+						<integer>70</integer>
 						<key>min key</key>
-						<integer>5</integer>
+						<integer>65</integer>
 						<key>name</key>
-						<string>Funky1</string>
+						<string>4A</string>
 						<key>output</key>
 						<integer>0</integer>
 						<key>root key</key>
-						<integer>5</integer>
+						<integer>69</integer>
 						<key>waveform</key>
 						<integer>6</integer>
 					</dict>
@@ -414,19 +414,19 @@
 						<key>enabled</key>
 						<true/>
 						<key>loop enabled</key>
-						<true/>
+						<false/>
 						<key>loop start</key>
 						<integer>167533</integer>
 						<key>max key</key>
-						<integer>6</integer>
+						<integer>75</integer>
 						<key>min key</key>
-						<integer>6</integer>
+						<integer>71</integer>
 						<key>name</key>
-						<string>Funky2</string>
+						<string>5C</string>
 						<key>output</key>
 						<integer>0</integer>
 						<key>root key</key>
-						<integer>6</integer>
+						<integer>72</integer>
 						<key>waveform</key>
 						<integer>7</integer>
 					</dict>
@@ -436,65 +436,21 @@
 						<key>enabled</key>
 						<true/>
 						<key>loop enabled</key>
-						<true/>
+						<false/>
 						<key>loop start</key>
 						<integer>167533</integer>
 						<key>max key</key>
-						<integer>7</integer>
+						<integer>85</integer>
 						<key>min key</key>
-						<integer>7</integer>
+						<integer>76</integer>
 						<key>name</key>
-						<string>Funky3</string>
+						<string>5A</string>
 						<key>output</key>
 						<integer>0</integer>
 						<key>root key</key>
-						<integer>7</integer>
+						<integer>81</integer>
 						<key>waveform</key>
 						<integer>8</integer>
-					</dict>
-					<dict>
-						<key>ID</key>
-						<integer>9</integer>
-						<key>enabled</key>
-						<true/>
-						<key>loop enabled</key>
-						<true/>
-						<key>loop start</key>
-						<integer>167533</integer>
-						<key>max key</key>
-						<integer>8</integer>
-						<key>min key</key>
-						<integer>8</integer>
-						<key>name</key>
-						<string>Rock2</string>
-						<key>output</key>
-						<integer>0</integer>
-						<key>root key</key>
-						<integer>8</integer>
-						<key>waveform</key>
-						<integer>9</integer>
-					</dict>
-					<dict>
-						<key>ID</key>
-						<integer>10</integer>
-						<key>enabled</key>
-						<true/>
-						<key>loop enabled</key>
-						<true/>
-						<key>loop start</key>
-						<integer>167533</integer>
-						<key>max key</key>
-						<integer>9</integer>
-						<key>min key</key>
-						<integer>9</integer>
-						<key>name</key>
-						<string>Rock3</string>
-						<key>output</key>
-						<integer>0</integer>
-						<key>root key</key>
-						<integer>9</integer>
-						<key>waveform</key>
-						<integer>10</integer>
 					</dict>
 				</array>
 				<key>output</key>
@@ -502,7 +458,7 @@
 			</dict>
 		</array>
 		<key>name</key>
-		<string>Loop</string>
+		<string>MuteElecGuitar</string>
 		<key>output</key>
 		<integer>0</integer>
 	</dict>
@@ -521,25 +477,21 @@
 	<key>file-references</key>
 	<dict>
 		<key>Sample:1</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/Ballad3inGLydian.mp3</string>
+		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/2E.aif</string>
 		<key>Sample:2</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/Ballad4inFIonian.mp3</string>
+		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/2A.aif</string>
 		<key>Sample:3</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/drum44.mp3</string>
+		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/3C.aif</string>
 		<key>Sample:4</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/drum68.mp3</string>
+		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/3A.aif</string>
 		<key>Sample:5</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/drumshuffle.mp3</string>
+		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/4C.aif</string>
 		<key>Sample:6</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/Funky1inDDorian.mp3</string>
+		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/4A.aif</string>
 		<key>Sample:7</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/Funky2inDAeolian.mp3</string>
+		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/5C.aif</string>
 		<key>Sample:8</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/Funky3inDAeolian.mp3</string>
-		<key>Sample:9</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/Rock2inCIonian.mp3</string>
-		<key>Sample:10</key>
-		<string>file://localhost/Library/Audio/Sounds/Loop/Rock3inF%23Pentatonic.mp3</string>
+		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/5A.aif</string>
 	</dict>
 	<key>fine tune</key>
 	<integer>0</integer>
@@ -548,7 +500,7 @@
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
-	<string>Loop</string>
+	<string>MuteElecGuitar</string>
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>

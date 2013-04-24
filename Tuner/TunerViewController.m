@@ -28,6 +28,7 @@
     @property (readonly) AssignmentTable *AST;
     @property (readonly) VirtualInstrument *VI;
     @property (readonly) MIDINote *LOFF;
+    @property (readonly) UInt8 CurrentNoteNum;
 #endif
 
 #ifdef SLAVE
@@ -83,29 +84,35 @@
         _VI = [[VirtualInstrument alloc] init];
         
         // FIXME: Should let master's UI to set instrument
-        [_VI setInstrument:@"Loop" withInstrumentID:GROOVE]; //This is the groove instrument
-        [_VI setInstrument:@"Piano" withInstrumentID:PINAO];
+        [_VI setInstrument:@"Trombone" withInstrumentID:Trombone]; //This is the groove instrument
+        [_VI setInstrument:@"Loop" withInstrumentID:Loop];
+        [_VI setInstrument:@"MuteElecGuitar" withInstrumentID:MuteElecGuitar];
+        [_VI setInstrument:@"Guitar" withInstrumentID:Guitar];
+        [_VI setInstrument:@"Ensemble" withInstrumentID:Ensemble];
+        [_VI setInstrument:@"Piano" withInstrumentID:Piano];
+        [_VI setInstrument:@"Vibraphone" withInstrumentID:Vibraphone];
     }
     if (_AST == nil)
         _AST = [[AssignmentTable alloc] init];
     if (_AST) {
         // Here the MIDI Note object contains a series of SysEx notes derived from the Assignment Table
         _M1 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_1"] Root:Root_C];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Lydian_1"] Root:Root_G];
         _M2 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"] Root:Root_C];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"] Root:Root_F];
         _M3 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_1"] Root:Root_C];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"] Root:Root_D];
         _M4 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_2"] Root:Root_C];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Aeolian_1"] Root:Root_D];
         _M5 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"] Root:Root_C];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Aeolian_2"] Root:Root_D];
         _M6 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_2"] Root:Root_C];
+                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_2"] Root:Root_FF];
         
         //Loop nodes
-        _L1 = [[MIDINote alloc] initWithNote:LOOP_1 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
-        _L2 = [[MIDINote alloc] initWithNote:LOOP_2 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+        _LOOP = [[MIDINote alloc] initWithNote:Ballad3 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
+        _CurrentNoteNum = Ballad3;
+        _LOFF = [[MIDINote alloc] initWithNote:Ballad3 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOff];
     }
     [_CMU setPlaybackDelegate:self];
     //[self configureNetworkSessionAndServiceBrowser];
@@ -140,9 +147,9 @@
 #ifdef MASTER
     _AST = nil;
     _VI = nil;
-    _L1 = nil;
-    _L2 = nil;
+    _LOOP = nil;
     _LOFF = nil;
+    _CurrentNoteNum = 0;
 #endif
     
     [self setB1:nil];
@@ -164,6 +171,13 @@
     
 #ifdef MASTER
     [_CMU sendMidiData:_M1];
+#ifdef TEST
+    [_LOFF setNote:_CurrentNoteNum];
+    [_LOOP setNote:Ballad3];
+    _CurrentNoteNum = Ballad3;
+    [_VI playMIDI:_LOFF withInstrumentID:Loop];
+    [_VI playMIDI:_LOOP withInstrumentID:Loop];
+#endif
 #endif
 }
 
@@ -177,6 +191,13 @@
     
 #ifdef MASTER
     [_CMU sendMidiData:_M2];
+#ifdef TEST
+    [_LOFF setNote:_CurrentNoteNum];
+    [_LOOP setNote:Ballad4];
+    _CurrentNoteNum = Ballad4;
+    [_VI playMIDI:_LOFF withInstrumentID:Loop];
+    [_VI playMIDI:_LOOP withInstrumentID:Loop];
+#endif
 #endif
 }
 
@@ -190,6 +211,13 @@
     
 #ifdef MASTER
     [_CMU sendMidiData:_M3];
+#ifdef TEST
+    [_LOFF setNote:_CurrentNoteNum];
+    [_LOOP setNote:Funky1];
+    _CurrentNoteNum = Funky1;
+    [_VI playMIDI:_LOFF withInstrumentID:Loop];
+    [_VI playMIDI:_LOOP withInstrumentID:Loop];
+#endif
 #endif
 }
 
@@ -203,6 +231,13 @@
     
 #ifdef MASTER
     [_CMU sendMidiData:_M4];
+#ifdef TEST
+    [_LOFF setNote:_CurrentNoteNum];
+    [_LOOP setNote:Funky2];
+    _CurrentNoteNum = Funky2;
+    [_VI playMIDI:_LOFF withInstrumentID:Loop];
+    [_VI playMIDI:_LOOP withInstrumentID:Loop];
+#endif
 #endif
 }
 
@@ -215,8 +250,14 @@
 #endif
     
 #ifdef MASTER
-    //[_CMU sendMidiData:_M5];
-    [_VI playMIDI:_L1 withInstrumentID:GROOVE];
+    [_CMU sendMidiData:_M5];
+#ifdef TEST
+    [_LOFF setNote:_CurrentNoteNum];
+    [_LOOP setNote:Funky3];
+    _CurrentNoteNum = Funky3;
+    [_VI playMIDI:_LOFF withInstrumentID:Loop];
+    [_VI playMIDI:_LOOP withInstrumentID:Loop];
+#endif
 #endif
 }
 
@@ -229,8 +270,14 @@
 #endif
     
 #ifdef MASTER
-    //[_CMU sendMidiData:_M6];
-    [_VI playMIDI:_L2 withInstrumentID:GROOVE];
+    [_CMU sendMidiData:_M6];
+#ifdef TEST
+    [_LOFF setNote:_CurrentNoteNum];
+    [_LOOP setNote:Rock3];
+    _CurrentNoteNum = Rock3;
+    [_VI playMIDI:_LOFF withInstrumentID:Loop];
+    [_VI playMIDI:_LOOP withInstrumentID:Loop];
+#endif
 #endif
 }
 
@@ -250,7 +297,7 @@
     // Play the note with Virtual Instrument
     if (_VI) {
         NSLog(@"PlayMIDI:Note");
-        [_VI playMIDI:Note withInstrumentID:PINAO];
+        [_VI playMIDI:Note withInstrumentID:Piano];
     }
 }
 

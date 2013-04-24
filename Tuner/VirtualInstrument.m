@@ -21,6 +21,11 @@
 @property (readwrite) AUGraph   processingGraph;
 @property (readwrite) AudioUnit samplerUnit_1;
 @property (readwrite) AudioUnit samplerUnit_2;
+@property (readwrite) AudioUnit samplerUnit_3;
+@property (readwrite) AudioUnit samplerUnit_4;
+@property (readwrite) AudioUnit samplerUnit_5;
+@property (readwrite) AudioUnit samplerUnit_6;
+@property (readwrite) AudioUnit samplerUnit_7;
 @property (readwrite) AudioUnit ioUnit;
 @property (readwrite) AudioUnit mixerUnit;
 
@@ -72,12 +77,27 @@
         OSStatus result = noErr;
         
         switch (InstrID) {
-            case GROOVE:
+            case Trombone:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_1, noteCommand, noteNum, onVelocity, 0);
                 break;
                 
-            case PINAO:
+            case Loop:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_2, noteCommand, noteNum, onVelocity, 0);
+                
+            case MuteElecGuitar:
+                result = MusicDeviceMIDIEvent (self.samplerUnit_3, noteCommand, noteNum, onVelocity, 0);
+                
+            case Guitar:
+                result = MusicDeviceMIDIEvent (self.samplerUnit_4, noteCommand, noteNum, onVelocity, 0);
+                
+            case Ensemble:
+                result = MusicDeviceMIDIEvent (self.samplerUnit_5, noteCommand, noteNum, onVelocity, 0);
+                
+            case Piano:
+                result = MusicDeviceMIDIEvent (self.samplerUnit_6, noteCommand, noteNum, onVelocity, 0);
+                
+            case Vibraphone:
+                result = MusicDeviceMIDIEvent (self.samplerUnit_7, noteCommand, noteNum, onVelocity, 0);
                 
             default:
                 break;
@@ -97,6 +117,11 @@
         OSStatus result = noErr;
         result = MusicDeviceMIDIEvent(self.samplerUnit_1, noteCommand, noteNum, offVelocity, 0);
         result = MusicDeviceMIDIEvent(self.samplerUnit_2, noteCommand, noteNum, offVelocity, 0);
+        result = MusicDeviceMIDIEvent(self.samplerUnit_3, noteCommand, noteNum, offVelocity, 0);
+        result = MusicDeviceMIDIEvent(self.samplerUnit_4, noteCommand, noteNum, offVelocity, 0);
+        result = MusicDeviceMIDIEvent(self.samplerUnit_5, noteCommand, noteNum, offVelocity, 0);
+        result = MusicDeviceMIDIEvent(self.samplerUnit_6, noteCommand, noteNum, offVelocity, 0);
+        result = MusicDeviceMIDIEvent(self.samplerUnit_7, noteCommand, noteNum, offVelocity, 0);
         
         NSCAssert(result == noErr, @"Unable to stop. Error code: %d '%.4s'\n", (int) result, (const char *)&result);
     }
@@ -123,7 +148,8 @@
 - (BOOL) createAUGraph {
     
 	OSStatus result = noErr;
-	AUNode samplerNode_1, samplerNode_2, mixerNode, ioNode;
+	AUNode samplerNode_1, samplerNode_2, samplerNode_3, samplerNode_4, samplerNode_5, samplerNode_6, samplerNode_7;
+    AUNode mixerNode, ioNode;
     
     // Specify the common portion of an audio unit's identify, used for both audio units
     // in the graph.
@@ -148,12 +174,26 @@
 	cd.componentType = kAudioUnitType_MusicDevice;
 	cd.componentSubType = kAudioUnitSubType_Sampler;
 	
-    // Add the Sampler unit node to the graph
+    // Add the Sampler unit nodes to the graph
 	result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_1);
     NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
-    // Add the Sampler unit node to the graph
 	result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_2);
+    NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_3);
+    NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_4);
+    NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_5);
+    NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_6);
+    NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphAddNode (self.processingGraph, &cd, &samplerNode_7);
     NSCAssert (result == noErr, @"Unable to add the Sampler unit to the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
 	// Specify the Output unit, to be used as the second and final node of the graph
@@ -175,12 +215,26 @@
     result = AUGraphConnectNodeInput (self.processingGraph, mixerNode, 0, ioNode, 0);
     NSCAssert (result == noErr, @"AUGraphConnectNodeInput. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
-    // Connect the Sampler unit to the output unit
+    // Connect the Sampler units to the output unit
 	result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_1, 0, mixerNode, 0);
     NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
-    // Connect the Sampler unit to the output unit
 	result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_2, 0, mixerNode, 1);
+    NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_3, 0, mixerNode, 2);
+    NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_4, 0, mixerNode, 3);
+    NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_5, 0, mixerNode, 4);
+    NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_6, 0, mixerNode, 5);
+    NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphConnectNodeInput (self.processingGraph, samplerNode_7, 0, mixerNode, 6);
     NSCAssert (result == noErr, @"Unable to interconnect the nodes in the audio processing graph. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
 	// Obtain a reference to the Sampler unit from its node
@@ -188,6 +242,21 @@
     NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
     result = AUGraphNodeInfo (self.processingGraph, samplerNode_2, 0, &_samplerUnit_2);
+    NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphNodeInfo (self.processingGraph, samplerNode_3, 0, &_samplerUnit_3);
+    NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphNodeInfo (self.processingGraph, samplerNode_4, 0, &_samplerUnit_4);
+    NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphNodeInfo (self.processingGraph, samplerNode_5, 0, &_samplerUnit_5);
+    NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphNodeInfo (self.processingGraph, samplerNode_6, 0, &_samplerUnit_6);
+    NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result = AUGraphNodeInfo (self.processingGraph, samplerNode_7, 0, &_samplerUnit_7);
     NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
 	// Obtain a reference to the I/O unit from its node
@@ -198,7 +267,7 @@
     
     NSCAssert (result == noErr, @"AUGraphNodeInfo. Error code: %d '%.4s'", (int) result, (const char *)&result);
     
-    UInt32 busCount   = 2;    // bus count for mixer unit input
+    UInt32 busCount   = 7;    // bus count for mixer unit input
     
     NSLog (@"Setting mixer unit input bus count to: %u", (unsigned int)busCount);
     result = AudioUnitSetProperty (
@@ -296,7 +365,6 @@
     
     NSAssert( result == noErr, @"AudioUnitSetProperty (set Sampler unit maximum frames per slice). Error code: %d '%.4s'", (int) result, (const char *)&result);
     
-    // Set the Sampler unit's output sample rate.
     result =    AudioUnitSetProperty (
                                       self.samplerUnit_2,
                                       kAudioUnitProperty_SampleRate,
@@ -308,9 +376,118 @@
     
     NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
     
-    // Set the Sampler unit's maximum frames-per-slice.
     result =    AudioUnitSetProperty (
                                       self.samplerUnit_2,
+                                      kAudioUnitProperty_MaximumFramesPerSlice,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &framesPerSlice,
+                                      framesPerSlicePropertySize
+                                      );
+    
+    NSAssert( result == noErr, @"AudioUnitSetProperty (set Sampler unit maximum frames per slice). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_3,
+                                      kAudioUnitProperty_SampleRate,
+                                      kAudioUnitScope_Output,
+                                      0,
+                                      &_graphSampleRate,
+                                      sampleRatePropertySize
+                                      );
+    
+    NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_3,
+                                      kAudioUnitProperty_MaximumFramesPerSlice,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &framesPerSlice,
+                                      framesPerSlicePropertySize
+                                      );
+    
+    NSAssert( result == noErr, @"AudioUnitSetProperty (set Sampler unit maximum frames per slice). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_4,
+                                      kAudioUnitProperty_SampleRate,
+                                      kAudioUnitScope_Output,
+                                      0,
+                                      &_graphSampleRate,
+                                      sampleRatePropertySize
+                                      );
+    
+    NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_4,
+                                      kAudioUnitProperty_MaximumFramesPerSlice,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &framesPerSlice,
+                                      framesPerSlicePropertySize
+                                      );
+    
+    NSAssert( result == noErr, @"AudioUnitSetProperty (set Sampler unit maximum frames per slice). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_5,
+                                      kAudioUnitProperty_SampleRate,
+                                      kAudioUnitScope_Output,
+                                      0,
+                                      &_graphSampleRate,
+                                      sampleRatePropertySize
+                                      );
+    
+    NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_5,
+                                      kAudioUnitProperty_MaximumFramesPerSlice,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &framesPerSlice,
+                                      framesPerSlicePropertySize
+                                      );
+    
+    NSAssert( result == noErr, @"AudioUnitSetProperty (set Sampler unit maximum frames per slice). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_6,
+                                      kAudioUnitProperty_SampleRate,
+                                      kAudioUnitScope_Output,
+                                      0,
+                                      &_graphSampleRate,
+                                      sampleRatePropertySize
+                                      );
+    
+    NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_6,
+                                      kAudioUnitProperty_MaximumFramesPerSlice,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      &framesPerSlice,
+                                      framesPerSlicePropertySize
+                                      );
+    
+    NSAssert( result == noErr, @"AudioUnitSetProperty (set Sampler unit maximum frames per slice). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_7,
+                                      kAudioUnitProperty_SampleRate,
+                                      kAudioUnitScope_Output,
+                                      0,
+                                      &_graphSampleRate,
+                                      sampleRatePropertySize
+                                      );
+    
+    NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
+    
+    result =    AudioUnitSetProperty (
+                                      self.samplerUnit_7,
                                       kAudioUnitProperty_MaximumFramesPerSlice,
                                       kAudioUnitScope_Global,
                                       0,
@@ -423,7 +600,7 @@
     // Make use of this point to implement multiple musical instruments.
 	if (presetPropertyList != 0) {
 		switch (InstrID) {
-            case GROOVE:
+            case Trombone:
                 result = AudioUnitSetProperty(
                                               self.samplerUnit_1,
                                               kAudioUnitProperty_ClassInfo,
@@ -434,9 +611,64 @@
                                               );
                 break;
                 
-            case PINAO:
+            case Loop:
                 result = AudioUnitSetProperty(
                                               self.samplerUnit_2,
+                                              kAudioUnitProperty_ClassInfo,
+                                              kAudioUnitScope_Global,
+                                              0,
+                                              &presetPropertyList,
+                                              sizeof(CFPropertyListRef)
+                                              );
+                break;
+                
+            case MuteElecGuitar:
+                result = AudioUnitSetProperty(
+                                              self.samplerUnit_3,
+                                              kAudioUnitProperty_ClassInfo,
+                                              kAudioUnitScope_Global,
+                                              0,
+                                              &presetPropertyList,
+                                              sizeof(CFPropertyListRef)
+                                              );
+                break;
+                
+            case Guitar:
+                result = AudioUnitSetProperty(
+                                              self.samplerUnit_4,
+                                              kAudioUnitProperty_ClassInfo,
+                                              kAudioUnitScope_Global,
+                                              0,
+                                              &presetPropertyList,
+                                              sizeof(CFPropertyListRef)
+                                              );
+                break;
+                
+            case Ensemble:
+                result = AudioUnitSetProperty(
+                                              self.samplerUnit_5,
+                                              kAudioUnitProperty_ClassInfo,
+                                              kAudioUnitScope_Global,
+                                              0,
+                                              &presetPropertyList,
+                                              sizeof(CFPropertyListRef)
+                                              );
+                break;
+                
+            case Piano:
+                result = AudioUnitSetProperty(
+                                              self.samplerUnit_6,
+                                              kAudioUnitProperty_ClassInfo,
+                                              kAudioUnitScope_Global,
+                                              0,
+                                              &presetPropertyList,
+                                              sizeof(CFPropertyListRef)
+                                              );
+                break;
+                
+            case Vibraphone:
+                result = AudioUnitSetProperty(
+                                              self.samplerUnit_7,
                                               kAudioUnitProperty_ClassInfo,
                                               kAudioUnitScope_Global,
                                               0,

@@ -27,13 +27,26 @@
 #define Root_AA 10
 #define Root_B 11
 
-#define LOOP_1 60
-#define LOOP_2 61
+// Groove names (MIDI note number)
+#define Ballad3 0
+#define Ballad4 1
+#define drum44 2
+#define drum68 3
+#define drumshuffle 4
+#define Funky1 5
+#define Funky2 6
+#define Funky3 7
+#define Rock2 8
+#define Rock3 9
 
 // Instrument names
-#define GROOVE 1
-#define PINAO 2
-#define GUITAR 3
+#define Trombone 1
+#define Loop 2
+#define MuteElecGuitar 3
+#define Guitar 4
+#define Ensemble 5
+#define Piano 6
+#define Vibraphone 7
 
 // MIDI Messages' status number
 enum {

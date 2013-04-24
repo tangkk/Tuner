@@ -51,8 +51,7 @@ MIDIAssignmentHandle
 @property (strong, nonatomic) NSNetServiceBrowser *serviceBrowser;
 
 // Loop Note
-@property (readwrite) MIDINote *L1;
-@property (readwrite) MIDINote *L2;
+@property (readwrite) MIDINote *LOOP;
 #endif
 
 @end

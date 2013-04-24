@@ -28,6 +28,8 @@
 		905B897016F6A97900FF6E1B /* VirtualInstrument.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B896F16F6A97900FF6E1B /* VirtualInstrument.m */; };
 		905B897516F70D3C00FF6E1B /* Trombone.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 905B897216F70D3C00FF6E1B /* Trombone.aupreset */; };
 		905B897616F70D3C00FF6E1B /* Vibraphone.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */; };
+		90647D93172760E900167794 /* Ensemble.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 90647D92172760E900167794 /* Ensemble.aupreset */; };
+		90647D9517276D9100167794 /* MuteElecGuitar.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 90647D9417276D9100167794 /* MuteElecGuitar.aupreset */; };
 		907857F71724F0D300CE6FF6 /* Guitar.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 907857F61724F0D300CE6FF6 /* Guitar.aupreset */; };
 		90D1311F1720FDC900AFCE49 /* AssignmentTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D1311E1720FDC900AFCE49 /* AssignmentTable.m */; };
 		90EAB2341715513100597BFC /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EAB2331715513100597BFC /* Communicator.m */; };
@@ -69,6 +71,8 @@
 		905B896F16F6A97900FF6E1B /* VirtualInstrument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualInstrument.m; sourceTree = "<group>"; };
 		905B897216F70D3C00FF6E1B /* Trombone.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Trombone.aupreset; path = Tuner/Trombone.aupreset; sourceTree = "<group>"; };
 		905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Vibraphone.aupreset; path = Tuner/Vibraphone.aupreset; sourceTree = "<group>"; };
+		90647D92172760E900167794 /* Ensemble.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Ensemble.aupreset; path = Tuner/Ensemble.aupreset; sourceTree = "<group>"; };
+		90647D9417276D9100167794 /* MuteElecGuitar.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MuteElecGuitar.aupreset; path = Tuner/MuteElecGuitar.aupreset; sourceTree = "<group>"; };
 		907857F61724F0D300CE6FF6 /* Guitar.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Guitar.aupreset; path = Tuner/Guitar.aupreset; sourceTree = "<group>"; };
 		90D1311D1720FDC900AFCE49 /* AssignmentTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssignmentTable.h; sourceTree = "<group>"; };
 		90D1311E1720FDC900AFCE49 /* AssignmentTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssignmentTable.m; sourceTree = "<group>"; };
@@ -112,7 +116,9 @@
 				90EBF1E517253025006E3D89 /* Sounds */,
 				905B897216F70D3C00FF6E1B /* Trombone.aupreset */,
 				903F3FEC17261564004B8E80 /* Loop.aupreset */,
+				90647D9417276D9100167794 /* MuteElecGuitar.aupreset */,
 				907857F61724F0D300CE6FF6 /* Guitar.aupreset */,
+				90647D92172760E900167794 /* Ensemble.aupreset */,
 				9056FEE5172511BA00006C72 /* Piano.aupreset */,
 				905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */,
 				9032E78516EEC13200A84A9F /* Tuner */,
@@ -262,6 +268,8 @@
 				9056FEE6172511BB00006C72 /* Piano.aupreset in Resources */,
 				90EBF1E617253025006E3D89 /* Sounds in Resources */,
 				903F3FED17261564004B8E80 /* Loop.aupreset in Resources */,
+				90647D93172760E900167794 /* Ensemble.aupreset in Resources */,
+				90647D9517276D9100167794 /* MuteElecGuitar.aupreset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
