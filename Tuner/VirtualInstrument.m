@@ -83,21 +83,27 @@
                 
             case Loop:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_2, noteCommand, noteNum, onVelocity, 0);
+                break;
                 
             case MuteElecGuitar:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_3, noteCommand, noteNum, onVelocity, 0);
+                break;
                 
             case Guitar:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_4, noteCommand, noteNum, onVelocity, 0);
+                break;
                 
             case Ensemble:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_5, noteCommand, noteNum, onVelocity, 0);
+                break;
                 
             case Piano:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_6, noteCommand, noteNum, onVelocity, 0);
+                break;
                 
             case Vibraphone:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_7, noteCommand, noteNum, onVelocity, 0);
+                break;
                 
             default:
                 break;
