@@ -83,7 +83,7 @@
     if (_VI == nil) {
         _VI = [[VirtualInstrument alloc] init];
         
-        // FIXME: Should let master's UI to set instrument
+        // FIXME: Should let master's UI to set instrument for different musical instrument
         [_VI setInstrument:@"Trombone" withInstrumentID:Trombone]; //This is the groove instrument
         [_VI setInstrument:@"Loop" withInstrumentID:Loop];
         [_VI setInstrument:@"MuteElecGuitar" withInstrumentID:MuteElecGuitar];
@@ -294,11 +294,18 @@
     Velocity = (packet->length >2) ? packet->data[2] : 0;
     MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity SysEx:0 Root:noteType];
     
-    // Play the note with Virtual Instrument
+    // Play the note with Virtual Instrument according to the different player name.
+    // When the player ID is available, the following commented function is used instead
+    // [self playMIDI:Note withPlayerID:PlayID];
     if (_VI) {
         NSLog(@"PlayMIDI:Note");
         [_VI playMIDI:Note withInstrumentID:Piano];
     }
+}
+
+- (void) playMIDI:(MIDINote *)Note withPlayerID:(UInt8) PlayerID {
+    if (_VI)
+        [_VI playMIDI:Note withInstrumentID:PlayerID];
 }
 
 - (void) configureNetworkSessionAndServiceBrowser {
