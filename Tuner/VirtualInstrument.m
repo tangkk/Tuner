@@ -519,6 +519,33 @@
     }
 }
 
+// Set the mixer unit input volume for a specified bus
+- (void) setMixerInput: (UInt32) inputBus gain: (AudioUnitParameterValue) newGain {
+    
+    /*
+     This method does *not* ensure that sound loops stay in sync if the user has
+     moved the volume of an input channel to zero. When a channel's input
+     level goes to zero, the corresponding input render callback is no longer
+     invoked. Consequently, the sample number for that channel remains constant
+     while the sample number for the other channel continues to increment. As a
+     workaround, the view controller Nib file specifies that the minimum input
+     level is 0.01, not zero.
+     
+     The enableMixerInput:isOn: method in this class, however, does ensure that the
+     loops stay in sync when a user disables and then reenables an input bus.
+     */
+    OSStatus result = AudioUnitSetParameter (
+                                             _mixerUnit,
+                                             kMultiChannelMixerParam_Volume,
+                                             kAudioUnitScope_Input,
+                                             inputBus,
+                                             newGain,
+                                             0
+                                             );
+    
+    NSAssert (result == noErr, @"AudioUnitSetParameter (set mixer unit input volume) Error code: %d '%.4s'", (int) result, (const char *)&result);    
+}
+
 // Set up the audio session for this app.
 - (BOOL) setupAudioSession {
     

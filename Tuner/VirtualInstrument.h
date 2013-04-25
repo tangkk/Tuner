@@ -22,5 +22,6 @@
 
 - (void) playMIDI:(MIDINote *) MIDINote withInstrumentID:(UInt8)InstrID;
 - (void) setInstrument:(NSString *) InstrumentName withInstrumentID:(UInt8)InstrID;
+- (void) setMixerInput: (UInt32) inputBus gain: (AudioUnitParameterValue) inputGain;
 
 @end
