@@ -113,16 +113,16 @@
                             <constraint firstAttribute="trailing" secondItem="bCc-iM-tuS" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Ccl-s7-OHM"/>
                             <constraint firstItem="PP8-bp-gjd" firstAttribute="leading" secondItem="0Bc-7J-duC" secondAttribute="leading" type="default" id="FOL-et-WUh"/>
                             <constraint firstItem="0Bc-7J-duC" firstAttribute="top" secondItem="3xe-Vj-o4p" secondAttribute="top" type="default" id="JvY-4x-AMG"/>
+                            <constraint firstAttribute="centerY" secondItem="PP8-bp-gjd" secondAttribute="centerY" type="user" id="N64-wp-IRE"/>
                             <constraint firstItem="PP8-bp-gjd" firstAttribute="top" secondItem="KoR-vA-faE" secondAttribute="top" type="default" id="OQG-nh-KJI"/>
                             <constraint firstAttribute="trailing" secondItem="0Bc-7J-duC" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Qrt-af-56i"/>
-                            <constraint firstItem="KoR-vA-faE" firstAttribute="top" secondItem="3" secondAttribute="top" constant="167" id="RPT-TW-Qup"/>
                             <constraint firstAttribute="trailing" secondItem="PP8-bp-gjd" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="UMz-xI-88O"/>
                             <constraint firstItem="KoR-vA-faE" firstAttribute="trailing" secondItem="3xe-Vj-o4p" secondAttribute="trailing" type="default" id="UwR-4G-ccE"/>
                             <constraint firstItem="ItR-Hf-dlf" firstAttribute="top" secondItem="bCc-iM-tuS" secondAttribute="top" type="default" id="ZiQ-qX-69y"/>
                             <constraint firstItem="bCc-iM-tuS" firstAttribute="leading" secondItem="PP8-bp-gjd" secondAttribute="leading" type="default" id="ftQ-Sd-tyv"/>
                             <constraint firstItem="KoR-vA-faE" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="iGQ-Xy-cgD"/>
                             <constraint firstAttribute="bottom" secondItem="ItR-Hf-dlf" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="iHz-wv-Sra"/>
-                            <constraint firstItem="PP8-bp-gjd" firstAttribute="bottom" secondItem="KoR-vA-faE" secondAttribute="bottom" type="default" id="pWG-V4-ATX"/>
+                            <constraint firstAttribute="centerY" secondItem="KoR-vA-faE" secondAttribute="centerY" type="user" id="yXi-re-ZOK"/>
                             <constraint firstItem="0Bc-7J-duC" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="yfh-qc-9xR"/>
                             <constraint firstItem="3xe-Vj-o4p" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="yg6-nO-Zv3"/>
                         </constraints>
