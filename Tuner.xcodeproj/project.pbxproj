@@ -32,6 +32,9 @@
 		90647D9517276D9100167794 /* MuteElecGuitar.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 90647D9417276D9100167794 /* MuteElecGuitar.aupreset */; };
 		907857F71724F0D300CE6FF6 /* Guitar.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 907857F61724F0D300CE6FF6 /* Guitar.aupreset */; };
 		90D1311F1720FDC900AFCE49 /* AssignmentTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D1311E1720FDC900AFCE49 /* AssignmentTable.m */; };
+		90E6E4281728C6130058D5A7 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E6E4271728C6130058D5A7 /* Icon.png */; };
+		90E6E42A1728C7AE0058D5A7 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E6E4291728C7AE0058D5A7 /* Icon@2x.png */; };
+		90E6E42C1728C9C90058D5A7 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90E6E42B1728C9C90058D5A7 /* Icon.png */; };
 		90EAB2341715513100597BFC /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EAB2331715513100597BFC /* Communicator.m */; };
 		90EAB2371715638600597BFC /* NoteNumDict.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EAB2361715638600597BFC /* NoteNumDict.m */; };
 		90EBF1E617253025006E3D89 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 90EBF1E517253025006E3D89 /* Sounds */; };
@@ -76,6 +79,9 @@
 		907857F61724F0D300CE6FF6 /* Guitar.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Guitar.aupreset; path = Tuner/Guitar.aupreset; sourceTree = "<group>"; };
 		90D1311D1720FDC900AFCE49 /* AssignmentTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssignmentTable.h; sourceTree = "<group>"; };
 		90D1311E1720FDC900AFCE49 /* AssignmentTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssignmentTable.m; sourceTree = "<group>"; };
+		90E6E4271728C6130058D5A7 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		90E6E4291728C7AE0058D5A7 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		90E6E42B1728C9C90058D5A7 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		90EAB2321715513100597BFC /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
 		90EAB2331715513100597BFC /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
 		90EAB2351715638600597BFC /* NoteNumDict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteNumDict.h; sourceTree = "<group>"; };
@@ -113,6 +119,7 @@
 		9032E77316EEC13100A84A9F = {
 			isa = PBXGroup;
 			children = (
+				90E6E42B1728C9C90058D5A7 /* Icon.png */,
 				90EBF1E517253025006E3D89 /* Sounds */,
 				905B897216F70D3C00FF6E1B /* Trombone.aupreset */,
 				903F3FEC17261564004B8E80 /* Loop.aupreset */,
@@ -179,6 +186,8 @@
 			children = (
 				9032E78716EEC13200A84A9F /* Tuner-Info.plist */,
 				9032E78816EEC13200A84A9F /* InfoPlist.strings */,
+				90E6E4271728C6130058D5A7 /* Icon.png */,
+				90E6E4291728C7AE0058D5A7 /* Icon@2x.png */,
 				9032E78B16EEC13200A84A9F /* main.m */,
 				9032E78D16EEC13200A84A9F /* Tuner-Prefix.pch */,
 				9032E79116EEC13200A84A9F /* Default.png */,
@@ -270,6 +279,9 @@
 				903F3FED17261564004B8E80 /* Loop.aupreset in Resources */,
 				90647D93172760E900167794 /* Ensemble.aupreset in Resources */,
 				90647D9517276D9100167794 /* MuteElecGuitar.aupreset in Resources */,
+				90E6E4281728C6130058D5A7 /* Icon.png in Resources */,
+				90E6E42A1728C7AE0058D5A7 /* Icon@2x.png in Resources */,
+				90E6E42C1728C9C90058D5A7 /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
