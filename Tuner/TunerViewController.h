@@ -12,15 +12,7 @@
 
 @class MIDINote;
 
-@interface TunerViewController : UIViewController  <
-#ifdef MASTER
-MIDIPlaybackHandle,
-NSNetServiceBrowserDelegate
-#endif
-#ifdef SLAVE
-MIDIAssignmentHandle
-#endif
->
+@interface TunerViewController : UIViewController  <MIDIAssignmentHandle, NSNetServiceBrowserDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *B1;
 @property (weak, nonatomic) IBOutlet UIButton *B2;
@@ -36,7 +28,6 @@ MIDIAssignmentHandle
 - (IBAction)B5:(id)sender;
 - (IBAction)B6:(id)sender;
 
-// These MIDI notes can be normal MIDI note_on note_off or sysEx message
 @property (readwrite) MIDINote *M1;
 @property (readwrite) MIDINote *M2;
 @property (readwrite) MIDINote *M3;
@@ -46,12 +37,7 @@ MIDIAssignmentHandle
 @property (readwrite) MIDINote *M7;
 @property (readwrite) MIDINote *M8;
 
-#ifdef MASTER
 @property (strong, nonatomic) NSMutableArray *services;
 @property (strong, nonatomic) NSNetServiceBrowser *serviceBrowser;
-
-// Loop Note
-@property (readwrite) MIDINote *LOOP;
-#endif
 
 @end

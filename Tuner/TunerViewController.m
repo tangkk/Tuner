@@ -16,34 +16,25 @@
 #import "MIDINote.h"
 #import "NoteNumDict.h"
 #import "Communicator.h"
-#import "AssignmentTable.h"
 #import "VirtualInstrument.h"
+
+#import <ifaddrs.h>
+#import <arpa/inet.h>
 
 @interface TunerViewController ()
 @property (readwrite) Communicator *CMU;
 @property (readonly) NoteNumDict *Dict;
+@property (assign) BOOL SlaveEnable;
 
-#ifdef MASTER
-    // Since the _Key field can be set, readwrite thus.
-    @property (readonly) AssignmentTable *AST;
-    @property (readonly) VirtualInstrument *VI;
-    @property (readonly) MIDINote *LOFF;
-    @property (readonly) UInt8 CurrentNoteNum;
-#endif
-
-#ifdef SLAVE
-    @property (assign) BOOL SlaveEnable;
-#endif
+@property (readwrite) UInt8 PlayerID;
 
 @end
 
 @implementation TunerViewController
 
-#ifdef MASTER
 - (void)viewWillAppear:(BOOL)animated {
     [self configureNetworkSessionAndServiceBrowser];
 }
-#endif
 
 - (void)viewDidLoad
 {
@@ -66,7 +57,6 @@
         }
      )
     
-#ifdef SLAVE
     _M1 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
     _M2 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
     _M3 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
@@ -77,46 +67,8 @@
     _M8 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
     _SlaveEnable = false;
     [_CMU setAssignmentDelegate:self];
-#endif
     
-#ifdef MASTER
-    if (_VI == nil) {
-        _VI = [[VirtualInstrument alloc] init];
-        
-        // FIXME: Should let master's UI to set instrument for different musical instrument
-        [_VI setInstrument:@"Trombone" withInstrumentID:Trombone]; //This is the groove instrument
-        [_VI setInstrument:@"Loop" withInstrumentID:Loop];
-        [_VI setInstrument:@"MuteElecGuitar" withInstrumentID:MuteElecGuitar];
-        [_VI setInstrument:@"Guitar" withInstrumentID:Guitar];
-        [_VI setInstrument:@"Ensemble" withInstrumentID:Ensemble];
-        [_VI setInstrument:@"Piano" withInstrumentID:Piano];
-        [_VI setInstrument:@"Vibraphone" withInstrumentID:Vibraphone];
-    }
-    if (_AST == nil)
-        _AST = [[AssignmentTable alloc] init];
-    if (_AST) {
-        // Here the MIDI Note object contains a series of SysEx notes derived from the Assignment Table
-        _M1 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Lydian_1"] Root:Root_G];
-        _M2 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Ionian_2"] Root:Root_F];
-        _M3 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Dorian_1"] Root:Root_D];
-        _M4 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Aeolian_1"] Root:Root_D];
-        _M5 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Aeolian_2"] Root:Root_D];
-        _M6 = [[MIDINote alloc] initWithNote:0 duration:0 channel:kChannel_0 velocity:0
-                                       SysEx:[_AST.MusicAssignment objectForKey:@"Pentatonic_2"] Root:Root_FF];
-        
-        //Loop nodes
-        _LOOP = [[MIDINote alloc] initWithNote:Ballad3 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
-        _CurrentNoteNum = Ballad3;
-        _LOFF = [[MIDINote alloc] initWithNote:Ballad3 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOff];
-    }
-    [_CMU setPlaybackDelegate:self];
-    //[self configureNetworkSessionAndServiceBrowser];
-#endif
+    _PlayerID = 127;
 
 }
 
@@ -139,18 +91,8 @@
     _M6 = nil;
     _M7 = nil;
     _M8 = nil;
-    
-#ifdef SLAVE
     _SlaveEnable = false;
-#endif
-    
-#ifdef MASTER
-    _AST = nil;
-    _VI = nil;
-    _LOOP = nil;
-    _LOFF = nil;
-    _CurrentNoteNum = 0;
-#endif
+    _PlayerID = 127;
     
     [self setB1:nil];
     [self setB2:nil];
@@ -162,198 +104,49 @@
 }
 
 - (IBAction)B1:(id)sender {
-    
-#ifdef SLAVE
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M1];
+    } else {
+        [self startScanning];
     }
-#endif
-    
-#ifdef MASTER
-    [_CMU sendMidiData:_M1];
-#ifdef TEST
-    [_LOFF setNote:_CurrentNoteNum];
-    [_LOOP setNote:Ballad3];
-    _CurrentNoteNum = Ballad3;
-    [_VI playMIDI:_LOFF withInstrumentID:Loop];
-    [_VI playMIDI:_LOOP withInstrumentID:Loop];
-#endif
-#endif
 }
 
 - (IBAction)B2:(id)sender {
-    
-#ifdef SLAVE
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M2];
+    } else {
+        [self connectToEveryone];
     }
-#endif
-    
-#ifdef MASTER
-    [_CMU sendMidiData:_M2];
-#ifdef TEST
-    [_LOFF setNote:_CurrentNoteNum];
-    [_LOOP setNote:Ballad4];
-    _CurrentNoteNum = Ballad4;
-    [_VI playMIDI:_LOFF withInstrumentID:Loop];
-    [_VI playMIDI:_LOOP withInstrumentID:Loop];
-#endif
-#endif
 }
 
 - (IBAction)B3:(id)sender {
-
-#ifdef SLAVE
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M3];
+    } else {
+        [self listConnectedDevices];
     }
-#endif
-    
-#ifdef MASTER
-    [_CMU sendMidiData:_M3];
-#ifdef TEST
-    [_LOFF setNote:_CurrentNoteNum];
-    [_LOOP setNote:Funky1];
-    _CurrentNoteNum = Funky1;
-    [_VI playMIDI:_LOFF withInstrumentID:Loop];
-    [_VI playMIDI:_LOOP withInstrumentID:Loop];
-#endif
-#endif
 }
 
 - (IBAction)B4:(id)sender {
-
-#ifdef SLAVE
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M4];
+    } else {
+        [self disconnectFromMaster];
     }
-#endif
-    
-#ifdef MASTER
-    [_CMU sendMidiData:_M4];
-#ifdef TEST
-    [_LOFF setNote:_CurrentNoteNum];
-    [_LOOP setNote:Funky2];
-    _CurrentNoteNum = Funky2;
-    [_VI playMIDI:_LOFF withInstrumentID:Loop];
-    [_VI playMIDI:_LOOP withInstrumentID:Loop];
-#endif
-#endif
 }
 
 - (IBAction)B5:(id)sender {
-
-#ifdef SLAVE
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M5];
     }
-#endif
-    
-#ifdef MASTER
-    [_CMU sendMidiData:_M5];
-#ifdef TEST
-    [_LOFF setNote:_CurrentNoteNum];
-    [_LOOP setNote:Funky3];
-    _CurrentNoteNum = Funky3;
-    [_VI playMIDI:_LOFF withInstrumentID:Loop];
-    [_VI playMIDI:_LOOP withInstrumentID:Loop];
-#endif
-#endif
 }
 
 - (IBAction)B6:(id)sender {
-
-#ifdef SLAVE
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M6];
     }
-#endif
-    
-#ifdef MASTER
-    [_CMU sendMidiData:_M6];
-#ifdef TEST
-    [_LOFF setNote:_CurrentNoteNum];
-    [_LOOP setNote:Rock3];
-    _CurrentNoteNum = Rock3;
-    [_VI playMIDI:_LOFF withInstrumentID:Loop];
-    [_VI playMIDI:_LOOP withInstrumentID:Loop];
-#endif
-#endif
 }
 
-#ifdef MASTER
-- (void) MIDIPlayback: (const MIDIPacket *)packet {
-    // If not in slave mode, the packet is MIDI performance
-    // Plays the MIDI note then.
-    NSLog(@"handle midiReceived in Master Mode");
-    UInt8 noteType;
-    UInt8 noteNum;
-    UInt8 Velocity;
-    noteType = (packet->length > 0) ? packet->data[0] : 0;
-    noteNum = (packet->length > 1) ? packet->data[1] : 0;
-    Velocity = (packet->length >2) ? packet->data[2] : 0;
-    MIDINote *Note = [[MIDINote alloc] initWithNote:noteNum duration:1 channel:kChannel_0 velocity:Velocity SysEx:0 Root:noteType];
-    
-    // Play the note with Virtual Instrument according to the different player name.
-    // When the player ID is available, the following commented function is used instead
-    // [self playMIDI:Note withPlayerID:PlayID];
-    if (_VI) {
-        NSLog(@"PlayMIDI:Note");
-        [_VI playMIDI:Note withInstrumentID:Piano];
-    }
-}
-
-- (void) playMIDI:(MIDINote *)Note withPlayerID:(UInt8) PlayerID {
-    if (_VI)
-        [_VI playMIDI:Note withInstrumentID:PlayerID];
-}
-
-- (void) configureNetworkSessionAndServiceBrowser {
-    // configure network session
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-    session.enabled = YES;
-    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
-    // configure service browser
-    self.services = [[NSMutableArray alloc] init];
-    self.serviceBrowser = [[NSNetServiceBrowser alloc] init];
-    [self.serviceBrowser setDelegate:self];
-    // starting scanning for services (won't stop until stop() is called)
-    [self.serviceBrowser searchForServicesOfType:MIDINetworkBonjourServiceType inDomain:@"local."];
-}
-
-- (void) netServiceBrowser:(NSNetServiceBrowser*)serviceBrowser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing {
-    // add connection here!
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-    MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
-    MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
-    // note: check to exclude itself - WARNING: will have problem if network names happen to be the same
-    if (![service.name isEqualToString:session.networkName] && [session addConnection:connection]) {
-        //[self addString:[NSString stringWithFormat:@"Connected to device: %@", [service name]]];
-        [self.services addObject:service];
-    }
-}
-
-- (void) netServiceBrowser:(NSNetServiceBrowser*)serviceBrowser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing {
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-    MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
-    MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
-    if ([session removeConnection:connection]) {
-        //[self addString:[NSString stringWithFormat:@"Removed device: %@", [service name]]];
-    }
-    [self.services removeObject:service];
-}
-
-- (void) listConnectedDevices {
-    NSSet *connections = [MIDINetworkSession defaultSession].connections;
-    //[self addString:[NSString stringWithFormat:@"List of all %u connected devices:", [connections count]]];
-    for (MIDINetworkConnection *conn in connections) {
-        //[self addString: [NSString stringWithFormat:@"\"%@\" ", conn.host.netServiceName]];
-    }
-    //[self addString:@"\n"];
-}
-#endif
-
-#ifdef SLAVE
 - (void) MIDIAssignment: (const MIDIPacket *)packet {
     // If in slave mode, handle sysEx messages which is the assignment of notes from the master to players
     // The packet should contain 11 datas, where data 2-9 is note assignments, data 1 is 0x7D which is the
@@ -361,29 +154,59 @@
     NSLog(@"handle midiReceived in Slave Mode");
     NSMutableArray *NewAssignment = [NSMutableArray arrayWithCapacity:8];
     if (packet->length == 11) {
-        if (packet->data[0] == 0xF0 && packet->data[10]==0xF7 && packet->data[1]==0x7D) {
-            NSLog(@"deals with assignment");
-            // deals with the assignment here
-            for (int i = 2; i < 10; i++) {
-                UInt8 AssignNum = packet->data[i];
-                NSNumber *AssignNSNum = [NSNumber numberWithUnsignedChar:AssignNum];
-                NSArray *noteNameArr = [_Dict.Dict allKeysForObject:AssignNSNum];
-                NSString *noteName = [noteNameArr objectAtIndex:0];
-                if (noteName) {
-                    NSLog(@"The noteName %@", noteName);
-                    [NewAssignment addObject:noteName];
-                }
+        NSLog(@"deals with assignment");
+        // deals with the assignment here
+        for (int i = 2; i < 10; i++) {
+            UInt8 AssignNum = packet->data[i];
+            NSNumber *AssignNSNum = [NSNumber numberWithUnsignedChar:AssignNum];
+            NSArray *noteNameArr = [_Dict.Dict allKeysForObject:AssignNSNum];
+            NSString *noteName = [noteNameArr objectAtIndex:0];
+            if (noteName) {
+                NSLog(@"The noteName %@", noteName);
+                [NewAssignment addObject:noteName];
             }
         }
+    } else  if (packet->length == 3) {
+            NSLog(@"deals with uuuuuuuunassignment");
+            [_B1 setTitle:@"Scan" forState:UIControlStateNormal];
+            [_B2 setTitle:@"Connect" forState:UIControlStateNormal];
+            [_B3 setTitle:@"List" forState:UIControlStateNormal];
+            [_B4 setTitle:@"Disconnect" forState:UIControlStateNormal];
+            
+            [_M1 setNote:0];
+            [_M2 setNote:0];
+            [_M3 setNote:0];
+            [_M4 setNote:0];
+            [_M5 setNote:0];
+            [_M6 setNote:0];
+            
+            _SlaveEnable = false;
+            
+            return;
+    } else if (packet->length == 8){
+        NSLog(@"deas with MIDI channel mapping broadcast");
+        // deals with MIDI channel mapping broadcasting
+        UInt8 add1 = packet->data[2];
+        UInt8 add2 = packet->data[3];
+        UInt8 add3 = packet->data[4];
+        UInt8 add4 = packet->data[5];
+        NSString *OwnIP = [self getIPAddress];
+        
+        NSArray *Arr;
+        Arr = [OwnIP componentsSeparatedByString:@"."];
+        int ad1 = [Arr[0] intValue];
+        int ad2 = [Arr[1] intValue];
+        int ad3 = [Arr[2] intValue];
+        int ad4 = [Arr[3] intValue];
+        
+        if (add1 == (UInt8)ad1 && add2 == (UInt8)ad2 && add3 == (UInt8)ad3 && add4 == (UInt8)ad4) {
+            _PlayerID = packet->data[6];
+            NSLog(@"Player ID is: %d", _PlayerID);
+        }
+        
+    } else {
+        NSLog(@"Oops! Something went wrong!");
     }
-    
-    // The new assignment will change the text label of the buttons
-#ifdef TEST
-    NSLog(@"NewAssignment objectAtIndex:0: %@", [NewAssignment objectAtIndex:0]);
-    NSLog(@"NewAssignment objectAtIndex:1: %@", [NewAssignment objectAtIndex:1]);
-    NSLog(@"NewAssignment objectAtIndex:2: %@", [NewAssignment objectAtIndex:2]);
-    NSLog(@"NewAssignment objectAtIndex:3: %@", [NewAssignment objectAtIndex:3]);
-#endif
     
     // FIXME: The Button's label would only update by tapping once. Don't know why.
     [_B1 setTitle:[NewAssignment objectAtIndex:0] forState:UIControlStateNormal];
@@ -407,9 +230,117 @@
     [_M5 setNote:[N5 unsignedShortValue]];
     [_M6 setNote:[N6 unsignedShortValue]];
     
+    [_M1 setChannel:_PlayerID];
+    [_M2 setChannel:_PlayerID];
+    [_M3 setChannel:_PlayerID];
+    [_M4 setChannel:_PlayerID];
+    [_M5 setChannel:_PlayerID];
+    [_M6 setChannel:_PlayerID];
+    
     _SlaveEnable = true;
 }
-#endif
+
+- (void) configureNetworkSessionAndServiceBrowser {
+    // configure network session
+    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
+
+    session.connectionPolicy = MIDINetworkConnectionPolicy_NoOne;
+    // configure service browser
+    self.services = [[NSMutableArray alloc] init];
+    self.serviceBrowser = [[NSNetServiceBrowser alloc] init];
+    [self.serviceBrowser setDelegate:self];
+    // starting scanning for services (won't stop until stop() is called)
+    [self.serviceBrowser searchForServicesOfType:MIDINetworkBonjourServiceType inDomain:@"local."];
+}
+
+- (void) netServiceBrowser:(NSNetServiceBrowser*)serviceBrowser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing {
+    // add connection here!
+    [self.services addObject:service];
+}
+
+- (void) netServiceBrowser:(NSNetServiceBrowser*)serviceBrowser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing {
+    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
+    MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
+    MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
+    [self.services removeObject:service];
+    [session removeConnection:connection]; // remove connection automatically no matter what
+}
+
+- (void) listConnectedDevices {
+    NSLog(@"List of all %u devices on the network:", [self.services count]);
+    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
+    NSLog(@"Connected to %u devices:", [session.connections count]);
+    for (MIDINetworkConnection *conn in session.connections) {
+        NSLog(@"MIDINetworkConnection master name: %@", conn.host.name);
+        NSLog(@"MIDINetworkConnection master address: %@", conn.host.address);
+    }
+    
+    NSString *OwnIP = [self getIPAddress];
+    NSLog(@"OwnIP: %@", OwnIP);
+    
+}
+
+- (void) connectToEveryone {
+    NSLog(@"Trying to connect to everyone (hopefully only the Master)...");
+    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
+    for (NSNetService *service in self.services) {
+        MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
+        MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
+        [session addConnection:connection];
+    }
+}
+
+- (void) disconnectFromMaster {
+    NSLog(@"Trying to disconnect...\n");
+    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
+    // create temp array to avoid remove-on-the-fly bugs
+    NSMutableArray *connections = [[NSMutableArray alloc] init];
+    for (MIDINetworkConnection *conn in session.connections) {
+        [connections addObject:conn];
+    }
+    for (MIDINetworkConnection *conn in connections) {
+        [session removeConnection:conn];
+    }
+}
+
+- (void) startScanning {
+    NSLog(@"Resume scanning for devices\n");
+    [self.serviceBrowser searchForServicesOfType:MIDINetworkBonjourServiceType inDomain:@"local."];
+}
+
+- (void) stopScanning {
+    NSLog(@"Stop scanning for devices\n");
+    [self.serviceBrowser stop];
+    [self.services removeAllObjects];
+}
+
+// The following code is adapted from the stackflow Q&A website:
+// http://stackoverflow.com/questions/7072989/iphone-ipad-how-to-get-my-ip-address-programmatically
+- (NSString *)getIPAddress {
+    NSString *address = @"error";
+    struct ifaddrs *interfaces = NULL;
+    struct ifaddrs *temp_addr = NULL;
+    int success = 0;
+    // retrieve the current interfaces - returns 0 on success
+    success = getifaddrs(&interfaces);
+    if (success == 0) {
+        // Loop through linked list of interfaces
+        temp_addr = interfaces;
+        while(temp_addr != NULL) {
+            if(temp_addr->ifa_addr->sa_family == AF_INET) {
+                // Check if interface is en0 which is the wifi connection on the iPhone
+                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
+                    // Get NSString from C String
+                    address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+                }
+            }
+            temp_addr = temp_addr->ifa_next;
+        }
+    }
+    // Free memory
+    freeifaddrs(interfaces);
+    return address;
+}
 
 
 @end

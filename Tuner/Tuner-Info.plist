@@ -51,8 +51,6 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIMainStoryboardFile</key>
-	<string>SlaveStoryboard</string>
 	<key>UIMainStoryboardFile~ipad</key>
 	<string>MasterStoryboard</string>
 	<key>UIMainStoryboardFile~iphone</key>

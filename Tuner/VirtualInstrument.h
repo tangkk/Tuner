@@ -20,7 +20,7 @@
 @interface VirtualInstrument : NSObject <AVAudioSessionDelegate>
 @property(nonatomic, copy) NSString* currentPresetLabel;
 
-- (void) playMIDI:(MIDINote *) MIDINote withInstrumentID:(UInt8)InstrID;
+- (void) playMIDI:(MIDINote *) MIDINote;
 - (void) setInstrument:(NSString *) InstrumentName withInstrumentID:(UInt8)InstrID;
 - (void) setMixerInput: (UInt32) inputBus gain: (AudioUnitParameterValue) inputGain;
 

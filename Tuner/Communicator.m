@@ -146,10 +146,11 @@ NSString *StringFromPacket(const MIDIPacket *packet)
 - (void) sendMidiDataInBackground:(id)midinote {
     MIDINote *midiNote = midinote;
 #ifdef SLAVE
-    // Send normal MIDI notes
+    NSLog(@"Slave Send Normal Note");
+    const UInt8 channel = [midiNote channel];
     const UInt8 note      = [midiNote note];
-    const UInt8 noteOn[]  = { 0x90, note, [midiNote velocity] };
-    const UInt8 noteOff[] = { 0x80, note, 0   };
+    const UInt8 noteOn[]  = { 0x90|channel, note, [midiNote velocity] };
+    const UInt8 noteOff[] = { 0x80|channel, note, 0   };
         
     [_midi sendBytes:noteOn size:sizeof(noteOn)];
     [NSThread sleepForTimeInterval:1]; // changed from 0.1 so the note lasts a little longer
@@ -157,31 +158,58 @@ NSString *StringFromPacket(const MIDIPacket *packet)
 #endif
     
 #ifdef MASTER
-    // Send SysEx Messages. Basically this is the music assignment procedure.
-    UInt8 noteSysEx[11] = {0xF0, 0x7D};
     NSArray *SysEx = midiNote.SysEx;
-    NSEnumerator *enumerator = [SysEx objectEnumerator];
-    id object;
-    
-    UInt8 i = 2; // Start to assign the noteSysEx array at index 2.
-    while ((object = [enumerator nextObject])) {
-        NSString *noteName = object;
-        NSNumber *noteNum = [_Dict.Dict objectForKey:noteName];
-        noteSysEx[i] = [noteNum unsignedCharValue];
+    if (SysEx.count == 8) {
+        NSLog(@"Master Send Normal Assignment");
+        // Send SysEx Messages. Basically this is the music assignment procedure.
+        UInt8 noteSysEx[11] = {0xF0, 0x7D};
+        NSEnumerator *enumerator = [SysEx objectEnumerator];
+        id object;
         
-        // Deal with the Root/Key, using C as pivot
-        UInt8 Root = midiNote.Root;
-        if (Root <= 5) {
-            noteSysEx[i] += Root;
-        } else {
-            noteSysEx[i] += Root;
-            noteSysEx[i] -= 12;
+        UInt8 i = 2; // Start to assign the noteSysEx array at index 2.
+        while ((object = [enumerator nextObject])) {
+            NSString *noteName = object;
+            NSNumber *noteNum = [_Dict.Dict objectForKey:noteName];
+            noteSysEx[i] = [noteNum unsignedCharValue];
+            
+            // Deal with the Root/Key, using C as pivot
+            UInt8 Root = midiNote.Root;
+            if (Root <= 5) {
+                noteSysEx[i] += Root;
+            } else {
+                noteSysEx[i] += Root;
+                noteSysEx[i] -= 12;
+            }
+            
+            i++;
         }
-        
-        i++;
+        noteSysEx[10] = 0xF7;
+        [_midi sendBytes:noteSysEx size:sizeof(noteSysEx)];
+    } else if (SysEx.count == 0) {
+        NSLog(@"Master shut all the players");
+        // All notes off assignment
+        UInt8 noteSysEx[3] = {0xF0, 0x7D, 0xF7};
+        [_midi sendBytes:noteSysEx size:sizeof(noteSysEx)];
+    } else if (SysEx.count == 4){
+        NSLog(@"Master broadcast MIDI channel mapping");
+        // Broadcast the MIDI channel mapping
+        int ad1 = [SysEx[0] intValue];
+        int ad2 = [SysEx[1] intValue];
+        int ad3 = [SysEx[2] intValue];
+        int ad4 = [SysEx[3] intValue];
+        UInt8 add1 = (UInt8)ad1;
+        UInt8 add2 = (UInt8)ad2;
+        UInt8 add3 = (UInt8)ad3;
+        UInt8 add4 = (UInt8)ad4;
+        NSLog(@"add1: %d, add2: %d, add3: %d, add4: %d", add1, add2, add3, add4);
+        // FIXME: The IP addresses should be further divided into two parts each to transfer
+        //const UInt8 noteSysEx[8] = {0xF0, 0x7D, add1, add2, add3, add4, midiNote.Root, 0xF7};
+        const UInt8 noteSysEx[8] = {0xF0, 0x7D, 0x12, 0x34, 0x56, 0x78, midiNote.Root, 0xF7};
+        [_midi sendBytes:noteSysEx size:sizeof(noteSysEx)];
+    } else {
+        NSLog(@"OOps! Something went wrong!");
     }
-    noteSysEx[10] = 0xF7;
-    [_midi sendBytes:noteSysEx size:sizeof(noteSysEx)];
+
 #endif
 }
 

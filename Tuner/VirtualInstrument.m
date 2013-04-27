@@ -67,22 +67,24 @@
     return self;
 }
 
-- (void)playMIDI:(MIDINote *)MIDINote withInstrumentID:(UInt8)InstrID{
+- (void)playMIDI:(MIDINote *)MIDINote {
     self.currentPlayingNote = MIDINote.note;
     if (MIDINote) {
         UInt32 noteNum = MIDINote.note;
         UInt32 onVelocity = MIDINote.velocity;
         UInt32 noteCommand = 	MIDINote.Root;
         
+        UInt8 Channel = MIDINote.channel;
+        
         OSStatus result = noErr;
         
-        switch (InstrID) {
-            case Trombone:
-                result = MusicDeviceMIDIEvent (self.samplerUnit_1, noteCommand, noteNum, onVelocity, 0);
-                break;
-                
+        switch (Channel) {
             case Loop:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_2, noteCommand, noteNum, onVelocity, 0);
+                break;
+                
+            case Trombone:
+                result = MusicDeviceMIDIEvent (self.samplerUnit_1, noteCommand, noteNum, onVelocity, 0);
                 break;
                 
             case MuteElecGuitar:
@@ -633,9 +635,9 @@
     // Make use of this point to implement multiple musical instruments.
 	if (presetPropertyList != 0) {
 		switch (InstrID) {
-            case Trombone:
+            case Loop:
                 result = AudioUnitSetProperty(
-                                              self.samplerUnit_1,
+                                              self.samplerUnit_2,
                                               kAudioUnitProperty_ClassInfo,
                                               kAudioUnitScope_Global,
                                               0,
@@ -644,9 +646,9 @@
                                               );
                 break;
                 
-            case Loop:
+            case Trombone:
                 result = AudioUnitSetProperty(
-                                              self.samplerUnit_2,
+                                              self.samplerUnit_1,
                                               kAudioUnitProperty_ClassInfo,
                                               kAudioUnitScope_Global,
                                               0,

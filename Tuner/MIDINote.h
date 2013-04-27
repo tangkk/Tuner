@@ -40,13 +40,13 @@
 #define Rock3 9
 
 // Instrument names
+#define Loop 0
 #define Trombone 1
-#define Loop 2
-#define MuteElecGuitar 3
-#define Guitar 4
-#define Ensemble 5
-#define Piano 6
-#define Vibraphone 7
+#define MuteElecGuitar 2
+#define Guitar 3
+#define Ensemble 4
+#define Piano 5
+#define Vibraphone 6
 
 // MIDI Messages' status number
 enum {
@@ -61,6 +61,11 @@ enum {
 enum {
     kChannel_0 = 0x0,
     kChannel_1 = 0x1,
+    kChannel_2 = 0x2,
+    kChannel_3 = 0x3,
+    kChannel_4 = 0x4,
+    kChannel_5 = 0x5,
+    kChannel_6 = 0x6
 };
 
 @interface MIDINote : NSObject
