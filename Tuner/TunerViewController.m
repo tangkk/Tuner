@@ -25,6 +25,7 @@
 @property (readwrite) Communicator *CMU;
 @property (readonly) NoteNumDict *Dict;
 @property (assign) BOOL SlaveEnable;
+@property (readwrite) MIDINetworkSession *Session;
 
 @property (readwrite) UInt8 PlayerID;
 
@@ -53,7 +54,7 @@
      // We only create a MidiInput object on iOS versions that support CoreMIDI
         if (_CMU.midi == nil) {
             _CMU.midi = [[PGMidi alloc] init];
-            _CMU.midi.networkEnabled = YES;
+            //_CMU.midi.networkEnabled = YES;
         }
      )
     
@@ -93,6 +94,7 @@
     _M8 = nil;
     _SlaveEnable = false;
     _PlayerID = 0x0F;
+    _Session.enabled = false;
     
     [self setB1:nil];
     [self setB2:nil];
@@ -264,9 +266,10 @@
 
 - (void) configureNetworkSessionAndServiceBrowser {
     // configure network session
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-
-    session.connectionPolicy = MIDINetworkConnectionPolicy_NoOne;
+    _Session = [MIDINetworkSession defaultSession];
+    _Session.enabled = true;
+    _Session.connectionPolicy = MIDINetworkConnectionPolicy_NoOne;
+    
     // configure service browser
     self.services = [[NSMutableArray alloc] init];
     self.serviceBrowser = [[NSNetServiceBrowser alloc] init];
@@ -281,19 +284,17 @@
 }
 
 - (void) netServiceBrowser:(NSNetServiceBrowser*)serviceBrowser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing {
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
     MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
     MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
+    [_Session removeConnection:connection]; // remove connection automatically no matter what
     [self.services removeObject:service];
-    [session removeConnection:connection]; // remove connection automatically no matter what
 }
 
 - (void) listConnectedDevices {
     // Probably only one master
     NSLog(@"List of all %u devices on the network:", [self.services count]);
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-    NSLog(@"Connected to %u devices:", [session.connections count]);
-    for (MIDINetworkConnection *conn in session.connections) {
+    NSLog(@"Connected to %u devices:", [_Session.connections count]);
+    for (MIDINetworkConnection *conn in _Session.connections) {
         NSLog(@"MIDINetworkConnection master name: %@", conn.host.name);
         NSLog(@"MIDINetworkConnection master address: %@", conn.host.address);
         NSString*DebugMsg = [[NSString alloc] initWithFormat:@"Master: %@", conn.host.name];
@@ -307,24 +308,22 @@
 
 - (void) connectToEveryone {
     NSLog(@"Trying to connect to everyone (hopefully only the Master)...");
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
     for (NSNetService *service in self.services) {
         MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
         MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
-        [session addConnection:connection];
+        [_Session addConnection:connection];
     }
 }
 
 - (void) disconnectFromMaster {
     NSLog(@"Trying to disconnect...\n");
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
     // create temp array to avoid remove-on-the-fly bugs
     NSMutableArray *connections = [[NSMutableArray alloc] init];
-    for (MIDINetworkConnection *conn in session.connections) {
+    for (MIDINetworkConnection *conn in _Session.connections) {
         [connections addObject:conn];
     }
     for (MIDINetworkConnection *conn in connections) {
-        [session removeConnection:conn];
+        [_Session removeConnection:conn];
     }
 }
 

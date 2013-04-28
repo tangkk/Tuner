@@ -43,6 +43,8 @@
 // Groove Note
 @property (readwrite) MIDINote *GROOVE;
 
+@property (readwrite) MIDINetworkSession *Session;
+
 @end
 
 @implementation MasterViewController
@@ -78,7 +80,7 @@
      // We only create a MidiInput object on iOS versions that support CoreMIDI
      if (_CMU.midi == nil) {
          _CMU.midi = [[PGMidi alloc] init];
-         _CMU.midi.networkEnabled = YES;
+         //_CMU.midi.networkEnabled = YES;
      }
      )
     
@@ -141,6 +143,7 @@
     _Key = 0;
     _Pattern = nil;
     _AssignmentUpdatable = false;
+    _Session.enabled = false;
     
     [self setPlayer1:nil];
     [self setPlayer2:nil];
@@ -259,6 +262,14 @@
 
 - (IBAction)StopAccepting:(id)sender {
     [self IdentifyConnectedDevices];
+}
+
+- (IBAction)Scan:(id)sender {
+    [self ScanPlayers];
+}
+
+- (IBAction)nScan:(id)sender {
+    [self StopScanning];
 }
 
 // ******************************************//
@@ -492,8 +503,9 @@
 
 - (void) configureNetworkSessionAndServiceBrowser {
     // configure network session
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
+    _Session = [MIDINetworkSession defaultSession];
+    _Session.enabled = true;
+    _Session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
 
     // configure service browser
     self.services = [[NSMutableArray alloc] init];
@@ -508,11 +520,10 @@
 }
 
 - (void) netServiceBrowser:(NSNetServiceBrowser*)serviceBrowser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing {
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
     MIDINetworkHost *host = [MIDINetworkHost hostWithName:[service name] netService:service];
     MIDINetworkConnection *connection = [MIDINetworkConnection connectionWithHost:host];
+    [_Session removeConnection:connection]; // remove connection automatically no matter what
     [self.services removeObject:service];
-    [session removeConnection:connection]; // remove connection automatically no matter what
 }
 
 - (void) IdentifyConnectedDevices {
@@ -521,12 +532,11 @@
         NSString * DebugMsg = [[NSString alloc] initWithFormat:@"service name: %@", service.name];
         _Debug.text = DebugMsg;
     }
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-    NSLog(@"Connected to %u devices:", [session.connections count]);
+    NSLog(@"Connected to %u devices:", [_Session.connections count]);
     
     // Assign each connected devices a unique ID (starting from 1)
     UInt8 ID = 0x01;
-    for (MIDINetworkConnection *conn in session.connections) {
+    for (MIDINetworkConnection *conn in _Session.connections) {
         NSString *name = conn.host.name;
         NSString *IP = conn.host.address;
         NSLog(@"name: %@", name);
@@ -534,8 +544,6 @@
         NSString * DebugMsg = [[NSString alloc] initWithFormat:@"name: %@, address: %@", name, IP];
         _Debug.text = DebugMsg;
         
-        
-
         // Broadcast the Arr(as SysEx) and the ID(as Root) to let the corresponding player know its ID so as to specify its unique MIDI channel
         // This is how master can differentiate players.
         if (IP) {
@@ -583,9 +591,7 @@
 }
 
 - (void)StopScanning{
-    //[self addString:@"Stop accepting connections...\n"];
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-    session.connectionPolicy = MIDINetworkConnectionPolicy_NoOne;
+    _Session.connectionPolicy = MIDINetworkConnectionPolicy_NoOne;
 }
 
 

@@ -51,6 +51,8 @@
 - (IBAction)Start:(id)sender;
 - (IBAction)Stop:(id)sender;
 - (IBAction)StopAccepting:(id)sender;
+- (IBAction)Scan:(id)sender;
+- (IBAction)nScan:(id)sender;
 
 - (IBAction)Ionian:(id)sender;
 - (IBAction)Dorian:(id)sender;
