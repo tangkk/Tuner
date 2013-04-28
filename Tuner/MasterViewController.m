@@ -525,24 +525,25 @@
     NSLog(@"Connected to %u devices:", [session.connections count]);
     
     // Assign each connected devices a unique ID (starting from 1)
-    UInt8 _ID = 1;
+    UInt8 ID = 0x01;
     for (MIDINetworkConnection *conn in session.connections) {
         NSString *name = conn.host.name;
         NSString *IP = conn.host.address;
         NSLog(@"name: %@", name);
         NSLog(@"address:%@", IP);
-        NSNumber *ID = [NSNumber numberWithUnsignedChar:_ID];
         NSString * DebugMsg = [[NSString alloc] initWithFormat:@"name: %@, address: %@", name, IP];
         _Debug.text = DebugMsg;
+        
+        
 
         // Broadcast the Arr(as SysEx) and the ID(as Root) to let the corresponding player know its ID so as to specify its unique MIDI channel
         // This is how master can differentiate players.
         if (IP) {
             [_Assignment setSysEx:[IP componentsSeparatedByString:@"."]];
-            [_Assignment setRoot:[ID unsignedCharValue]];
+            [_Assignment setRoot:ID++];
+            NSLog(@"Current Root is %d", _Assignment.Root);
             [_CMU sendMidiData:_Assignment];
         }
-        _ID ++;
     }
 }
 

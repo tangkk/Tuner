@@ -46,9 +46,6 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KoR-vA-faE">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="125" id="6cW-Hz-aEt"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="List">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -62,6 +59,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PP8-bp-gjd">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="124" id="dn7-lr-rbW"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Disconnect">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -103,6 +103,11 @@
                                     <action selector="B6:" destination="2" eventType="touchUpInside" id="3an-SY-AEU"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="DebugMsg:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kXb-SW-JWd">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -112,13 +117,16 @@
                             <constraint firstItem="0Bc-7J-duC" firstAttribute="bottom" secondItem="3xe-Vj-o4p" secondAttribute="bottom" type="default" id="CCe-bs-YQS"/>
                             <constraint firstAttribute="trailing" secondItem="bCc-iM-tuS" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Ccl-s7-OHM"/>
                             <constraint firstItem="PP8-bp-gjd" firstAttribute="leading" secondItem="0Bc-7J-duC" secondAttribute="leading" type="default" id="FOL-et-WUh"/>
-                            <constraint firstItem="0Bc-7J-duC" firstAttribute="top" secondItem="3xe-Vj-o4p" secondAttribute="top" type="default" id="JvY-4x-AMG"/>
+                            <constraint firstItem="3xe-Vj-o4p" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="GaW-xu-n8e"/>
+                            <constraint firstItem="kXb-SW-JWd" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="LTb-TJ-vMX"/>
                             <constraint firstAttribute="centerY" secondItem="PP8-bp-gjd" secondAttribute="centerY" type="user" id="N64-wp-IRE"/>
                             <constraint firstItem="PP8-bp-gjd" firstAttribute="top" secondItem="KoR-vA-faE" secondAttribute="top" type="default" id="OQG-nh-KJI"/>
+                            <constraint firstAttribute="bottom" secondItem="kXb-SW-JWd" secondAttribute="bottom" constant="147" id="PVY-DY-Tnf"/>
                             <constraint firstAttribute="trailing" secondItem="0Bc-7J-duC" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Qrt-af-56i"/>
                             <constraint firstAttribute="trailing" secondItem="PP8-bp-gjd" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="UMz-xI-88O"/>
                             <constraint firstItem="KoR-vA-faE" firstAttribute="trailing" secondItem="3xe-Vj-o4p" secondAttribute="trailing" type="default" id="UwR-4G-ccE"/>
                             <constraint firstItem="ItR-Hf-dlf" firstAttribute="top" secondItem="bCc-iM-tuS" secondAttribute="top" type="default" id="ZiQ-qX-69y"/>
+                            <constraint firstItem="kXb-SW-JWd" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="e6x-v2-d1e"/>
                             <constraint firstItem="bCc-iM-tuS" firstAttribute="leading" secondItem="PP8-bp-gjd" secondAttribute="leading" type="default" id="ftQ-Sd-tyv"/>
                             <constraint firstItem="KoR-vA-faE" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="iGQ-Xy-cgD"/>
                             <constraint firstAttribute="bottom" secondItem="ItR-Hf-dlf" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="iHz-wv-Sra"/>
@@ -134,6 +142,7 @@
                         <outlet property="B4" destination="PP8-bp-gjd" id="6TD-Fh-6TF"/>
                         <outlet property="B5" destination="ItR-Hf-dlf" id="3Ws-OL-Pr7"/>
                         <outlet property="B6" destination="bCc-iM-tuS" id="AWM-25-RU3"/>
+                        <outlet property="DebugMsg" destination="kXb-SW-JWd" id="fuT-ym-qdJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -159,6 +168,7 @@
                 <relationship kind="outlet" name="B4" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="B5" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="B6" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="DebugMsg" candidateClass="UILabel"/>
             </relationships>
         </class>
     </classes>

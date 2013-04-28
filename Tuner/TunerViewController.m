@@ -68,7 +68,7 @@
     _SlaveEnable = false;
     [_CMU setAssignmentDelegate:self];
     
-    _PlayerID = 127;
+    _PlayerID = 0x0F;
 
 }
 
@@ -92,7 +92,7 @@
     _M7 = nil;
     _M8 = nil;
     _SlaveEnable = false;
-    _PlayerID = 127;
+    _PlayerID = 0x0F;
     
     [self setB1:nil];
     [self setB2:nil];
@@ -100,6 +100,7 @@
     [self setB4:nil];
     [self setB5:nil];
     [self setB6:nil];
+    [self setDebugMsg:nil];
     [super viewDidUnload];
 }
 
@@ -152,9 +153,13 @@
     // The packet should contain 11 datas, where data 2-9 is note assignments, data 1 is 0x7D which is the
     // manufacturer ID for educational use, data 0 is 0xF0, data 10 is 0xF7
     NSLog(@"handle midiReceived in Slave Mode");
+    NSString*DebugMsg = [[NSString alloc] initWithFormat:@"handle midiReceived in Slave Mode"];
+    _DebugMsg.text = DebugMsg;
     NSMutableArray *NewAssignment = [NSMutableArray arrayWithCapacity:8];
     if (packet->length == 11) {
         NSLog(@"deals with assignment");
+        NSString*DebugMsg = [[NSString alloc] initWithFormat:@"deals with assignment"];
+        _DebugMsg.text = DebugMsg;
         // deals with the assignment here
         for (int i = 2; i < 10; i++) {
             UInt8 AssignNum = packet->data[i];
@@ -167,29 +172,37 @@
             }
         }
     } else  if (packet->length == 3) {
-            NSLog(@"deals with uuuuuuuunassignment");
-            [_B1 setTitle:@"Scan" forState:UIControlStateNormal];
-            [_B2 setTitle:@"Connect" forState:UIControlStateNormal];
-            [_B3 setTitle:@"List" forState:UIControlStateNormal];
-            [_B4 setTitle:@"Disconnect" forState:UIControlStateNormal];
-            
-            [_M1 setNote:0];
-            [_M2 setNote:0];
-            [_M3 setNote:0];
-            [_M4 setNote:0];
-            [_M5 setNote:0];
-            [_M6 setNote:0];
-            
-            _SlaveEnable = false;
-            
-            return;
-    } else if (packet->length == 8){
+        NSLog(@"deals with uuuuuuuunassignment");
+        NSString*DebugMsg = [[NSString alloc] initWithFormat:@"deals with uuuuuuuunassignment"];
+        _DebugMsg.text = DebugMsg;
+        [_B1 setTitle:@"Scan" forState:UIControlStateNormal];
+        [_B2 setTitle:@"Connect" forState:UIControlStateNormal];
+        [_B3 setTitle:@"List" forState:UIControlStateNormal];
+        [_B4 setTitle:@"Disconnect" forState:UIControlStateNormal];
+        
+        [_M1 setNote:0];
+        [_M2 setNote:0];
+        [_M3 setNote:0];
+        [_M4 setNote:0];
+        [_M5 setNote:0];
+        [_M6 setNote:0];
+        
+        _SlaveEnable = false;
+        return;
+        
+    } else if (packet->length == 12){
         NSLog(@"deas with MIDI channel mapping broadcast");
+        NSString*DebugMsg = [[NSString alloc] initWithFormat:@"deas with MIDI channel mapping broadcast"];
+        _DebugMsg.text = DebugMsg;
         // deals with MIDI channel mapping broadcasting
-        UInt8 add1 = packet->data[2];
-        UInt8 add2 = packet->data[3];
-        UInt8 add3 = packet->data[4];
-        UInt8 add4 = packet->data[5];
+        UInt8 add1 = (packet->data[2]) << 4 | packet->data[3];
+        UInt8 add2 = (packet->data[4]) << 4 | packet->data[5];
+        UInt8 add3 = (packet->data[6]) << 4 | packet->data[7];
+        UInt8 add4 = (packet->data[8]) << 4 | packet->data[9];
+        NSLog(@"add1:%d, add2:%d, add3:%d, add4:%d", add1, add2, add3, add4);
+        NSString*ReceiveIP = [[NSString alloc] initWithFormat:@"add1:%d, add2:%d, add3:%d, add4:%d", add1, add2, add3, add4];
+        _DebugMsg.text = ReceiveIP;
+        
         NSString *OwnIP = [self getIPAddress];
         
         NSArray *Arr;
@@ -200,15 +213,24 @@
         int ad4 = [Arr[3] intValue];
         
         if (add1 == (UInt8)ad1 && add2 == (UInt8)ad2 && add3 == (UInt8)ad3 && add4 == (UInt8)ad4) {
-            _PlayerID = packet->data[6];
+            _PlayerID = packet->data[10];
             NSLog(@"Player ID is: %d", _PlayerID);
+            NSString*PlayerID = [[NSString alloc] initWithFormat:@"Player ID is: %d", _PlayerID];
+            _DebugMsg.text = PlayerID;
         }
+        
+        _SlaveEnable = false;
+        return;
         
     } else {
         NSLog(@"Oops! Something went wrong!");
+        NSString*DebugMsg = [[NSString alloc] initWithFormat:@"Oops! Something went wrong!"];
+        _DebugMsg.text = DebugMsg;
+        _SlaveEnable = false;
+        return;
     }
     
-    // FIXME: The Button's label would only update by tapping once. Don't know why.
+    // FIXME: The Button's label would only update after tapping once. Don't know why.
     [_B1 setTitle:[NewAssignment objectAtIndex:0] forState:UIControlStateNormal];
     [_B2 setTitle:[NewAssignment objectAtIndex:1] forState:UIControlStateNormal];
     [_B3 setTitle:[NewAssignment objectAtIndex:2] forState:UIControlStateNormal];
@@ -267,12 +289,15 @@
 }
 
 - (void) listConnectedDevices {
+    // Probably only one master
     NSLog(@"List of all %u devices on the network:", [self.services count]);
     MIDINetworkSession *session = [MIDINetworkSession defaultSession];
     NSLog(@"Connected to %u devices:", [session.connections count]);
     for (MIDINetworkConnection *conn in session.connections) {
         NSLog(@"MIDINetworkConnection master name: %@", conn.host.name);
         NSLog(@"MIDINetworkConnection master address: %@", conn.host.address);
+        NSString*DebugMsg = [[NSString alloc] initWithFormat:@"Master: %@", conn.host.name];
+        _DebugMsg.text = DebugMsg;
     }
     
     NSString *OwnIP = [self getIPAddress];

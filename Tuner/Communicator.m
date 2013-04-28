@@ -159,6 +159,7 @@ NSString *StringFromPacket(const MIDIPacket *packet)
     
 #ifdef MASTER
     NSArray *SysEx = midiNote.SysEx;
+    UInt8 Root = midiNote.Root;
     if (SysEx.count == 8) {
         NSLog(@"Master Send Normal Assignment");
         // Send SysEx Messages. Basically this is the music assignment procedure.
@@ -173,7 +174,6 @@ NSString *StringFromPacket(const MIDIPacket *packet)
             noteSysEx[i] = [noteNum unsignedCharValue];
             
             // Deal with the Root/Key, using C as pivot
-            UInt8 Root = midiNote.Root;
             if (Root <= 5) {
                 noteSysEx[i] += Root;
             } else {
@@ -193,18 +193,26 @@ NSString *StringFromPacket(const MIDIPacket *packet)
     } else if (SysEx.count == 4){
         NSLog(@"Master broadcast MIDI channel mapping");
         // Broadcast the MIDI channel mapping
-        int ad1 = [SysEx[0] intValue];
-        int ad2 = [SysEx[1] intValue];
-        int ad3 = [SysEx[2] intValue];
-        int ad4 = [SysEx[3] intValue];
-        UInt8 add1 = (UInt8)ad1;
-        UInt8 add2 = (UInt8)ad2;
-        UInt8 add3 = (UInt8)ad3;
-        UInt8 add4 = (UInt8)ad4;
-        NSLog(@"add1: %d, add2: %d, add3: %d, add4: %d", add1, add2, add3, add4);
-        // FIXME: The IP addresses should be further divided into two parts each to transfer
-        //const UInt8 noteSysEx[8] = {0xF0, 0x7D, add1, add2, add3, add4, midiNote.Root, 0xF7};
-        const UInt8 noteSysEx[8] = {0xF0, 0x7D, 0x12, 0x34, 0x56, 0x78, midiNote.Root, 0xF7};
+        UInt8 ad1 = (UInt8) [SysEx[0] intValue];
+        UInt8 ad2 = (UInt8) [SysEx[1] intValue];
+        UInt8 ad3 = (UInt8) [SysEx[2] intValue];
+        UInt8 ad4 = (UInt8) [SysEx[3] intValue];
+        NSLog(@"add1: %d, add2: %d, add3: %d, add4: %d", ad1, ad2, ad3, ad4);
+        
+        // The IP address unit each should be further divided into two parts each to transfer by coreMIDI
+        UInt8 ad1_1 = ad1 >> 4;
+        UInt8 ad1_2 = ad1 & 0x0F;
+        UInt8 ad2_1 = ad2 >> 4;
+        UInt8 ad2_2 = ad2 & 0x0F;
+        UInt8 ad3_1 = ad3 >> 4;
+        UInt8 ad3_2 = ad3 & 0x0F;
+        UInt8 ad4_1 = ad4 >> 4;
+        UInt8 ad4_2 = ad4 & 0x0F;
+        NSLog(@"ad1_1: %x, ad2_1: %x, ad3_1: %x, ad4_1: %x", ad1_1, ad2_1, ad3_1, ad4_1);
+        NSLog(@"ad1_2: %x, ad2_2: %x, ad3_2: %x, ad4_2: %x", ad1_2, ad2_2, ad3_2, ad4_2);
+        NSLog(@"Root: %d", Root);
+        
+        const UInt8 noteSysEx[12] = {0xF0, 0x7D, ad1_1, ad1_2, ad2_1, ad2_2, ad3_1, ad3_2, ad4_1, ad4_2, Root, 0xF7};
         [_midi sendBytes:noteSysEx size:sizeof(noteSysEx)];
     } else {
         NSLog(@"OOps! Something went wrong!");

@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *B4;
 @property (weak, nonatomic) IBOutlet UIButton *B5;
 @property (weak, nonatomic) IBOutlet UIButton *B6;
+@property (weak, nonatomic) IBOutlet UILabel *DebugMsg;
 
 - (IBAction)B1:(id)sender;
 - (IBAction)B2:(id)sender;
