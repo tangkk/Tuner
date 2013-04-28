@@ -548,9 +548,38 @@
 }
 
 - (void)ScanPlayers{
-    //[self addString:@"Start accepting connections...\n"];
-    MIDINetworkSession *session = [MIDINetworkSession defaultSession];
-    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
+    _Session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
+    NSMutableArray *hostName = [NSMutableArray arrayWithCapacity:8];
+    for (MIDINetworkConnection *conn in _Session.connections) {
+        NSLog(@"MIDINetworkConnection master name: %@", conn.host.name);
+        [hostName addObject:conn.host.name];
+    }
+    NSInteger count = hostName.count;
+    NSString *Player;
+    if (count >=1) {
+        Player = ([hostName objectAtIndex:0] == NULL) ? _Player1.titleLabel.text : [hostName objectAtIndex:0];
+        [_Player1 setTitle:Player forState:UIControlStateNormal];
+    }
+    if (count >=2) {
+        Player = ([hostName objectAtIndex:1] == NULL) ? _Player2.titleLabel.text : [hostName objectAtIndex:1];
+        [_Player2 setTitle:Player forState:UIControlStateNormal];
+    }
+    if (count >=3) {
+        Player = ([hostName objectAtIndex:2] == NULL) ? _Player3.titleLabel.text : [hostName objectAtIndex:2];
+        [_Player3 setTitle:Player forState:UIControlStateNormal];
+    }
+    if (count >=4) {
+        Player = ([hostName objectAtIndex:3] == NULL) ? _Player4.titleLabel.text : [hostName objectAtIndex:3];
+        [_Player4 setTitle:Player forState:UIControlStateNormal];
+    }
+    if (count >=5) {
+        Player = ([hostName objectAtIndex:4] == NULL) ? _Player5.titleLabel.text : [hostName objectAtIndex:4];
+        [_Player5 setTitle:Player forState:UIControlStateNormal];
+    }
+    if (count >= 6) {
+        Player = ([hostName objectAtIndex:5] == NULL) ? _Player6.titleLabel.text : [hostName objectAtIndex:5];
+        [_Player6 setTitle:Player forState:UIControlStateNormal];
+    }
 }
 
 - (void)StopScanning{
