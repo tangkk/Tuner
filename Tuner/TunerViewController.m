@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 tangkk. All rights reserved.
 //
 
+/* with the help of CX cxxliu@gmail.com in the Bonjour Service part */
+
 #import "TunerViewController.h"
 #import "ModeSelection.h"
 
