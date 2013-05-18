@@ -28,6 +28,7 @@
 @property (readonly) NoteNumDict *Dict;
 @property (assign) BOOL SlaveEnable;
 @property (readwrite) MIDINetworkSession *Session;
+@property (readonly) VirtualInstrument *VI;
 
 @property (readwrite) UInt8 PlayerID;
 
@@ -59,6 +60,19 @@
             //_CMU.midi.networkEnabled = YES;
         }
      )
+    
+    if (_VI == nil) {
+        _VI = [[VirtualInstrument alloc] init];
+        
+        // FIXME: Should let master's UI to set instrument for different musical instrument
+        [_VI setInstrument:@"Trombone" withInstrumentID:Trombone]; //This is the groove instrument
+        [_VI setInstrument:@"Loop" withInstrumentID:Loop];
+        [_VI setInstrument:@"MuteElecGuitar" withInstrumentID:MuteElecGuitar];
+        [_VI setInstrument:@"Guitar" withInstrumentID:Guitar];
+        [_VI setInstrument:@"Ensemble" withInstrumentID:Ensemble];
+        [_VI setInstrument:@"Piano" withInstrumentID:Piano];
+        [_VI setInstrument:@"Vibraphone" withInstrumentID:Vibraphone];
+    }
     
     _M1 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
     _M2 = [[MIDINote alloc] initWithNote:48 duration:1 channel:kChannel_0 velocity:75 SysEx:0 Root:kMIDINoteOn];
@@ -97,6 +111,7 @@
     _SlaveEnable = false;
     _PlayerID = 0x0F;
     _Session.enabled = false;
+    _VI = nil;
     
     [self setB1:nil];
     [self setB2:nil];
@@ -108,9 +123,11 @@
     [super viewDidUnload];
 }
 
+// If slave enable, send and play the MIDI note (note that there is channel message within the note)
 - (IBAction)B1:(id)sender {
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M1];
+        [_VI playMIDI:_M1];
     } else {
         [self startScanning];
     }
@@ -119,6 +136,7 @@
 - (IBAction)B2:(id)sender {
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M2];
+        [_VI playMIDI:_M2];
     } else {
         [self connectToEveryone];
     }
@@ -127,6 +145,7 @@
 - (IBAction)B3:(id)sender {
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M3];
+        [_VI playMIDI:_M3];
     } else {
         [self listConnectedDevices];
     }
@@ -135,6 +154,7 @@
 - (IBAction)B4:(id)sender {
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M4];
+        [_VI playMIDI:_M4];
     } else {
         [self disconnectFromMaster];
     }
@@ -143,12 +163,14 @@
 - (IBAction)B5:(id)sender {
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M5];
+        [_VI playMIDI:_M5];
     }
 }
 
 - (IBAction)B6:(id)sender {
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M6];
+        [_VI playMIDI:_M6];
     }
 }
 
