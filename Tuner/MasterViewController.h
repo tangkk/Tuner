@@ -54,6 +54,10 @@
 - (IBAction)Scan:(id)sender;
 - (IBAction)nScan:(id)sender;
 
+//FIXME: Should contain at least six different sliders groups, each for each player
+- (IBAction)busVolumeChange:(UISlider *)sender;
+- (IBAction)busPanChange:(UISlider *)sender;
+
 - (IBAction)Ionian:(id)sender;
 - (IBAction)Dorian:(id)sender;
 - (IBAction)Phrygian:(id)sender;

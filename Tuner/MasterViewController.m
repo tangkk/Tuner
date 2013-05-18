@@ -274,6 +274,14 @@
     [self StopScanning];
 }
 
+- (IBAction)busVolumeChange:(UISlider *)sender {
+    UInt32 inputBus = sender.tag;
+    [_VI setMixerInput: (UInt32) inputBus gain: (AudioUnitParameterValue) sender.value];
+}
+
+- (IBAction)busPanChange:(UISlider *)sender {
+}
+
 // ******************************************//
 
 // Scales
