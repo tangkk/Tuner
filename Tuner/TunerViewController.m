@@ -29,8 +29,12 @@
 @property (assign) BOOL SlaveEnable;
 @property (readwrite) MIDINetworkSession *Session;
 @property (readonly) VirtualInstrument *VI;
-
 @property (readwrite) UInt8 PlayerID;
+
+// The following are used for testing
+@property (readwrite) MIDINote *TestMIDINote;
+@property (readwrite) UInt8 TestChannel;
+@property (readwrite) UInt8 TestNote;
 
 @end
 
@@ -67,7 +71,7 @@
         // FIXME: Should let master's UI to set instrument for different musical instrument
         [_VI setInstrument:@"Trombone" withInstrumentID:Trombone]; //This is the groove instrument
         [_VI setInstrument:@"Loop" withInstrumentID:Loop];
-        [_VI setInstrument:@"MuteElecGuitar" withInstrumentID:MuteElecGuitar];
+        [_VI setInstrument:@"SteelGuitar" withInstrumentID:SteelGuitar];
         [_VI setInstrument:@"Guitar" withInstrumentID:Guitar];
         [_VI setInstrument:@"Ensemble" withInstrumentID:Ensemble];
         [_VI setInstrument:@"Piano" withInstrumentID:Piano];
@@ -86,6 +90,10 @@
     [_CMU setAssignmentDelegate:self];
     
     _PlayerID = 0x0F;
+    
+    _TestChannel = 0x2;
+    _TestNote = 30;
+    _TestMIDINote = [[MIDINote alloc] initWithNote:_TestNote duration:1 channel:_TestChannel velocity:80 SysEx:0 Root:kMIDINoteOn];
 
 }
 
@@ -112,6 +120,10 @@
     _PlayerID = 0x0F;
     _Session.enabled = false;
     _VI = nil;
+    
+    _TestChannel = 0;
+    _TestNote = 0;
+    _TestMIDINote = nil;
     
     [self setB1:nil];
     [self setB2:nil];
@@ -164,6 +176,10 @@
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M5];
         [_VI playMIDI:_M5];
+    } else {
+        _TestNote = _TestNote - 1;
+        [_TestMIDINote setNote:_TestNote];
+        [_VI playMIDI:_TestMIDINote];
     }
 }
 
@@ -171,6 +187,10 @@
     if (_SlaveEnable) {
         [_CMU sendMidiData:_M6];
         [_VI playMIDI:_M6];
+    } else {
+        _TestNote = _TestNote + 1;
+        [_TestMIDINote setNote:_TestNote];
+        [_VI playMIDI:_TestMIDINote];
     }
 }
 

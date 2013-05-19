@@ -32,7 +32,7 @@
 		905B897616F70D3C00FF6E1B /* Vibraphone.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 905B897316F70D3C00FF6E1B /* Vibraphone.aupreset */; };
 		905D33D0172921AE00FA338A /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905D33CF172921AE00FA338A /* MasterViewController.m */; };
 		90647D93172760E900167794 /* Ensemble.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 90647D92172760E900167794 /* Ensemble.aupreset */; };
-		90647D9517276D9100167794 /* MuteElecGuitar.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 90647D9417276D9100167794 /* MuteElecGuitar.aupreset */; };
+		90647D9517276D9100167794 /* SteelGuitar.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 90647D9417276D9100167794 /* SteelGuitar.aupreset */; };
 		907857F71724F0D300CE6FF6 /* Guitar.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = 907857F61724F0D300CE6FF6 /* Guitar.aupreset */; };
 		90D1311F1720FDC900AFCE49 /* AssignmentTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D1311E1720FDC900AFCE49 /* AssignmentTable.m */; };
 		90DEFF2017290B6000985AF3 /* MasterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90DEFF1F17290B6000985AF3 /* MasterStoryboard.storyboard */; };
@@ -80,7 +80,7 @@
 		905D33CE172921AE00FA338A /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		905D33CF172921AE00FA338A /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		90647D92172760E900167794 /* Ensemble.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Ensemble.aupreset; path = Tuner/Ensemble.aupreset; sourceTree = "<group>"; };
-		90647D9417276D9100167794 /* MuteElecGuitar.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MuteElecGuitar.aupreset; path = Tuner/MuteElecGuitar.aupreset; sourceTree = "<group>"; };
+		90647D9417276D9100167794 /* SteelGuitar.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = SteelGuitar.aupreset; path = Tuner/SteelGuitar.aupreset; sourceTree = "<group>"; };
 		907857F61724F0D300CE6FF6 /* Guitar.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Guitar.aupreset; path = Tuner/Guitar.aupreset; sourceTree = "<group>"; };
 		90D1311D1720FDC900AFCE49 /* AssignmentTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssignmentTable.h; sourceTree = "<group>"; };
 		90D1311E1720FDC900AFCE49 /* AssignmentTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssignmentTable.m; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 				90EBF1E517253025006E3D89 /* Sounds */,
 				905B897216F70D3C00FF6E1B /* Trombone.aupreset */,
 				903F3FEC17261564004B8E80 /* Loop.aupreset */,
-				90647D9417276D9100167794 /* MuteElecGuitar.aupreset */,
+				90647D9417276D9100167794 /* SteelGuitar.aupreset */,
 				907857F61724F0D300CE6FF6 /* Guitar.aupreset */,
 				90647D92172760E900167794 /* Ensemble.aupreset */,
 				9056FEE5172511BA00006C72 /* Piano.aupreset */,
@@ -283,7 +283,7 @@
 				90EBF1E617253025006E3D89 /* Sounds in Resources */,
 				903F3FED17261564004B8E80 /* Loop.aupreset in Resources */,
 				90647D93172760E900167794 /* Ensemble.aupreset in Resources */,
-				90647D9517276D9100167794 /* MuteElecGuitar.aupreset in Resources */,
+				90647D9517276D9100167794 /* SteelGuitar.aupreset in Resources */,
 				90DEFF2017290B6000985AF3 /* MasterStoryboard.storyboard in Resources */,
 				90296B8C172A1BBC00A01AC5 /* Icon.png in Resources */,
 				90296B8E172A1BC200A01AC5 /* Icon@2x.png in Resources */,

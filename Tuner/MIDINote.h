@@ -42,7 +42,7 @@
 // Instrument names
 #define Loop 0
 #define Trombone 1
-#define MuteElecGuitar 2
+#define SteelGuitar 2
 #define Guitar 3
 #define Ensemble 4
 #define Piano 5

@@ -7,7 +7,7 @@
 //
 
 #define TEST
-#define MODE1
+#define MODE2
 
 #ifdef MODE1
     #define MASTER

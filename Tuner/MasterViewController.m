@@ -92,7 +92,7 @@
         // FIXME: Should let master's UI to set instrument for different musical instrument
         [_VI setInstrument:@"Trombone" withInstrumentID:Trombone]; //This is the groove instrument
         [_VI setInstrument:@"Loop" withInstrumentID:Loop];
-        [_VI setInstrument:@"MuteElecGuitar" withInstrumentID:MuteElecGuitar];
+        [_VI setInstrument:@"SteelGuitar" withInstrumentID:SteelGuitar];
         [_VI setInstrument:@"Guitar" withInstrumentID:Guitar];
         [_VI setInstrument:@"Ensemble" withInstrumentID:Ensemble];
         [_VI setInstrument:@"Piano" withInstrumentID:Piano];

@@ -430,35 +430,13 @@
 						<key>waveform</key>
 						<integer>7</integer>
 					</dict>
-					<dict>
-						<key>ID</key>
-						<integer>8</integer>
-						<key>enabled</key>
-						<true/>
-						<key>loop enabled</key>
-						<false/>
-						<key>loop start</key>
-						<integer>167533</integer>
-						<key>max key</key>
-						<integer>85</integer>
-						<key>min key</key>
-						<integer>76</integer>
-						<key>name</key>
-						<string>5A</string>
-						<key>output</key>
-						<integer>0</integer>
-						<key>root key</key>
-						<integer>81</integer>
-						<key>waveform</key>
-						<integer>8</integer>
-					</dict>
 				</array>
 				<key>output</key>
 				<integer>0</integer>
 			</dict>
 		</array>
 		<key>name</key>
-		<string>MuteElecGuitar</string>
+		<string>SteelGuitar</string>
 		<key>output</key>
 		<integer>0</integer>
 	</dict>
@@ -477,21 +455,19 @@
 	<key>file-references</key>
 	<dict>
 		<key>Sample:1</key>
-		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/2E.aif</string>
+		<string>file://localhost/Library/Audio/Sounds/SteelGuitar/2E.aif</string>
 		<key>Sample:2</key>
-		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/2A.aif</string>
+		<string>file://localhost/Library/Audio/Sounds/SteelGuitar/2A.aif</string>
 		<key>Sample:3</key>
-		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/3C.aif</string>
+		<string>file://localhost/Library/Audio/Sounds/SteelGuitar/3C.aif</string>
 		<key>Sample:4</key>
-		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/3A.aif</string>
+		<string>file://localhost/Library/Audio/Sounds/SteelGuitar/3A.aif</string>
 		<key>Sample:5</key>
-		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/4C.aif</string>
+		<string>file://localhost/Library/Audio/Sounds/SteelGuitar/4C.aif</string>
 		<key>Sample:6</key>
-		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/4A.aif</string>
+		<string>file://localhost/Library/Audio/Sounds/SteelGuitar/4A.aif</string>
 		<key>Sample:7</key>
-		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/5C.aif</string>
-		<key>Sample:8</key>
-		<string>file://localhost/Library/Audio/Sounds/MuteElecGuitar/5A.aif</string>
+		<string>file://localhost/Library/Audio/Sounds/SteelGuitar/5C.aif</string>
 	</dict>
 	<key>fine tune</key>
 	<integer>0</integer>
@@ -500,7 +476,7 @@
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
-	<string>MuteElecGuitar</string>
+	<string>SteelGuitar</string>
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>

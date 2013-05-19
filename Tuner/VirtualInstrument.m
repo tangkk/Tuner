@@ -87,7 +87,7 @@
                 result = MusicDeviceMIDIEvent (self.samplerUnit_1, noteCommand, noteNum, onVelocity, 0);
                 break;
                 
-            case MuteElecGuitar:
+            case SteelGuitar:
                 result = MusicDeviceMIDIEvent (self.samplerUnit_3, noteCommand, noteNum, onVelocity, 0);
                 break;
                 
@@ -657,7 +657,7 @@
                                               );
                 break;
                 
-            case MuteElecGuitar:
+            case SteelGuitar:
                 result = AudioUnitSetProperty(
                                               self.samplerUnit_3,
                                               kAudioUnitProperty_ClassInfo,
