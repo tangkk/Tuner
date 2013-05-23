@@ -269,9 +269,14 @@
             NSLog(@"Player ID is: %d", _PlayerID);
             NSString*PlayerID = [[NSString alloc] initWithFormat:@"Player ID is: %d", _PlayerID];
             _DebugMsg.text = PlayerID;
+            
+            [_M1 setChannel:_PlayerID];
+            [_M2 setChannel:_PlayerID];
+            [_M3 setChannel:_PlayerID];
+            [_M4 setChannel:_PlayerID];
+            [_M5 setChannel:_PlayerID];
+            [_M6 setChannel:_PlayerID];
         }
-        
-        _SlaveEnable = false;
         return;
         
     } else {

@@ -38,6 +38,8 @@
 @property (copy) NSString *KeyName;
 @property (copy) NSString *Pattern;
 
+@property (readwrite) NSMutableDictionary *PlayerNametoIP;
+
 @property (readwrite) BOOL AssignmentUpdatable;
 
 // Assignment Note
@@ -74,6 +76,8 @@
         _CMU = [[Communicator alloc] init];
     if (_Dict == nil)
         _Dict = [[NoteNumDict alloc] init];
+    if (_PlayerNametoIP == nil)
+        _PlayerNametoIP = [[NSMutableDictionary alloc] init];
     
     // If iOS has the feature, initialize coreMIDI with a networkSession
     // note that this PGMidi object is hidden from outside
@@ -147,6 +151,8 @@
     _AssignmentUpdatable = false;
     _Session.enabled = false;
     
+    _PlayerNametoIP = nil;
+    
     [self setPlayer1:nil];
     [self setPlayer2:nil];
     [self setPlayer3:nil];
@@ -178,7 +184,20 @@
 }
 
 // Players
+// FIXME: let master choose instruments for each player
 - (IBAction)Player1:(id)sender {
+    UInt8 ID = 0x02;
+    // Test for changing instruments
+    NSString *playerName = _Player1.titleLabel.text;
+    NSLog(@"Player1: %@", playerName);
+    NSString *IP = [_PlayerNametoIP objectForKey:playerName];
+    if (IP) {
+        [_Assignment setSysEx:[IP componentsSeparatedByString:@"."]];
+        [_Assignment setRoot:ID];
+        NSLog(@"Current Root is %d", _Assignment.Root);
+        [_CMU sendMidiData:_Assignment];
+    }
+    
 }
 
 - (IBAction)Player2:(id)sender {
@@ -265,6 +284,7 @@
     [self IdentifyConnectedDevices];
 }
 
+// Press the show the player names on the console
 - (IBAction)Scan:(id)sender {
     [self ScanPlayers];
 }
@@ -555,7 +575,10 @@
         
         // Broadcast the Arr(as SysEx) and the ID(as Root) to let the corresponding player know its ID so as to specify its unique MIDI channel
         // This is how master can differentiate players.
+        // This is the default instrument assignment for every player
         if (IP) {
+            // Store the "Name to IP" dictionary for further reference by the master
+            [_PlayerNametoIP setObject:IP forKey:name];
             [_Assignment setSysEx:[IP componentsSeparatedByString:@"."]];
             [_Assignment setRoot:ID++];
             NSLog(@"Current Root is %d", _Assignment.Root);
@@ -564,6 +587,7 @@
     }
 }
 
+// To show the player names on the console
 - (void)ScanPlayers{
     _Session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
     NSMutableArray *hostName = [NSMutableArray arrayWithCapacity:8];
