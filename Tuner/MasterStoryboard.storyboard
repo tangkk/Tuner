@@ -545,13 +545,13 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="vCf-uK-sfI">
-                                <rect key="frame" x="488" y="166" width="224" height="23"/>
+                                <rect key="frame" x="488" y="93" width="224" height="23"/>
                                 <connections>
-                                    <action selector="busPanChange:" destination="FEI-Fd-2i9" eventType="valueChanged" id="UUu-CL-DXC"/>
+                                    <action selector="busVolumeChange_1:" destination="FEI-Fd-2i9" eventType="valueChanged" id="JuY-2Z-kZO"/>
                                 </connections>
                             </slider>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Pan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m6U-4h-boT">
-                                <rect key="frame" x="490" y="137" width="31" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Volume 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m6U-4h-boT">
+                                <rect key="frame" x="490" y="80" width="72" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -559,11 +559,11 @@
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="lZB-Bt-bqX">
                                 <rect key="frame" x="488" y="50" width="224" height="23"/>
                                 <connections>
-                                    <action selector="busVolumeChange:" destination="FEI-Fd-2i9" eventType="valueChanged" id="hgK-Ml-aXu"/>
+                                    <action selector="busVolumeChange:" destination="FEI-Fd-2i9" eventType="valueChanged" id="kdg-QH-BLw"/>
                                 </connections>
                             </slider>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Volume" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i1d-Fd-ZFQ">
-                                <rect key="frame" x="490" y="20" width="58" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Volume 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i1d-Fd-ZFQ">
+                                <rect key="frame" x="490" y="33" width="72" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -606,7 +606,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5Ci-X9-cbq">
-                                <rect key="frame" x="454" y="472" width="80" height="60"/>
+                                <rect key="frame" x="542" y="472" width="80" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="OK">
@@ -628,7 +628,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hVG-RB-1NZ">
-                                <rect key="frame" x="542" y="472" width="80" height="60"/>
+                                <rect key="frame" x="446" y="472" width="80" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Scan">
@@ -683,7 +683,6 @@
                         <outlet property="Groove4" destination="sOl-AV-OQl" id="nZB-ID-C1L"/>
                         <outlet property="Groove5" destination="LZR-3n-q72" id="Dqe-yq-HsQ"/>
                         <outlet property="Groove6" destination="tFo-L6-RB7" id="pZ4-Ox-a1X"/>
-                        <outlet property="Pan" destination="vCf-uK-sfI" id="jeM-yj-jLr"/>
                         <outlet property="Player1" destination="Y85-4o-47b" id="Lbo-Nx-fWM"/>
                         <outlet property="Player2" destination="BiP-at-dDc" id="3D0-WR-8SR"/>
                         <outlet property="Player3" destination="SIa-el-q87" id="3IX-Q4-d9d"/>
@@ -745,8 +744,8 @@
                 <relationship kind="action" name="Start:"/>
                 <relationship kind="action" name="Stop:"/>
                 <relationship kind="action" name="StopAccepting:"/>
-                <relationship kind="action" name="busPanChange:" candidateClass="UISlider"/>
                 <relationship kind="action" name="busVolumeChange:" candidateClass="UISlider"/>
+                <relationship kind="action" name="busVolumeChange_1:" candidateClass="UISlider"/>
                 <relationship kind="action" name="nScan:"/>
                 <relationship kind="outlet" name="AssignmentLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="Debug" candidateClass="UILabel"/>
@@ -756,7 +755,6 @@
                 <relationship kind="outlet" name="Groove4" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="Groove5" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="Groove6" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="Pan" candidateClass="UISlider"/>
                 <relationship kind="outlet" name="Player1" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="Player2" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="Player3" candidateClass="UIButton"/>

@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *Player6;
 
 @property (weak, nonatomic) IBOutlet UISlider *Volume;
-@property (weak, nonatomic) IBOutlet UISlider *Pan;
 
 @property (weak, nonatomic) IBOutlet UIButton *Groove1;
 @property (weak, nonatomic) IBOutlet UIButton *Groove2;
@@ -54,9 +53,9 @@
 - (IBAction)Scan:(id)sender;
 - (IBAction)nScan:(id)sender;
 
-//FIXME: Should contain at least six different sliders groups, each for each player
+//FIXME: Should contain at least six different sliders, each for each player
 - (IBAction)busVolumeChange:(UISlider *)sender;
-- (IBAction)busPanChange:(UISlider *)sender;
+- (IBAction)busVolumeChange_1:(UISlider *)sender;
 
 - (IBAction)Ionian:(id)sender;
 - (IBAction)Dorian:(id)sender;

@@ -90,8 +90,8 @@
         _VI = [[VirtualInstrument alloc] init];
         
         // FIXME: Should let master's UI to set instrument for different musical instrument
-        [_VI setInstrument:@"Trombone" withInstrumentID:Trombone]; //This is the groove instrument
         [_VI setInstrument:@"Loop" withInstrumentID:Loop];
+        [_VI setInstrument:@"Trombone" withInstrumentID:Trombone]; //This is the groove instrument
         [_VI setInstrument:@"SteelGuitar" withInstrumentID:SteelGuitar];
         [_VI setInstrument:@"Guitar" withInstrumentID:Guitar];
         [_VI setInstrument:@"Ensemble" withInstrumentID:Ensemble];
@@ -161,7 +161,6 @@
     [self setGroove6:nil];
     [self setStart:nil];
     [self setVolume:nil];
-    [self setPan:nil];
     [self setAssignmentLabel:nil];
     [self setDebug:nil];
     [super viewDidUnload];
@@ -275,11 +274,11 @@
 }
 
 - (IBAction)busVolumeChange:(UISlider *)sender {
-    UInt32 inputBus = sender.tag;
-    [_VI setMixerInput: (UInt32) inputBus gain: (AudioUnitParameterValue) sender.value];
+    [_VI setMixerInput: (UInt32)0 gain: (AudioUnitParameterValue) sender.value];
 }
 
-- (IBAction)busPanChange:(UISlider *)sender {
+- (IBAction)busVolumeChange_1:(UISlider *)sender {
+    [_VI setMixerInput: (UInt32)1 gain: (AudioUnitParameterValue) sender.value];
 }
 
 // ******************************************//

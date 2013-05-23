@@ -80,11 +80,11 @@
         
         switch (Channel) {
             case Loop:
-                result = MusicDeviceMIDIEvent (self.samplerUnit_2, noteCommand, noteNum, onVelocity, 0);
+                result = MusicDeviceMIDIEvent (self.samplerUnit_1, noteCommand, noteNum, onVelocity, 0);
                 break;
                 
             case Trombone:
-                result = MusicDeviceMIDIEvent (self.samplerUnit_1, noteCommand, noteNum, onVelocity, 0);
+                result = MusicDeviceMIDIEvent (self.samplerUnit_2, noteCommand, noteNum, onVelocity, 0);
                 break;
                 
             case SteelGuitar:
@@ -637,7 +637,7 @@
 		switch (InstrID) {
             case Loop:
                 result = AudioUnitSetProperty(
-                                              self.samplerUnit_2,
+                                              self.samplerUnit_1,
                                               kAudioUnitProperty_ClassInfo,
                                               kAudioUnitScope_Global,
                                               0,
@@ -648,7 +648,7 @@
                 
             case Trombone:
                 result = AudioUnitSetProperty(
-                                              self.samplerUnit_1,
+                                              self.samplerUnit_2,
                                               kAudioUnitProperty_ClassInfo,
                                               kAudioUnitScope_Global,
                                               0,

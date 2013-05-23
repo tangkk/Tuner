@@ -89,7 +89,7 @@
     _SlaveEnable = false;
     [_CMU setAssignmentDelegate:self];
     
-    _PlayerID = 0x0F;
+    _PlayerID = 0x02;
     
     _TestChannel = 0x2;
     _TestNote = 30;
@@ -225,6 +225,8 @@
         [_B2 setTitle:@"Connect" forState:UIControlStateNormal];
         [_B3 setTitle:@"List" forState:UIControlStateNormal];
         [_B4 setTitle:@"Disconnect" forState:UIControlStateNormal];
+        [_B5 setTitle:@"TEST-" forState:UIControlStateNormal];
+        [_B6 setTitle:@"TEST+" forState:UIControlStateNormal];
         
         [_M1 setNote:0];
         [_M2 setNote:0];
@@ -258,6 +260,10 @@
         int ad3 = [Arr[2] intValue];
         int ad4 = [Arr[3] intValue];
         
+        //FIXME: the playerID cannot be correctly assigned everytime!
+        //FIX this problem first. Then...
+        //Maybe we should try a simpler approach to do this assignment, rather than matching the IP,
+        //why not just let the master assign instruments ID to players?
         if (add1 == (UInt8)ad1 && add2 == (UInt8)ad2 && add3 == (UInt8)ad3 && add4 == (UInt8)ad4) {
             _PlayerID = packet->data[10];
             NSLog(@"Player ID is: %d", _PlayerID);

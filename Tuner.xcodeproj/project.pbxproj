@@ -123,8 +123,8 @@
 			isa = PBXGroup;
 			children = (
 				90EBF1E517253025006E3D89 /* Sounds */,
-				905B897216F70D3C00FF6E1B /* Trombone.aupreset */,
 				903F3FEC17261564004B8E80 /* Loop.aupreset */,
+				905B897216F70D3C00FF6E1B /* Trombone.aupreset */,
 				90647D9417276D9100167794 /* SteelGuitar.aupreset */,
 				907857F61724F0D300CE6FF6 /* Guitar.aupreset */,
 				90647D92172760E900167794 /* Ensemble.aupreset */,
